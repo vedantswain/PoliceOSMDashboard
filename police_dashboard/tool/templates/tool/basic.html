@@ -2,11 +2,14 @@
 {% load staticfiles %}
 <html>
 <head>
-   <title>Bootstrap 101 Template</title>
+   <title>PoliceOSM</title>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!-- Bootstrap -->
    <link href="{% static 'tool/css/bootstrap.min.css' %}" rel="stylesheet">
    <link rel="stylesheet" type="text/css" href="{% static 'tool/css/basic.css' %}">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.css" rel="stylesheet" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.js"></script>
 </head>
 <body>
    <div class="jumbotron">
@@ -40,18 +43,15 @@
                  <div id="collapse1" class="panel-collapse collapse in">
                   <div class="panel-body">
                      <div class="dropdown">
-                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare To
+                      <button id="compare-to-1" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ compare_to }}
                          <span class="caret"></span></button>
                          <ul class="dropdown-menu">
-                           <li><a href="#">@BlrCityPolice</a></li>
-                           <li><a href="#">@CPBlr</a></li>
-                           <li><a href="#">@BTP</a></li>
+                           <li><a class="compare-to" href="#">@BlrCityPolice</a></li>
+                           <li><a class="compare-to" href="#">@CPBlr</a></li>
+                           <li><a class="compare-to" href="#">@BTP</a></li>
                         </ul>
                      </div>
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                     commodo consequat.</div>
+                     {{ graph_tweets }}</div>
                   </div>
                </div>
                <div class="panel panel-default">
@@ -72,10 +72,7 @@
                            <li><a href="#">@BTP</a></li>
                         </ul>
                      </div>
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                     commodo consequat.</div>
+                     {{ graph_retweets }}</div>
                   </div>
                </div>
                <div class="panel panel-default">
@@ -157,5 +154,6 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="{% static 'tool/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'tool/js/basic_jq.js' %}"></script>
 </body>
 </html>
