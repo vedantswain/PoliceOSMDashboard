@@ -51,7 +51,7 @@
                            <li><a class="compare-to" href="#">@BTP</a></li>
                         </ul>
                      </div>
-                     {{ graph_tweets }}</div>
+                     {% autoescape off %}{{ graph_tweets }}{% endautoescape %}</div>
                   </div>
                </div>
                <div class="panel panel-default">
@@ -72,7 +72,7 @@
                            <li><a href="#">@BTP</a></li>
                         </ul>
                      </div>
-                     {{ graph_retweets }}</div>
+                     {% autoescape off %}{{ graph_retweets }}{% endautoescape %}</div>
                   </div>
                </div>
                <div class="panel panel-default">
