@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+   <title>Bootstrap 101 Template</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- Bootstrap -->
+   <link href="{% static 'tool/css/bootstrap.min.css' %}" rel="stylesheet">
+   <link rel="stylesheet" type="text/css" href="{% static 'tool/css/basic.css' %}">
+</head>
+<body>
+   <div class="jumbotron">
+     <div class="container">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pick Account
+             <span class="caret"></span></button>
+             <ul class="dropdown-menu">
+               <li><a href="#">@BlrCityPolice</a></li>
+               <li><a href="#">@CPBlr</a></li>
+               <li><a href="#">@BTP</a></li>
+            </ul>
+         </div>
+
+         <h2>{{ dashboard_name }}</h2>
+         <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="pill" href="#home">Twitter</a></li>
+          <li><a data-toggle="pill" href="#menu1">Facebook</a></li>
+         </ul>
+
+       <div class="tab-content">
+          <div id="home" class="tab-pane fade in active">
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                       Graph 1</a>
+                    </h4>
+                 </div>
+                 <div id="collapse1" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                     <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare To
+                         <span class="caret"></span></button>
+                         <ul class="dropdown-menu">
+                           <li><a href="#">@BlrCityPolice</a></li>
+                           <li><a href="#">@CPBlr</a></li>
+                           <li><a href="#">@BTP</a></li>
+                        </ul>
+                     </div>
+                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                     commodo consequat.</div>
+                  </div>
+               </div>
+               <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                       Graph 2</a>
+                    </h4>
+                 </div>
+                 <div id="collapse2" class="panel-collapse collapse">
+                  <div class="panel-body">
+                     <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare To
+                         <span class="caret"></span></button>
+                         <ul class="dropdown-menu">
+                           <li><a href="#">@BlrCityPolice</a></li>
+                           <li><a href="#">@CPBlr</a></li>
+                           <li><a href="#">@BTP</a></li>
+                        </ul>
+                     </div>
+                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                     commodo consequat.</div>
+                  </div>
+               </div>
+               <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                       Graph 3</a>
+                    </h4>
+                 </div>
+                 <div id="collapse3" class="panel-collapse collapse">
+                  <div class="panel-body">
+                     <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare To
+                         <span class="caret"></span></button>
+                         <ul class="dropdown-menu">
+                           <li><a href="#">@BlrCityPolice</a></li>
+                           <li><a href="#">@CPBlr</a></li>
+                           <li><a href="#">@BTP</a></li>
+                        </ul>
+                     </div>
+                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                     commodo consequat.</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div id="menu1" class="tab-pane fade">
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                       Graph 1</a>
+                    </h4>
+                 </div>
+                 <div id="collapse1" class="panel-collapse collapse in">
+                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                     commodo consequat.</div>
+                  </div>
+               </div>
+               <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                       Graph 2</a>
+                    </h4>
+                 </div>
+                 <div id="collapse2" class="panel-collapse collapse">
+                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                     commodo consequat.</div>
+                  </div>
+               </div>
+               <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                       Graph 3</a>
+                    </h4>
+                 </div>
+                 <div id="collapse3" class="panel-collapse collapse">
+                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                     commodo consequat.</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         </div>
+      </div>
+   </div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="{% static 'tool/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
