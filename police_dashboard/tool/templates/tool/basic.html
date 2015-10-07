@@ -20,7 +20,7 @@
              <ul class="dropdown-menu">
                <li><a href="#">@BlrCityPolice</a></li>
                <li><a href="#">@CPBlr</a></li>
-               <li><a href="#">@BTP</a></li>
+               <li><a href="#">@addlcptraffic</a></li>
             </ul>
          </div>
 
@@ -32,6 +32,7 @@
 
        <div class="tab-content">
           <div id="home" class="tab-pane fade in active">
+            <div id="twitter-handle-name">{{ twitter_handle }}</div>
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading">
@@ -43,15 +44,17 @@
                  <div id="collapse1" class="panel-collapse collapse in">
                   <div class="panel-body">
                      <div class="dropdown">
-                      <button id="compare-to-1" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ compare_to }}
+                      <button id="compare-to-1-twitter" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ compare_to }}
                          <span class="caret"></span></button>
                          <ul class="dropdown-menu">
-                           <li><a class="compare-to" href="#">@BlrCityPolice</a></li>
-                           <li><a class="compare-to" href="#">@CPBlr</a></li>
-                           <li><a class="compare-to" href="#">@BTP</a></li>
+                           {% autoescape off %}{{ compare_to_graph1_twitter }}{% endautoescape %}
                         </ul>
                      </div>
-                     {% autoescape off %}{{ graph_tweets }}{% endautoescape %}</div>
+                     <img id="graph1-tw-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
+                     <div id="graph1-twitter">
+                        {% autoescape off %}{{ graph_tweets }}{% endautoescape %}
+                     </div>
+                   </div>
                   </div>
                </div>
                <div class="panel panel-default">
@@ -69,7 +72,7 @@
                          <ul class="dropdown-menu">
                            <li><a href="#">@BlrCityPolice</a></li>
                            <li><a href="#">@CPBlr</a></li>
-                           <li><a href="#">@BTP</a></li>
+                           <li><a href="#">@addlcptraffic</a></li>
                         </ul>
                      </div>
                      {% autoescape off %}{{ graph_retweets }}{% endautoescape %}</div>
@@ -90,7 +93,7 @@
                          <ul class="dropdown-menu">
                            <li><a href="#">@BlrCityPolice</a></li>
                            <li><a href="#">@CPBlr</a></li>
-                           <li><a href="#">@BTP</a></li>
+                           <li><a href="#">@addlcptraffic</a></li>
                         </ul>
                      </div>
                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,

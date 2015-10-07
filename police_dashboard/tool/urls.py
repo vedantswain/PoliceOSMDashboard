@@ -5,5 +5,5 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^dashboard/(?P<handle>[^/]+)/$', views.dashboard,name='dashboard'),
-    url(r'^load_name/$', views.load_name, name='load_name'),
+    url(r'^graph1_twitter_comp/$', views.graph1_twitter_comp, name='graph1_twitter_comp'),
 ]

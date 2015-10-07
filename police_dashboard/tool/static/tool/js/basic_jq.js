@@ -1,12 +1,15 @@
 $(document).ready(function() {
 
         // JQuery code to be added in here.
-        $('.compare-to').click(function(){
+        $('.compare-to-graph1-twitter').click(function(){
 		    // var catid;
-		    handle = $(this).html();
-		     $.get('/main/load_name/',{handle_name:handle}, function(data){
-		               $('#compare-to-1').html(data);
+		    handle = $('#twitter-handle-name').html()
+		    comp_handle = $(this).html();
+		    $('#graph1-tw-loader').show();
+		    $.get('/main/graph1_twitter_comp/',{handle_name:handle,comp_handle_name:comp_handle}, function(data){
+		               $('#graph1-twitter').html(data);
 		               // $('#likes').hide();
+		               $('#graph1-tw-loader').hide();
 		           });
 		});
 

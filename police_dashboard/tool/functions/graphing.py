@@ -14,9 +14,35 @@ def chartLine(series_data,name):
 	name = name
 	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",use_interactive_guideline=True)
 	# chart.set_containerheader("\n\n<h2>" + type + "</h2>\n\n")
-	chart.add_serie(name='Tweets',y=series_data['tweets'][0], x=series_data['tweets'][1])
-	chart.add_serie(name='Retweets',y=series_data['retweets'][0], x=series_data['retweets'][1])
-	chart.add_serie(name='Favourites',y=series_data['favs'][0], x=series_data['favs'][1])
+	kwargs1_1={"color":"#2574A9"}
+	kwargs1_2={"color":"#3498DB"}
+	kwargs1_3={"color":"#6BB9F0"}
+	chart.add_serie(name='Tweets',y=series_data['tweets'][0], x=series_data['tweets'][1],**kwargs1_1)
+	chart.add_serie(name='Retweets',y=series_data['retweets'][0], x=series_data['retweets'][1],**kwargs1_2)
+	chart.add_serie(name='Favourites',y=series_data['favs'][0], x=series_data['favs'][1],**kwargs1_3)
+	chart.buildcontent()
+	# print chart.htmlcontent
+	# output_file.write(chart.htmlcontent)
+	return chart.htmlcontent
+
+def chartVS(series_data1,series_data2,name):
+	name = name
+	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",use_interactive_guideline=True)
+	# chart.set_containerheader("\n\n<h2>" + type + "</h2>\n\n")
+	kwargs1_1={"color":"#2574A9"}
+	kwargs1_2={"color":"#3498DB"}
+	kwargs1_3={"color":"#6BB9F0"}
+	chart.add_serie(name='Tweets '+series_data1['name'],y=series_data1['tweets'][0], x=series_data2['tweets'][1],**kwargs1_1)
+	chart.add_serie(name='Retweets '+series_data1['name'],y=series_data1['retweets'][0], x=series_data2['retweets'][1],**kwargs1_2)
+	chart.add_serie(name='Favourites '+series_data1['name'],y=series_data1['favs'][0], x=series_data2['favs'][1],**kwargs1_3)
+
+	kwargs2_1={"color":"#D35400"}
+	kwargs2_2={"color":"#F2784B"}
+	kwargs2_3={"color":"#EB974E"}
+	chart.add_serie(name='Tweets '+series_data2['name'],y=series_data2['tweets'][0], x=series_data2['tweets'][1],**kwargs2_1)
+	chart.add_serie(name='Retweets '+series_data2['name'],y=series_data2['retweets'][0], x=series_data2['retweets'][1],**kwargs2_2)
+	chart.add_serie(name='Favourites '+series_data2['name'],y=series_data2['favs'][0], x=series_data2['favs'][1],**kwargs2_3)
+	
 	chart.buildcontent()
 	# print chart.htmlcontent
 	# output_file.write(chart.htmlcontent)
