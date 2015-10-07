@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from functions.json_parser import fileParser
-from functions.graphing import parseData
+from functions.graphing import parseData,chartLine
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -15,13 +15,15 @@ def dashboard(request,handle):
 	
 	filename = os.path.join(BASE_DIR, 'tool/data/tweets_BlrCityPolice.json')
 	data = fileParser(filename)
-	graph = parseData(data,filename)
+
+	series = parseData(data,filename)
+	graph = chartLine(series,"graph 1")
 
 	context = RequestContext(request, {
 	    'dashboard_name': handle+" dashboard",
 	    'compare_to': "Compare to",
-	    'graph_tweets':graph['tweets'],
-	    'graph_retweets':graph['retweets'],
+	    'graph_tweets':graph,
+	    'graph_retweets':"graph",
 	})
 
 	return HttpResponse(template.render(context))
