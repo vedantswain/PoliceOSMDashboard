@@ -12,3 +12,8 @@ def getComparisons(handle,platform):
 		twitter_titles.remove(handle)
 		return twitter_titles
 	return []
+
+def getKeywords(keyword):
+	keywords=["worried","why","want","need"]
+	keywords.remove(keyword)
+	return keywords

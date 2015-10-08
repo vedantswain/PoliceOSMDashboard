@@ -13,4 +13,22 @@ $(document).ready(function() {
 		           });
 		});
 
+        $('.victimzn-key-twitter').click(function(){
+		    // var catid;
+		    pf="twitter"
+		    handle = $('#twitter-handle-name').html()
+			var old_key = $('#victimzn-curr-key-twitter').html()
+			// console.log(old_key)
+		    var key = $(this).html();
+		    var mObj = $(this)
+		    $('#graph2-tw-loader').show();
+		    $.get('/main/victimisation_tree/',{handle_name:handle,keyword:key,platform:pf}, function(data){
+		               $('#graph2-twitter').html(data);
+		               // $('#likes').hide();
+		               $('#graph2-tw-loader').hide();
+		               mObj.html(old_key);
+		    		   $('#victimzn-curr-key-twitter').html(key);
+		           });
+		});
+
 });

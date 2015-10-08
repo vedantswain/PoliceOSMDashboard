@@ -1,4 +1,4 @@
-import os
+import os,re
 from json_parser import fileParser
 from dateutil import parser
 from datetime import datetime, timedelta
@@ -48,6 +48,42 @@ def chartVS(series_data1,series_data2,name):
 	# output_file.write(chart.htmlcontent)
 	return chart.htmlcontent
 
+def wordTree(text_array,name,word,kind="norm"):
+	inject=""
+
+	if kind=='ajax':
+		function_call="drawChart()"
+	else:
+		function_call="google.setOnLoadCallback(drawChart)"
+
+	inject+='<div id="'+name+'" style="width: 800px; height: 300px; overflow:auto"></div>'
+	inject+='<script type="text/javascript">'+function_call+';'
+	inject+='function drawChart() {var data = google.visualization.arrayToDataTable(['
+	inject+="['Phrases'],"
+	
+	for text in text_array:
+		inject+="['"+text+"'],"
+
+	inject+="]);var options = {wordtree: {format: 'implicit',"
+	inject+="word: '"+word+"'}};"
+	inject+='console.log("loading graph");'
+	inject+="var chart = new google.visualization.WordTree(document.getElementById('"+name+"'));"
+	inject+="chart.draw(data, options);}</script>"
+
+	return inject
+
+def parseText(all_data):
+	text_array=[]
+	for data in all_data:
+		text=data['text']
+		tweet_text=text.replace('\n', ' ').replace('\r', '')
+		tweet_text=tweet_text.replace("'", "&quot;")
+		no_url_text=re.sub(r'https?:\/\/.*[\r\n]*', '', tweet_text, flags=re.MULTILINE)
+		no_mention_text=re.sub(r'@\w+','',no_url_text,flags=re.MULTILINE)
+		final_text=no_mention_text
+		text_array.append(final_text)
+	return text_array
+
 def parseData(all_data,filename):
 	html_data={}
 	file_path=os.path.join(BASE_DIR, 'data/')
@@ -81,34 +117,15 @@ def parseData(all_data,filename):
 
 	series={}
 	tweet_time=collections.OrderedDict(sorted(tweet_time.items()))
-	# add=0
-	# for key in tweet_time.keys():
-	# 	tweet_time[key]=tweet_time[key]+add
-	# 	add=tweet_time[key]
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in tweet_time.keys()]
-	# plot_line(x=range(len(tweet_time.values())),y=tweet_time.values(),x_label="Time",y_label="No. of Posts",xtick_labels=xtick_labels,title=filename)
-	# print tweet_time
-	# html_data['tweets']=chart_line(tweet_time.values(),xtick_labels,filename=file_path+"tweet_cdf.html")
 	series['tweets']=[tweet_time.values(),xtick_labels]
 
 	retweet_time=collections.OrderedDict(sorted(retweet_time.items()))
-	# add=0
-	# for key in retweet_time.keys():
-	# 	retweet_time[key]=retweet_time[key]+add
-	# 	add=retweet_time[key]
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in retweet_time.keys()]
-	# plot_line(x=range(len(retweet_time.values())),y=retweet_time.values(),x_label="Time",y_label="No. of Posts",xtick_labels=xtick_labels,title=filename)
-	# print retweet_time
 	series['retweets']=[retweet_time.values(),xtick_labels]
 
 	fav_time=collections.OrderedDict(sorted(fav_time.items()))
-	# add=0
-	# for key in retweet_time.keys():
-	# 	retweet_time[key]=retweet_time[key]+add
-	# 	add=retweet_time[key]
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in fav_time.keys()]
-	# plot_line(x=range(len(retweet_time.values())),y=retweet_time.values(),x_label="Time",y_label="No. of Posts",xtick_labels=xtick_labels,title=filename)
-	# print retweet_time
 	series['favs']=[fav_time.values(),xtick_labels]
 	
 	# html_data=chart_line(series,"graph_1")
