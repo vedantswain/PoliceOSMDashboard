@@ -1,12 +1,14 @@
-import os,re
+import os,re,random
 from json_parser import fileParser
 from dateutil import parser
 from datetime import datetime, timedelta
 import collections
 import matplotlib.pyplot as plt
+from scipy.misc import imread
 import numpy as np
 from nvd3 import lineChart
 import time as tm
+from wordcloud import WordCloud,STOPWORDS,ImageColorGenerator
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -56,13 +58,13 @@ def wordTree(text_array,name,word,kind="norm"):
 	else:
 		function_call="google.setOnLoadCallback(drawChart)"
 
-	inject+='<div id="'+name+'" style="width: 800px; height: 300px; overflow:auto"></div>'
+	inject+='<div id="'+name+'" style="width: 800px; height: 300px;"></div>'
 	inject+='<script type="text/javascript">'+function_call+';'
 	inject+='function drawChart() {var data = google.visualization.arrayToDataTable(['
 	inject+="['Phrases'],"
 	
 	for text in text_array:
-		inject+="['"+text+"'],"
+		inject+='["'+text+'"],'
 
 	inject+="]);var options = {wordtree: {format: 'implicit',"
 	inject+="word: '"+word+"'}};"
@@ -72,12 +74,39 @@ def wordTree(text_array,name,word,kind="norm"):
 
 	return inject
 
+def wordCloud(text_array,name):
+	cloud_text=""
+	for text in text_array:
+		cloud_text+=text+" "
+
+	m_stopwords=['police','traffic','sir']
+
+	for word in m_stopwords:
+		STOPWORDS.add(word)
+
+	image_mask = os.path.join(BASE_DIR, 'static/tool/img/nebula.jpg')
+	coloring = imread(image_mask)
+	
+	wordcloud = WordCloud(stopwords=STOPWORDS,background_color="white",mask=coloring).generate(cloud_text)
+	filename=os.path.join(BASE_DIR, 'static/tool/img/'+name+'.png')
+
+	image_colors = ImageColorGenerator(coloring)
+	wordcloud.recolor(color_func=image_colors)
+	wordcloud.to_file(filename)
+	data_uri = open(filename, 'rb').read().encode('base64').replace('\n', '')
+	img_tag = '<img src="data:image/png;base64,{0}" style="height:570px;width:570px">'.format(data_uri)
+	return img_tag
+
+
 def parseText(all_data):
 	text_array=[]
 	for data in all_data:
 		text=data['text']
+		if 'RT' in text:
+			continue
 		tweet_text=text.replace('\n', ' ').replace('\r', '')
-		tweet_text=tweet_text.replace("'", "&quot;")
+		tweet_text=tweet_text.replace("'", "\'")
+		tweet_text=tweet_text.replace('"', '\'')
 		no_url_text=re.sub(r'https?:\/\/.*[\r\n]*', '', tweet_text, flags=re.MULTILINE)
 		no_mention_text=re.sub(r'@\w+','',no_url_text,flags=re.MULTILINE)
 		final_text=no_mention_text

@@ -94,19 +94,8 @@
                  </div>
                  <div id="collapse3" class="panel-collapse collapse">
                   <div class="panel-body">
-                     <div class="dropdown">
-                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare To
-                         <span class="caret"></span></button>
-                         <ul class="dropdown-menu">
-                           <li><a href="#">@BlrCityPolice</a></li>
-                           <li><a href="#">@CPBlr</a></li>
-                           <li><a href="#">@addlcptraffic</a></li>
-                        </ul>
-                     </div>
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                     commodo consequat.</div>
+                    {% autoescape off %}{{ wordcloud_twitter }}{% endautoescape %}
+                  </div>
                   </div>
                </div>
             </div>

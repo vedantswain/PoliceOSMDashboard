@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from functions.json_parser import fileParser
-from functions.graphing import parseData,chartLine,chartVS,wordTree,parseText
+from functions.graphing import parseData,chartLine,chartVS,wordTree,parseText,wordCloud
 from functions.title import getTitle,getComparisons,getKeywords
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -34,6 +34,8 @@ def dashboard(request,handle):
 	text_array=parseText(data)
 	tree=wordTree(text_array=text_array,name="wordtree_twitter",word=word)
 
+	cloud=wordCloud(text_array=text_array,name="wordcloud_twitter")
+
 	context = RequestContext(request, {
 	    'dashboard_name': getTitle(handle=handle,platform="twitter")+" Dashboard",
 	    'graph_tweets':graph,
@@ -42,6 +44,7 @@ def dashboard(request,handle):
 	    'compare_to_graph1_twitter':comp_div_twitter1,
 	    'victimisation_twitter':key_div_twitter1,
 	    'victim_current_key_twitter':word,
+	    'wordcloud_twitter':cloud,
 	})
 
 	return HttpResponse(template.render(context))

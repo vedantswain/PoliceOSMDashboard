@@ -11,6 +11,7 @@ $(document).ready(function() {
 		               // $('#likes').hide();
 		               $('#graph1-tw-loader').hide();
 		           });
+		    return false;
 		});
 
         $('.victimzn-key-twitter').click(function(){
@@ -29,6 +30,7 @@ $(document).ready(function() {
 		               mObj.html(old_key);
 		    		   $('#victimzn-curr-key-twitter').html(key);
 		           });
+		    return false;
 		});
 
 });
