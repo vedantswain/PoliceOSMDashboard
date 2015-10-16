@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
         // JQuery code to be added in here.
         $('.compare-to-graph1-twitter').click(function(){
 		    // var catid;

@@ -34,7 +34,7 @@ def dashboard(request,handle):
 	text_array=parseText(data)
 	tree=wordTree(text_array=text_array,name="wordtree_twitter",word=word)
 
-	cloud=wordCloud(text_array=text_array,name="wordcloud_twitter")
+	(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_twitter")
 
 	context = RequestContext(request, {
 	    'dashboard_name': getTitle(handle=handle,platform="twitter")+" Dashboard",
@@ -45,6 +45,7 @@ def dashboard(request,handle):
 	    'victimisation_twitter':key_div_twitter1,
 	    'victim_current_key_twitter':word,
 	    'wordcloud_twitter':cloud,
+	    'wordcloud_twitter_list':cloud_list
 	})
 
 	return HttpResponse(template.render(context))
