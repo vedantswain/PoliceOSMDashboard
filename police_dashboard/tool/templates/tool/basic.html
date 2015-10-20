@@ -21,10 +21,8 @@
         <div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Pick Account
              <span class="caret"></span></button>
-             <ul class="dropdown-menu">
-               <li><a href="#">@BlrCityPolice</a></li>
-               <li><a href="#">@CPBlr</a></li>
-               <li><a href="#">@addlcptraffic</a></li>
+             <ul class="dropdown-menu" style="height:400px; overflow:scroll">
+               {% autoescape off %}{{ pick_account }}{% endautoescape %}
             </ul>
          </div>
 
@@ -50,7 +48,7 @@
                      <div class="dropdown">
                       <button id="compare-to-1-twitter" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare to
                          <span class="caret"></span></button>
-                         <ul class="dropdown-menu">
+                         <ul class="dropdown-menu" style="height:400px; overflow:scroll">
                            {% autoescape off %}{{ compare_to_graph1_twitter }}{% endautoescape %}
                         </ul>
                      </div>
@@ -73,7 +71,7 @@
                     <div class="dropdown">
                       <button id="victimzn-twitter" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Change Keyword
                          <span class="caret"></span></button>
-                         <ul class="dropdown-menu">
+                         <ul class="dropdown-menu" style="height:100px; overflow:scroll">
                            {% autoescape off %}{{ victimisation_twitter }}{% endautoescape %}
                         </ul>
                      </div>

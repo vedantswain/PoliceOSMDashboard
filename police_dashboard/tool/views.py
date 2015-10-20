@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from functions.json_parser import fileParser
 from functions.graphing import parseData,chartLine,chartVS,wordTree,parseText,wordCloud
-from functions.title import getTitle,getComparisons,getKeywords
+from functions.title import getTitle,getComparisons,getKeywords,allTwitterTitles
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -13,7 +13,7 @@ def index(request):
 
 def dashboard(request,handle):
 	template = loader.get_template('tool/basic.html')
-	
+
 	filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
 	data = fileParser(filename)
 
@@ -22,8 +22,10 @@ def dashboard(request,handle):
 
 	comparisonList=getComparisons(handle=handle,platform="twitter")
 	comp_div_twitter1=""
+	pick_div=""
 	for comp in comparisonList:
 		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">@'+comp+'</a></li>'
+		pick_div=pick_div+'<li><a class="pick-account" href="../'+comp+'">@'+comp+'</a></li>'
 
 	word="why"
 	keyList=getKeywords(keyword=word)
@@ -37,7 +39,8 @@ def dashboard(request,handle):
 	(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_twitter")
 
 	context = RequestContext(request, {
-	    'dashboard_name': getTitle(handle=handle,platform="twitter")+" Dashboard",
+	    'dashboard_name': handle+" Dashboard",
+	    'pick_account':pick_div,
 	    'graph_tweets':graph,
 	    'graph_tree_twitter':tree,
 	    'twitter_handle':handle,
