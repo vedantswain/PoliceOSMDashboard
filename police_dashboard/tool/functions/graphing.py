@@ -34,9 +34,9 @@ def chartVS(series_data1,series_data2,name):
 	kwargs1_1={"color":"#2574A9"}
 	kwargs1_2={"color":"#3498DB"}
 	kwargs1_3={"color":"#6BB9F0"}
-	chart.add_serie(name='Tweets '+series_data1['name'],y=series_data1['tweets'][0], x=series_data2['tweets'][1],**kwargs1_1)
-	chart.add_serie(name='Retweets '+series_data1['name'],y=series_data1['retweets'][0], x=series_data2['retweets'][1],**kwargs1_2)
-	chart.add_serie(name='Favourites '+series_data1['name'],y=series_data1['favs'][0], x=series_data2['favs'][1],**kwargs1_3)
+	chart.add_serie(name='Tweets '+series_data1['name'],y=series_data1['tweets'][0], x=series_data1['tweets'][1],**kwargs1_1)
+	chart.add_serie(name='Retweets '+series_data1['name'],y=series_data1['retweets'][0], x=series_data1['retweets'][1],**kwargs1_2)
+	chart.add_serie(name='Favourites '+series_data1['name'],y=series_data1['favs'][0], x=series_data1['favs'][1],**kwargs1_3)
 
 	kwargs2_1={"color":"#D35400"}
 	kwargs2_2={"color":"#F2784B"}
@@ -116,7 +116,11 @@ def wordCloud(text_array,name):
 
 	# print words_colours
 	list_html=""
-	for i in range(1,51):
+	cap=51
+	if cap>len(words_colours):
+		cap=len(words_colours)
+
+	for i in range(1,cap):
 		list_html+='<li class="list-group-item" style="color:'+words_colours[i]['color']+'">'
 		list_html+="#"+str(i)+" "+words_colours[i]['word']+'</li>'
 
