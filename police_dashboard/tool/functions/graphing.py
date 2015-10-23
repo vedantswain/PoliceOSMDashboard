@@ -39,6 +39,7 @@ def chartLine(series_data,name):
 
 	return output
 
+
 def chartVS(series_data1,series_data2,name):
 	name = name
 	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",y_axis_format=".0f",use_interactive_guideline=True)
@@ -63,6 +64,53 @@ def chartVS(series_data1,series_data2,name):
 	output=chart.htmlcontent
 
 	return output
+
+def chartD3Line(data,name,handle):
+	fb=['posts','likes','comments']
+	tw=['tweets','retweets','favs']
+
+	if name =='fb':
+		osn=fb
+	else:
+		osn=tw
+
+	div='<div id="graph'+'_'+name+'"></div>\n'
+	script='<script>\nvar data = [\n'
+
+	for key in data.keys():
+		date=tm.strftime('%Y-%m-%d', tm.localtime(key))
+		script+='{date:"'+date+'", "'+handle+' '+osn[0]+'": '+str(data[key][osn[0]])+', "'+handle+' '+osn[1]+'": '+str(data[key][osn[1]])+', "'+handle+' '+osn[2]+'": '+str(data[key][osn[2]])+'},\n' 
+    
+	script=script[:-2]
+	script+='\n];\nrenderGraph(data,"#graph'+'_'+name+'")\n</script>'
+
+	return div+script 
+
+def chartD3LineVS(data1,data2,name,handle1,handle2):
+	handle2=handle2[1:]
+
+	fb=['posts','likes','comments']
+	tw=['tweets','retweets','favs']
+
+	if name =='fb':
+		osn=fb
+	else:
+		osn=tw
+
+	data=mergeData(data1,data2,osn) ### merges both dictionaries into a single one to ensure dates are correct
+
+	div='<div id="graph'+'_'+name+'"></div>\n'
+	script='<script>\nvar data = [\n'
+
+	for key in data.keys():
+		date=tm.strftime('%Y-%m-%d', tm.localtime(key))
+		script+='{date:"'+date+'", "'+handle1+' '+osn[0]+'": '+str(data[key][osn[0]+'_1'])+', "'+handle1+' '+osn[1]+'": '+str(data[key][osn[1]+'_1'])+', "'+handle1+' '+osn[2]+'": '+str(data[key][osn[2]+'_1'])
+		script+=', "'+handle2+' '+osn[0]+'": '+str(data[key][osn[0]+'_2'])+', "'+handle2+' '+osn[1]+'": '+str(data[key][osn[1]+'_2'])+', "'+handle2+' '+osn[2]+'": '+str(data[key][osn[2]+'_2'])+'},\n' 
+    
+	script=script[:-2]
+	script+='\n];\nrenderGraph(data,"#graph'+'_'+name+'")\n</script>'
+
+	return div+script 
 
 def wordTree(text_array,name,word,kind="norm"):
 	inject=""
@@ -164,10 +212,12 @@ def parseData(all_data,filename):
 	fav_time={}
 	# print all_data[0].keys()
 	for data in all_data:
+		datum={}
 		# print data['created_at']
 		dt = parser.parse(data['created_at'])
 		dt=dt+timedelta(hours=5,minutes=30)
 		time_label=str(dt).split(" ")[0]+" 12"
+
 		if time_label not in tweet_time.keys():
 			tweet_time[time_label]=1
 		else:
@@ -203,6 +253,63 @@ def parseData(all_data,filename):
 	# html_data=chart_line(series,"graph_1")
 
 	return series
+
+def getGraphData(series):
+	data={}
+	i=0
+	while i < len(series['tweets'][0]):
+		datum={'retweets':0,'favs':0}
+		datum['tweets']=series['tweets'][0][i]
+		data[series['tweets'][1][i]/1000]=datum
+		i+=1
+
+
+	i=0
+	while i < len(series['retweets'][0]):
+		data[series['retweets'][1][i]/1000]['retweets']=series['retweets'][0][i]
+		i+=1
+
+	i=0
+	while i < len(series['favs'][0]):
+		data[series['favs'][1][i]/1000]['favs']=series['favs'][0][i]
+		i+=1
+
+	data=collections.OrderedDict(sorted(data.items()))
+	return data
+
+def mergeData(data1,data2,osn):
+	data={}
+	for key in data1.keys():
+		datum={}
+		datum[osn[0]+'_1']=data1[key][osn[0]]
+		datum[osn[1]+'_1']=data1[key][osn[1]]
+		datum[osn[2]+'_1']=data1[key][osn[2]]
+		datum[osn[0]+'_2']=0
+		datum[osn[1]+'_2']=0
+		datum[osn[2]+'_2']=0
+
+		data[key]=datum
+
+	for key in data2.keys():
+		if key in data1.keys():
+			data[key][osn[0]+'_2']=data2[key][osn[0]]
+			data[key][osn[1]+'_2']=data2[key][osn[1]]
+			data[key][osn[2]+'_2']=data2[key][osn[2]]
+		else:
+			datum={}
+			datum[osn[0]+'_2']=data2[key][osn[0]]
+			datum[osn[1]+'_2']=data2[key][osn[1]]
+			datum[osn[2]+'_2']=data2[key][osn[2]]
+			datum[osn[0]+'_1']=0
+			datum[osn[1]+'_1']=0
+			datum[osn[2]+'_1']=0
+
+			data[key]=datum
+
+	# print data
+	data=collections.OrderedDict(sorted(data.items()))
+	return data
+
 
 if __name__=="__main__":
 	filename="gujarat riot_search.json"

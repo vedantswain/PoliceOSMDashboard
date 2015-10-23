@@ -9,6 +9,7 @@
    <link rel="stylesheet" type="text/css" href="{% static 'tool/css/basic.css' %}">
    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.css" rel="stylesheet" />
    <script src="{% static 'tool/js/d3.min.js' %}"></script>
+   <script src="{% static 'tool/js/m_graph.js' %}"></script>
    <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script> -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.js"></script>
    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -120,10 +121,19 @@
                     </h4>
                  </div>
                  <div id="collapse1" class="panel-collapse collapse in">
-                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                     commodo consequat.</div>
+                  <div class="panel-body">
+                    <div class="dropdown">
+                      <button id="compare-to-1-facebook" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare to
+                         <span class="caret"></span></button>
+                         <ul class="dropdown-menu" style="height:400px; overflow:scroll">
+                           {% autoescape off %}{{ compare_to_graph1_facebook }}{% endautoescape %}
+                        </ul>
+                     </div>
+                    <img id="graph1-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
+                     <div id="graph1-facebook">
+                        {% autoescape off %}{{ graph_facebook }}{% endautoescape %}
+                     </div>
+                  </div>
                   </div>
                </div>
                <div class="panel panel-default">

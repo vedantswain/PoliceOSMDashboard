@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from functions.json_parser import fileParser
-from functions.graphing import parseData,chartLine,chartVS,wordTree,parseText,wordCloud
+from functions.graphing import parseData,chartLine,chartD3Line,chartVS,chartD3LineVS,wordTree,parseText,wordCloud,getGraphData
 from functions.title import getTitle,getComparisons,getKeywords,allTwitterTitles
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -18,16 +18,20 @@ def dashboard(request,handle):
 	data = fileParser(filename)
 
 	series = parseData(data,filename)
+	graph_data=getGraphData(series)
 	graph = chartLine(series,"graph 1")
+	d3graph=chartD3Line(graph_data,"tw",handle)
 
 	# print "GRAPH HERE"
-	# print graph
+	# print d3graph
 
 	comparisonList=getComparisons(handle=handle,platform="twitter")
 	comp_div_twitter1=""
+	comp_div_facebook1=""
 	pick_div=""
 	for comp in comparisonList:
 		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">@'+comp+'</a></li>'
+		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">@'+comp+'</a></li>'
 		pick_div=pick_div+'<li><a class="pick-account" href="../'+comp+'/">@'+comp+'</a></li>'
 
 	word="why"
@@ -49,9 +53,11 @@ def dashboard(request,handle):
 	    'dashboard_name': handle+" Dashboard",
 	    'pick_account':pick_div,
 	    'graph_tweets':graph,
+	    'graph_facebook':d3graph,
 	    'graph_tree_twitter':tree,
 	    'twitter_handle':handle,
 	    'compare_to_graph1_twitter':comp_div_twitter1,
+	    'compare_to_graph1_facebook':comp_div_facebook1,
 	    'victimisation_twitter':key_div_twitter1,
 	    'victim_current_key_twitter':word,
 	    'wordcloud_twitter':cloud,
@@ -87,6 +93,26 @@ def graph1_twitter_comp(request):
 		graph = chartVS(series1,series2,"graph 1")
 		# print graph
 	return HttpResponse(graph)
+
+def graph1_facebook_comp(request):
+	context =RequestContext(request)
+	handle=""
+	if request.method == 'GET':
+		handle = request.GET['handle_name']
+		filename1 = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
+		data1 = fileParser(filename1)
+		series1 = parseData(data1,filename1)
+		graph_data1=getGraphData(series1)
+		
+		comp_handle = request.GET['comp_handle_name']
+		filename2 = os.path.join(BASE_DIR, 'tool/data/tweets_'+comp_handle[1:]+'.json')
+		data2 = fileParser(filename2)
+		series2 = parseData(data2,filename2)
+		graph_data2=getGraphData(series2)
+		
+		d3graph=chartD3LineVS(graph_data1,graph_data2,"tw",handle,comp_handle)
+		print d3graph
+	return HttpResponse(d3graph)
 
 def victimzn_tree(request):
 	context =RequestContext(request)

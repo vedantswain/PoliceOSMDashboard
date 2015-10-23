@@ -13,6 +13,19 @@ $(document).ready(function() {
 		    return false;
 		});
 
+		$('.compare-to-graph1-facebook').click(function(){
+		    // var catid;
+		    handle = $('#twitter-handle-name').html()
+		    comp_handle = $(this).html();
+		    $('#graph1-fb-loader').show();
+		    $.get('/main/graph1_facebook_comp/',{handle_name:handle,comp_handle_name:comp_handle}, function(data){
+		               $('#graph1-facebook').html(data);
+		               // $('#likes').hide();
+		               $('#graph1-fb-loader').hide();
+		           });
+		    return false;
+		});
+
         $('.victimzn-key-twitter').click(function(){
 		    // var catid;
 		    pf="twitter"
