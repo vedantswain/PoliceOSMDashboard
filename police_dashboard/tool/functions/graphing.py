@@ -16,9 +16,9 @@ def chartLine(series_data,name):
 	name = name
 	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",use_interactive_guideline=True)
 	# chart.set_containerheader("\n\n<h2>" + type + "</h2>\n\n")
-	kwargs1_1={"color":"#2574A9"}
-	kwargs1_2={"color":"#3498DB"}
-	kwargs1_3={"color":"#6BB9F0"}
+	kwargs1_1={"color":"#004875"}
+	kwargs1_2={"color":"#0479CC"}
+	kwargs1_3={"color":"#91D9FF"}
 	chart.add_serie(name='Tweets',y=series_data['tweets'][0], x=series_data['tweets'][1],**kwargs1_1)
 	chart.add_serie(name='Retweets',y=series_data['retweets'][0], x=series_data['retweets'][1],**kwargs1_2)
 	chart.add_serie(name='Favourites',y=series_data['favs'][0], x=series_data['favs'][1],**kwargs1_3)

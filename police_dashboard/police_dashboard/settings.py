@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+APPEND_SLASH = True
 
 # Application definition
 
@@ -81,4 +82,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+path = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 STATIC_URL = '/static/'
+STATIC_ROOT = path+STATIC_URL

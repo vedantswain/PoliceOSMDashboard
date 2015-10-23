@@ -1,0 +1,50 @@
+<div id="graph_1"><svg style="width:800px;height:300px;"></svg></div>
+
+
+    <script>
+
+
+
+            data_graph_1=[{"color": "#004875", "values": [{"y": 55, "x": 1444545000000.0}, {"y": 103, "x": 1444631400000.0}, {"y": 98, "x": 1444717800000.0}, {"y": 60, "x": 1444804200000.0}, {"y": 59, "x": 1444890600000.0}, {"y": 221, "x": 1444977000000.0}, {"y": 419, "x": 1445063400000.0}, {"y": 72, "x": 1445149800000.0}, {"y": 179, "x": 1445236200000.0}, {"y": 156, "x": 1445322600000.0}], "key": "Tweets", "yAxis": "1"}, {"color": "#0479CC", "values": [{"y": 325, "x": 1444545000000.0}, {"y": 2573, "x": 1444631400000.0}, {"y": 525, "x": 1444717800000.0}, {"y": 339, "x": 1444804200000.0}, {"y": 73, "x": 1444890600000.0}, {"y": 23859, "x": 1444977000000.0}, {"y": 45911, "x": 1445063400000.0}, {"y": 4765, "x": 1445149800000.0}, {"y": 2547, "x": 1445236200000.0}, {"y": 2380, "x": 1445322600000.0}], "key": "Retweets", "yAxis": "1"}, {"color": "#91D9FF", "values": [{"y": 9, "x": 1444545000000.0}, {"y": 20, "x": 1444631400000.0}, {"y": 57, "x": 1444717800000.0}, {"y": 24, "x": 1444804200000.0}, {"y": 2, "x": 1444890600000.0}, {"y": 218, "x": 1444977000000.0}, {"y": 38, "x": 1445063400000.0}, {"y": 3, "x": 1445149800000.0}, {"y": 72, "x": 1445236200000.0}, {"y": 36, "x": 1445322600000.0}], "key": "Favourites", "yAxis": "1"}];
+
+
+        nv.addGraph(function() {
+        var chart = nv.models.lineChart().useInteractiveGuideline(true);
+
+        chart.margin({top: 30, right: 60, bottom: 20, left: 60});
+
+        var datum = data_graph_1;
+
+        chart.color(d3.scale.category20c().range());
+
+
+                chart.xAxis
+                .tickFormat(function(d) { return d3.time.format('%m/%d/%y')(new Date(parseInt(d))) }
+);
+            chart.yAxis
+                .tickFormat(d3.format(',.02f'));
+
+
+
+          chart.showLegend(true);
+
+
+    
+
+        
+
+
+
+            d3.select('#graph_1 svg')
+            .datum(datum)
+            .transition().duration(500)
+            .attr('width', 800)
+            .attr('height', 300)
+            .call(chart);
+
+
+        });
+
+
+
+    </script>

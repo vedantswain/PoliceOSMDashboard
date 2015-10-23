@@ -20,12 +20,15 @@ def dashboard(request,handle):
 	series = parseData(data,filename)
 	graph = chartLine(series,"graph 1")
 
+	# print "GRAPH HERE"
+	# print graph
+
 	comparisonList=getComparisons(handle=handle,platform="twitter")
 	comp_div_twitter1=""
 	pick_div=""
 	for comp in comparisonList:
 		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">@'+comp+'</a></li>'
-		pick_div=pick_div+'<li><a class="pick-account" href="../'+comp+'">@'+comp+'</a></li>'
+		pick_div=pick_div+'<li><a class="pick-account" href="../'+comp+'/">@'+comp+'</a></li>'
 
 	word="why"
 	keyList=getKeywords(keyword=word)
@@ -36,7 +39,11 @@ def dashboard(request,handle):
 	text_array=parseText(data)
 	tree=wordTree(text_array=text_array,name="wordtree_twitter",word=word)
 
-	(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_twitter")
+	if len(text_array)>0:
+		(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_twitter")
+	else:
+		cloud=""
+		cloud_list=[]
 
 	context = RequestContext(request, {
 	    'dashboard_name': handle+" Dashboard",
