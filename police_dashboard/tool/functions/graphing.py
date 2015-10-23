@@ -6,7 +6,7 @@ import collections
 import matplotlib.pyplot as plt
 from scipy.misc import imread
 import numpy as np
-from nvd3 import lineWithFocusChart
+from nvd3 import lineChart
 import time as tm
 from wordcloud import WordCloud,STOPWORDS,ImageColorGenerator
 
@@ -23,7 +23,7 @@ def getDashed(content):
 
 def chartLine(series_data,name):
 	name = name
-	chart = lineWithFocusChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",y_axis_format=".0f",use_interactive_guideline=True)
+	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",y_axis_format=".0f",use_interactive_guideline=True)
 	# chart.set_containerheader("\n\n<h2>" + type + "</h2>\n\n")
 	kwargs1_1={"color":"#004875"}
 	kwargs1_2={"color":"#0479CC"}
