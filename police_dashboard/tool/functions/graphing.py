@@ -6,15 +6,24 @@ import collections
 import matplotlib.pyplot as plt
 from scipy.misc import imread
 import numpy as np
-from nvd3 import lineChart
+from nvd3 import lineWithFocusChart
 import time as tm
 from wordcloud import WordCloud,STOPWORDS,ImageColorGenerator
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+def getDashed(content):
+	replace_str="var datum = data_graph_1;"
+	script_added="for (var i = 0; i < data_graph_1.length; i++) {"
+	script_added+="if (data_graph_1[i]['key'].indexOf('Tweets')> -1){"
+	script_added+="data_graph_1[i].classed='dashed';}}\n"
+	script_added+=replace_str
+	content=content.replace(replace_str,script_added)
+	return content
+
 def chartLine(series_data,name):
 	name = name
-	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",use_interactive_guideline=True)
+	chart = lineWithFocusChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",y_axis_format=".0f",use_interactive_guideline=True)
 	# chart.set_containerheader("\n\n<h2>" + type + "</h2>\n\n")
 	kwargs1_1={"color":"#004875"}
 	kwargs1_2={"color":"#0479CC"}
@@ -25,22 +34,25 @@ def chartLine(series_data,name):
 	chart.buildcontent()
 	# print chart.htmlcontent
 	# output_file.write(chart.htmlcontent)
-	return chart.htmlcontent
+	output=chart.htmlcontent
+	output=getDashed(output)
+
+	return output
 
 def chartVS(series_data1,series_data2,name):
 	name = name
-	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",use_interactive_guideline=True)
+	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",y_axis_format=".0f",use_interactive_guideline=True)
 	# chart.set_containerheader("\n\n<h2>" + type + "</h2>\n\n")
-	kwargs1_1={"color":"#2574A9"}
-	kwargs1_2={"color":"#3498DB"}
-	kwargs1_3={"color":"#6BB9F0"}
+	kwargs1_1={"color":"#004875"}
+	kwargs1_2={"color":"#0479CC"}
+	kwargs1_3={"color":"#91D9FF"}
 	chart.add_serie(name='Tweets '+series_data1['name'],y=series_data1['tweets'][0], x=series_data1['tweets'][1],**kwargs1_1)
 	chart.add_serie(name='Retweets '+series_data1['name'],y=series_data1['retweets'][0], x=series_data1['retweets'][1],**kwargs1_2)
 	chart.add_serie(name='Favourites '+series_data1['name'],y=series_data1['favs'][0], x=series_data1['favs'][1],**kwargs1_3)
 
-	kwargs2_1={"color":"#D35400"}
+	kwargs2_1={"color":"#A62F00"}
 	kwargs2_2={"color":"#F2784B"}
-	kwargs2_3={"color":"#EB974E"}
+	kwargs2_3={"color":"#EBBC4E"}
 	chart.add_serie(name='Tweets '+series_data2['name'],y=series_data2['tweets'][0], x=series_data2['tweets'][1],**kwargs2_1)
 	chart.add_serie(name='Retweets '+series_data2['name'],y=series_data2['retweets'][0], x=series_data2['retweets'][1],**kwargs2_2)
 	chart.add_serie(name='Favourites '+series_data2['name'],y=series_data2['favs'][0], x=series_data2['favs'][1],**kwargs2_3)
@@ -48,7 +60,9 @@ def chartVS(series_data1,series_data2,name):
 	chart.buildcontent()
 	# print chart.htmlcontent
 	# output_file.write(chart.htmlcontent)
-	return chart.htmlcontent
+	output=chart.htmlcontent
+
+	return output
 
 def wordTree(text_array,name,word,kind="norm"):
 	inject=""
