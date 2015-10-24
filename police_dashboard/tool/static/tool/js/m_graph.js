@@ -1,4 +1,9 @@
 function renderGraph(data,div_name){
+    id_suff="2"
+    if (div_name=="#graph_fb"){
+      id_suff="1"
+    }
+
     var margin = {top: 20, right: 200, bottom: 100, left: 50},
         margin2 = { top: 430, right: 10, bottom: 20, left: 40 },
         width = 960 - margin.left - margin.right,
@@ -20,7 +25,7 @@ function renderGraph(data,div_name){
     // 40 Custom DDV colors 
     var color = d3.scale.ordinal().range(["#004875",  "#0479CC",  "#91D9FF", "#A62F00",  "#F2784B",  "#EBBC4E"]);  
 
-    var stroke_dasharray= d3.scale.ordinal().range([(0,0),(3,3),(1,1),])
+    var stroke_dasharray= d3.scale.ordinal().range([(0,0),(3,3),(1,1),(0,0),(3,3),(1,1)])
 
     var xAxis = d3.svg.axis()
         .scale(xScale)
@@ -35,7 +40,7 @@ function renderGraph(data,div_name){
         .orient("left");  
 
     var line = d3.svg.line()
-        .interpolate("basis")
+        .interpolate("linear")
         .x(function(d) { return xScale(d.date); })
         .y(function(d) { return yScale(d.rating); })
         .defined(function(d) { return d.rating; });  // Hiding line value defaults of 0 for missing data
@@ -54,7 +59,7 @@ function renderGraph(data,div_name){
         .attr("height", height)                                    
         .attr("x", 0) 
         .attr("y", 0)
-        .attr("id", "mouse-tracker")
+        .attr("id", "mouse-tracker-"+id_suff)
         .style("fill", "white"); 
 
     //for slider part-----------------------------------------------------------------------------------
@@ -248,7 +253,7 @@ function renderGraph(data,div_name){
 
       var hoverLine = hoverLineGroup // Create line with basic attributes
             .append("line")
-                .attr("id", "hover-line")
+                .attr("id", "hover-line-"+id_suff)
                 .attr("x1", 10).attr("x2", 10) 
                 .attr("y1", 0).attr("y2", height + 10)
                 .style("pointer-events", "none") // Stop line interferring with cursor
@@ -277,13 +282,13 @@ function renderGraph(data,div_name){
             .style("opacity",1); // (return (11.25/2 =) 5.625) + i * (5.625) // position tooltips       
 
       // Add mouseover events for hover line.
-      d3.select("#mouse-tracker") // select chart plot background rect #mouse-tracker
+      d3.select("#mouse-tracker-"+id_suff) // select chart plot background rect #mouse-tracker
       .on("mousemove", mousemove) // on mousemove activate mousemove function defined below
       .on("mouseout", function() {
           hoverDate
               .text(null) // on mouseout remove text for hover date
 
-          d3.select("#hover-line")
+          d3.select("#hover-line-"+id_suff)
               .style("opacity", 1e-6); // On mouse out making line invisible
       });
 
@@ -298,11 +303,11 @@ function renderGraph(data,div_name){
           var format = d3.time.format('%d %b %Y'); // Format hover date text to show three letter month and full year
           
           hoverDate.text(format(graph_x)); // scale mouse position to xScale date and format it to show month and year
-          
-          d3.select("#hover-line") // select hover-line and changing attributes to mouse position
+          console.log(id_suff)
+          d3.select("#hover-line-"+id_suff) // select hover-line and changing attributes to mouse position
               .attr("x1", mouse_x) 
               .attr("x2", mouse_x)
-              .style("opacity", 1); // Making line visible
+              .style("opacity", 1e-6); // Making line visible
 
           // Legend tooltips // http://www.d3noob.org/2014/07/my-favourite-tooltip-method-for-line.html
 

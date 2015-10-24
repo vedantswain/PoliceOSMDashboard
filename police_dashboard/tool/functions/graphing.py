@@ -70,7 +70,7 @@ def chartD3Line(data,name,handle):
 	tw=['tweets','retweets','favs']
 
 	if name =='fb':
-		osn=fb
+		osn=tw ### for now
 	else:
 		osn=tw
 
@@ -92,8 +92,8 @@ def chartD3LineVS(data1,data2,name,handle1,handle2):
 	fb=['posts','likes','comments']
 	tw=['tweets','retweets','favs']
 
-	if name =='fb':
-		osn=fb
+	if name =='facebook':
+		osn=tw ### for now
 	else:
 		osn=tw
 

@@ -30,19 +30,95 @@
 
          <h2>{{ dashboard_name }}</h2>
          <ul class="nav nav-tabs">
-          <li class="active"><a data-toggle="pill" href="#home">Twitter</a></li>
-          <li><a data-toggle="pill" href="#menu1">Facebook</a></li>
+          <li class="active"><a data-toggle="pill" href="#home">Facebook</a></li>
+          <li><a data-toggle="pill" href="#menu1">Twitter</a></li>
          </ul>
 
        <div class="tab-content">
-          <div id="home" class="tab-pane fade in active">
+         <div id="home" class="tab-pane fade in active">
+          <div id="facebook-handle-name" style="display:none">{{ facebook_handle }}</div>
+            <div class="panel-group" id="accordion2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_1">
+                       Analytics</a>
+                    </h4>
+                 </div>
+                 <div id="collapse2_1" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                    <div class="dropdown">
+                      <button id="compare-to-1-facebook" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare to
+                         <span class="caret"></span></button>
+                         <ul class="dropdown-menu" style="height:400px; overflow:scroll">
+                           {% autoescape off %}{{ compare_to_graph1_facebook }}{% endautoescape %}
+                        </ul>
+                     </div>
+                    <img id="graph1-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
+                     <div id="graph1-facebook">
+                        {% autoescape off %}{{ graph_facebook }}{% endautoescape %}
+                     </div>
+                  </div>
+                  </div>
+               </div>
+               <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_2">
+                       Victimisation Tree</a>
+                    </h4>
+                 </div>
+                 <div id="collapse2_2" class="panel-collapse collapse in">
+                  <div class="panel-body">
+                    <div class="dropdown">
+                      <button id="victimzn-facebook" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Change Keyword
+                         <span class="caret"></span></button>
+                         <ul class="dropdown-menu" style="height:100px; overflow:scroll">
+                           {% autoescape off %}{{ victimisation_facebook }}{% endautoescape %}
+                        </ul>
+                     </div>
+                     <img id="graph2-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
+                     <div id="victimzn-curr-key-facebook" style="display:none">{{ victim_current_key_facebook }}</div>
+                     <div id="graph2-facebook">
+                      {% autoescape off %}{{ graph_tree_facebook }}{% endautoescape %}
+                     </div>
+                  </div>
+                  </div>
+               </div>
+               <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_3">
+                       Word Cloud</a>
+                    </h4>
+                 </div>
+                 <div id="collapse2_3" class="panel-collapse collapse">
+                  <div class="panel-body">
+                      <div class="container">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {% autoescape off %}{{ wordcloud_facebook }}{% endautoescape %}
+                            </div>
+                            <div class="col-xs-6">
+                                <ul class="list-group" style="width:400px; height:400px; float:right; overflow:hidden; overflow-y:scroll;">
+                                  {% autoescape off %}{{ wordcloud_facebook_list }}{% endautoescape %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div id="menu1" class="tab-pane fade">
             <div id="twitter-handle-name" style="display:none">{{ twitter_handle }}</div>
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                       Graph</a>
+                       Analytics</a>
                     </h4>
                  </div>
                  <div id="collapse1" class="panel-collapse collapse in">
@@ -65,7 +141,7 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                       Tree</a>
+                       Victimisation Tree</a>
                     </h4>
                  </div>
                  <div id="collapse2" class="panel-collapse collapse in">
@@ -89,7 +165,7 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                       Cloud</a>
+                       Word Cloud</a>
                     </h4>
                  </div>
                  <div id="collapse3" class="panel-collapse collapse">
@@ -107,61 +183,6 @@
                         </div>
                     </div>
                   </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <div id="menu1" class="tab-pane fade">
-            <div class="panel-group" id="accordion">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                       Graph 1</a>
-                    </h4>
-                 </div>
-                 <div id="collapse1" class="panel-collapse collapse in">
-                  <div class="panel-body">
-                    <div class="dropdown">
-                      <button id="compare-to-1-facebook" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Compare to
-                         <span class="caret"></span></button>
-                         <ul class="dropdown-menu" style="height:400px; overflow:scroll">
-                           {% autoescape off %}{{ compare_to_graph1_facebook }}{% endautoescape %}
-                        </ul>
-                     </div>
-                    <img id="graph1-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
-                     <div id="graph1-facebook">
-                        {% autoescape off %}{{ graph_facebook }}{% endautoescape %}
-                     </div>
-                  </div>
-                  </div>
-               </div>
-               <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                       Graph 2</a>
-                    </h4>
-                 </div>
-                 <div id="collapse2" class="panel-collapse collapse">
-                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                     commodo consequat.</div>
-                  </div>
-               </div>
-               <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                       Graph 3</a>
-                    </h4>
-                 </div>
-                 <div id="collapse3" class="panel-collapse collapse">
-                  <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                     commodo consequat.</div>
                   </div>
                </div>
             </div>
