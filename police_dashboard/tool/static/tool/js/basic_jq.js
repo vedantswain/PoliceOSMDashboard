@@ -68,4 +68,32 @@ $(document).ready(function() {
 		    return false;
 		});
 
+		$('.cloud-key-wordcloud_facebook').click(function(){
+		    // var catid;
+		    console.log("clicked")
+		    pf="facebook"
+		    handle = $('#facebook-handle-name').html()
+		    var key = $(this).html();
+		    $('#graph3-fb-loader').show();
+		    $.get('/main/word_cloud/',{handle_name:handle,keyword:key,platform:pf}, function(data){
+		    		   $('#graph3-facebook').html(data.cloud);
+		               $('#graph3-fb-loader').hide();
+		           });
+		    return false;
+		});
+
+		$('.cloud-key-wordcloud_twitter').click(function(){
+		    // var catid;
+		    console.log("clicked")
+		    pf="twitter"
+		    handle = $('#twitter-handle-name').html()
+		    var key = $(this).html();
+		    $('#graph3-tw-loader').show();
+		    $.get('/main/word_cloud/',{handle_name:handle,keyword:key,platform:pf}, function(data){
+		    		   $('#graph3-twitter').html(data.cloud);
+		               $('#graph3-tw-loader').hide();
+		           });
+		    return false;
+		});
+
 });

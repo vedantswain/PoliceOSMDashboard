@@ -92,15 +92,18 @@
                        Word Cloud</a>
                     </h4>
                  </div>
-                 <div id="collapse2_3" class="panel-collapse collapse">
+                 <div id="collapse2_3" class="panel-collapse collapse  in">
                   <div class="panel-body">
                       <div class="container">
                         <div class="row">
+                          <img id="graph3-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                             <div class="col-xs-6">
+                              <div id="graph3-facebook">
                                 {% autoescape off %}{{ wordcloud_facebook }}{% endautoescape %}
+                              </div>
                             </div>
                             <div class="col-xs-6">
-                                <ul class="list-group" style="width:400px; height:400px; float:right; overflow:hidden; overflow-y:scroll;">
+                                <ul id="cloud-word-facebook" class="list-group" style="width:400px; height:400px; float:right; overflow:hidden; overflow-y:scroll;">
                                   {% autoescape off %}{{ wordcloud_facebook_list }}{% endautoescape %}
                                 </ul>
                             </div>
@@ -168,15 +171,18 @@
                        Word Cloud</a>
                     </h4>
                  </div>
-                 <div id="collapse3" class="panel-collapse collapse">
+                 <div id="collapse3" class="panel-collapse collapse  in">
                   <div class="panel-body">
                     <div class="container">
                         <div class="row">
+                          <img id="graph3-tw-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                             <div class="col-xs-6">
+                              <div id="graph3-twitter">
                                 {% autoescape off %}{{ wordcloud_twitter }}{% endautoescape %}
+                              </div>
                             </div>
                             <div class="col-xs-6">
-                                <ul class="list-group" style="width:400px; height:400px; float:right; overflow:hidden; overflow-y:scroll;">
+                                <ul id="cloud-word-twitter" class="list-group" style="width:400px; height:400px; float:right; overflow:hidden; overflow-y:scroll;">
                                   {% autoescape off %}{{ wordcloud_twitter_list }}{% endautoescape %}
                                 </ul>
                             </div>

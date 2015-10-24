@@ -303,7 +303,7 @@ function renderGraph(data,div_name){
           var format = d3.time.format('%d %b %Y'); // Format hover date text to show three letter month and full year
           
           hoverDate.text(format(graph_x)); // scale mouse position to xScale date and format it to show month and year
-          console.log(id_suff)
+          // console.log(id_suff)
           d3.select("#hover-line-"+id_suff) // select hover-line and changing attributes to mouse position
               .attr("x1", mouse_x) 
               .attr("x2", mouse_x)

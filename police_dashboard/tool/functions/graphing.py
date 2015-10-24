@@ -21,50 +21,6 @@ def getDashed(content):
 	content=content.replace(replace_str,script_added)
 	return content
 
-def chartLine(series_data,name):
-	name = name
-	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",y_axis_format=".0f",use_interactive_guideline=True)
-	# chart.set_containerheader("\n\n<h2>" + type + "</h2>\n\n")
-	kwargs1_1={"color":"#004875"}
-	kwargs1_2={"color":"#0479CC"}
-	kwargs1_3={"color":"#91D9FF"}
-	chart.add_serie(name='Tweets',y=series_data['tweets'][0], x=series_data['tweets'][1],**kwargs1_1)
-	chart.add_serie(name='Retweets',y=series_data['retweets'][0], x=series_data['retweets'][1],**kwargs1_2)
-	chart.add_serie(name='Favourites',y=series_data['favs'][0], x=series_data['favs'][1],**kwargs1_3)
-	chart.buildcontent()
-	# print chart.htmlcontent
-	# output_file.write(chart.htmlcontent)
-	output=chart.htmlcontent
-	output=getDashed(output)
-
-	return output
-
-
-def chartVS(series_data1,series_data2,name):
-	name = name
-	chart = lineChart(name=name, x_is_date=True, color_category='category20c', height=300, width=800, x_axis_format="%m/%d/%y",y_axis_format=".0f",use_interactive_guideline=True)
-	# chart.set_containerheader("\n\n<h2>" + type + "</h2>\n\n")
-	kwargs1_1={"color":"#004875"}
-	kwargs1_2={"color":"#0479CC"}
-	kwargs1_3={"color":"#91D9FF"}
-	chart.add_serie(name='Tweets '+series_data1['name'],y=series_data1['tweets'][0], x=series_data1['tweets'][1],**kwargs1_1)
-	chart.add_serie(name='Retweets '+series_data1['name'],y=series_data1['retweets'][0], x=series_data1['retweets'][1],**kwargs1_2)
-	chart.add_serie(name='Favourites '+series_data1['name'],y=series_data1['favs'][0], x=series_data1['favs'][1],**kwargs1_3)
-
-	kwargs2_1={"color":"#A62F00"}
-	kwargs2_2={"color":"#F2784B"}
-	kwargs2_3={"color":"#EBBC4E"}
-	chart.add_serie(name='Tweets '+series_data2['name'],y=series_data2['tweets'][0], x=series_data2['tweets'][1],**kwargs2_1)
-	chart.add_serie(name='Retweets '+series_data2['name'],y=series_data2['retweets'][0], x=series_data2['retweets'][1],**kwargs2_2)
-	chart.add_serie(name='Favourites '+series_data2['name'],y=series_data2['favs'][0], x=series_data2['favs'][1],**kwargs2_3)
-	
-	chart.buildcontent()
-	# print chart.htmlcontent
-	# output_file.write(chart.htmlcontent)
-	output=chart.htmlcontent
-
-	return output
-
 def chartD3Line(data,name,handle):
 	fb=['posts','likes','comments']
 	tw=['tweets','retweets','favs']
@@ -136,7 +92,16 @@ def wordTree(text_array,name,word,kind="norm"):
 
 	return inject
 
-def wordCloud(text_array,name):
+def wordCloud(text_array,name,keyword=""):
+	new_text_arr=[]
+	if keyword is not "":
+		keyword=keyword.split(" ")[1]
+	for text in text_array:
+		if keyword in text:
+			new_text_arr.append(text)
+
+	text_array=new_text_arr
+
 	cloud_text=""
 	for text in text_array:
 		cloud_text+=text+" "
@@ -183,8 +148,8 @@ def wordCloud(text_array,name):
 		cap=len(words_colours)
 
 	for i in range(1,cap):
-		list_html+='<li class="list-group-item" style="color:'+words_colours[i]['color']+'">'
-		list_html+="#"+str(i)+" "+words_colours[i]['word']+'</li>'
+		list_html+='<li class="list-group-item" ><a class="cloud-key-'+name+'" href="#" style="color:'+words_colours[i]['color']+'">'
+		list_html+="#"+str(i)+" "+words_colours[i]['word']+'</a></li>'
 
 	return (img_tag,list_html)
 

@@ -1,9 +1,9 @@
-import os
+import os,json
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from functions.json_parser import fileParser
-from functions.graphing import parseData,chartLine,chartD3Line,chartVS,chartD3LineVS,wordTree,parseText,wordCloud,getGraphData
+from functions.graphing import parseData,chartD3Line,chartD3LineVS,wordTree,parseText,wordCloud,getGraphData
 from functions.title import getTitle,getComparisons,getKeywords,allTwitterTitles
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -67,7 +67,7 @@ def dashboard(request,handle):
 	context = RequestContext(request, {
 	    'dashboard_name': handle+" Dashboard",
 	    'pick_account':pick_div,
-	    # 'graph_tweets':d3graph_tw,
+	    'graph_tweets':d3graph_tw,
 	    'graph_facebook':d3graph_fb,
 	    'graph_tree_twitter':tree_tw,
 	    'graph_tree_facebook':tree_fb,
@@ -82,7 +82,7 @@ def dashboard(request,handle):
 	    'wordcloud_twitter':cloud_tw,
 	    'wordcloud_twitter_list':cloud_list_tw,
 	    'wordcloud_facebook':cloud_fb,
-	    'wordcloud_facebook_list':cloud_list_tw
+	    'wordcloud_facebook_list':cloud_list_fb
 	})
 
 	return HttpResponse(template.render(context))
@@ -124,9 +124,26 @@ def victimzn_tree(request):
 		handle = request.GET['handle_name']
 		filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
 		data = fileParser(filename)
-		
 		word = request.GET['keyword']
 		text_array=parseText(data)
 		tree=wordTree(text_array=text_array,name="wordtree_"+platform,word=word,kind="ajax")
 
 	return HttpResponse(tree)
+
+def word_cloud(request):
+	context =RequestContext(request)
+	handle=""
+	if request.method == 'GET':
+		platform=request.GET['platform']
+		handle = request.GET['handle_name']
+		filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
+		data = fileParser(filename)
+		
+		word = request.GET['keyword']
+		text_array=parseText(data)
+		(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_"+platform,keyword=word)
+		response_data={}
+		response_data['cloud']=cloud
+		response_data['cloud_list']=cloud_list
+
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
