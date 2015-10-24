@@ -4,6 +4,8 @@ function renderGraph(data,div_name){
       id_suff="1"
     }
 
+    console.log(data)
+
     var margin = {top: 20, right: 200, bottom: 100, left: 50},
         margin2 = { top: 430, right: 10, bottom: 20, left: 40 },
         width = 960 - margin.left - margin.right,
@@ -112,6 +114,7 @@ function renderGraph(data,div_name){
       xScale.domain(d3.extent(data, function(d) { return d.date; })); // extent = highest and lowest points, domain is data, range is bouding box
 
       maxY=findMaxY(categories)
+      console.log(maxY)
       yScale.domain([0, maxY
         //d3.max(categories, function(c) { return d3.max(c.values, function(v) { return v.rating; }); })
       ]);

@@ -26,7 +26,7 @@ def chartD3Line(data,name,handle):
 	tw=['tweets','retweets','favs']
 
 	if name =='fb':
-		osn=tw ### for now
+		osn=fb ### for now
 	else:
 		osn=tw
 
@@ -49,7 +49,7 @@ def chartD3LineVS(data1,data2,name,handle1,handle2):
 	tw=['tweets','retweets','favs']
 
 	if name =='facebook':
-		osn=tw ### for now
+		osn=fb ### for now
 	else:
 		osn=tw
 
@@ -73,6 +73,10 @@ def wordTree(text_array,name,word,kind="norm"):
 
 	extra2=""
 
+	if len(text_array)>700:
+		random.shuffle(text_array)
+		text_array=text_array[:700]
+
 	if kind=='ajax':
 		function_call="drawChart()"
 	else:
@@ -88,6 +92,9 @@ def wordTree(text_array,name,word,kind="norm"):
 	inject+="['Phrases'],"
 	
 	for text in text_array:
+		if "connect.facebook.net" in text:
+			# print "skipping\n"+text
+			continue
 		inject+='["'+text+'"],'
 
 	inject+="]);var options = {wordtree: {format: 'implicit',"
@@ -162,20 +169,87 @@ def wordCloud(text_array,name,keyword=""):
 	return (img_tag,list_html)
 
 
-def parseText(all_data):
+def parseText(all_data,platform):
 	text_array=[]
-	for data in all_data:
-		text=data['text']
-		if 'RT' in text:
-			continue
-		tweet_text=text.replace('\n', ' ').replace('\r', '')
-		tweet_text=tweet_text.replace("'", "\'")
-		tweet_text=tweet_text.replace('"', '\'')
-		no_url_text=re.sub(r'https?:\/\/.*[\r\n]*', '', tweet_text, flags=re.MULTILINE)
-		no_mention_text=re.sub(r'@\w+','',no_url_text,flags=re.MULTILINE)
-		final_text=no_mention_text
-		text_array.append(final_text)
+	if platform=="twitter":
+		for data in all_data:
+			text=data['text']
+			if 'RT' in text:
+				continue
+			tweet_text=text.replace('\n', ' ').replace('\r', '')
+			tweet_text=tweet_text.replace("'", "\'")
+			tweet_text=tweet_text.replace('"', '\'')
+			no_url_text=re.sub(r'https?:\/\/.*[\r\n]*', '', tweet_text, flags=re.MULTILINE)
+			no_mention_text=re.sub(r'@\w+','',no_url_text,flags=re.MULTILINE)
+			final_text=no_mention_text
+			# print final_text
+			text_array.append(final_text)
+	else:
+		for data in all_data:
+			if 'message' not in data.keys():
+				continue
+			text=data['message']
+			if "connect.facebook.net" in text:
+				# print "skipping\n"+text
+				continue
+			tweet_text=text.replace('\n', ' ').replace('\r', '')
+			tweet_text=tweet_text.replace("'", "\'")
+			tweet_text=tweet_text.replace('"', '\'')
+			no_url_text=re.sub(r'https?:\/\/.*[\r\n]*', '', tweet_text, flags=re.MULTILINE)
+			no_mention_text=re.sub(r'@\w+','',no_url_text,flags=re.MULTILINE)
+			final_text=no_mention_text
+			# print final_text
+			text_array.append(final_text)
 	return text_array
+
+def parseFBData(all_data):
+	html_data={}
+	post_time={}
+	like_time={}
+	com_time={}
+	# print all_data[0].keys()
+	for data in all_data:
+		datum={}
+		# print data['created_at']
+		dt = parser.parse(data['created_time'])
+		dt=dt+timedelta(hours=5,minutes=30)
+		time_label=str(dt).split(" ")[0]+" 12"
+
+		if time_label not in post_time.keys():
+			post_time[time_label]=1
+		else:
+			post_time[time_label]=post_time[time_label]+1
+
+		if time_label not in like_time.keys():
+			if 'totallikescount' in data.keys():
+				like_time[time_label]=long(data['totallikescount'])
+		else:
+			if 'totallikecount' in data.keys():
+				like_time[time_label]=like_time[time_label]+long(data['totallikescount'])
+
+		if time_label not in com_time.keys():
+			if 'totalcommentscount' in data.keys():
+				com_time[time_label]=long(data['totalcommentscount'])
+		else:
+			if 'totalcommentscount' in data.keys():
+				com_time[time_label]=com_time[time_label]+long(data['totalcommentscount'])
+
+	series={}
+	post_time=collections.OrderedDict(sorted(post_time.items()))
+	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in post_time.keys()]
+	series['posts']=[post_time.values(),xtick_labels]
+
+	like_time=collections.OrderedDict(sorted(like_time.items()))
+	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in like_time.keys()]
+	series['likes']=[like_time.values(),xtick_labels]
+
+	com_time=collections.OrderedDict(sorted(com_time.items()))
+	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in com_time.keys()]
+	series['comments']=[com_time.values(),xtick_labels]
+	
+	# html_data=chart_line(series,"graph_1")
+
+	return series
 
 def parseData(all_data,filename):
 	html_data={}
@@ -227,24 +301,34 @@ def parseData(all_data,filename):
 
 	return series
 
-def getGraphData(series):
+def getGraphData(series,name):
 	data={}
+
+	fb=['posts','likes','comments']
+	tw=['tweets','retweets','favs']
+
+	if name =='facebook':
+		osn=fb ### for now
+	else:
+		osn=tw
+
 	i=0
-	while i < len(series['tweets'][0]):
-		datum={'retweets':0,'favs':0}
-		datum['tweets']=series['tweets'][0][i]
-		data[series['tweets'][1][i]/1000]=datum
+
+	while i < len(series[osn[0]][0]):
+		datum={osn[1]:0,osn[2]:0}
+		datum[osn[0]]=series[osn[0]][0][i]
+		data[series[osn[0]][1][i]/1000]=datum
 		i+=1
 
 
 	i=0
-	while i < len(series['retweets'][0]):
-		data[series['retweets'][1][i]/1000]['retweets']=series['retweets'][0][i]
+	while i < len(series[osn[1]][0]):
+		data[series[osn[1]][1][i]/1000][osn[1]]=series[osn[1]][0][i]
 		i+=1
 
 	i=0
-	while i < len(series['favs'][0]):
-		data[series['favs'][1][i]/1000]['favs']=series['favs'][0][i]
+	while i < len(series[osn[2]][0]):
+		data[series[osn[2]][1][i]/1000][osn[2]]=series[osn[2]][0][i]
 		i+=1
 
 	data=collections.OrderedDict(sorted(data.items()))

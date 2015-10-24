@@ -2,9 +2,9 @@ import os,json
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
-from functions.json_parser import fileParser
-from functions.graphing import parseData,chartD3Line,chartD3LineVS,wordTree,parseText,wordCloud,getGraphData
-from functions.title import getTitle,getComparisons,getKeywords,allTwitterTitles
+from functions.json_parser import fileParser,getData
+from functions.graphing import parseData,parseFBData,chartD3Line,chartD3LineVS,wordTree,parseText,wordCloud,getGraphData
+from functions.title import getTitle,getComparisons,getKeywords
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -14,30 +14,35 @@ def index(request):
 def dashboard(request,handle):
 	template = loader.get_template('tool/basic.html')
 
-	filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
-	data = fileParser(filename)
-	series = parseData(data,filename)
-	graph_data_tw=getGraphData(series)
+	(title,tw_handle)=getTitle(handle,"")
 
-	filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
-	data = fileParser(filename)
-	series = parseData(data,filename)
-	graph_data_fb=getGraphData(series)
+	### for twitter
+	filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
+	data_tw = fileParser(filename)
+	series = parseData(data_tw,filename)
+	graph_data_tw=getGraphData(series,"twitter")
+
+	### for facebook
+	data_fb = getData(handle)
+	series = parseFBData(data_fb)
+	graph_data_fb=getGraphData(series,"facebook")
 	
-	d3graph_tw=chartD3Line(graph_data_tw,"tw",handle)
+	d3graph_tw=chartD3Line(graph_data_tw,"tw",tw_handle)
 	d3graph_fb=chartD3Line(graph_data_fb,"fb",handle)
 
 	# print "GRAPH HERE"
 	# print d3graph
 
-	comparisonList=getComparisons(handle=handle,platform="twitter")
+	comp_list_tw=getComparisons(handle=handle,platform="twitter")
+	comp_list_fb=getComparisons(handle=handle,platform="facebook")
 	comp_div_twitter1=""
 	comp_div_facebook1=""
 	pick_div=""
-	for comp in comparisonList:
-		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">@'+comp+'</a></li>'
-		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">@'+comp+'</a></li>'
-		pick_div=pick_div+'<li><a class="pick-account" href="../'+comp+'/">@'+comp+'</a></li>'
+	for key in comp_list_tw.keys():
+		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">'+comp_list_tw[key][0]+'</a></li>'
+	for key in comp_list_fb.keys():
+		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">'+comp_list_fb[key][0]+'</a></li>'
+		pick_div=pick_div+'<li><a class="pick-account" href="../'+key+'/">'+comp_list_fb[key][0]+'</a></li>'
 
 	word="why"
 	keyList=getKeywords(keyword=word)
@@ -47,10 +52,10 @@ def dashboard(request,handle):
 		key_div_twitter1=key_div_twitter1+'<li><a class="victimzn-key-twitter" href="#">'+key+'</a></li>'
 		key_div_facebook1=key_div_facebook1+'<li><a class="victimzn-key-facebook" href="#">'+key+'</a></li>'
 
-	text_array_tw=parseText(data)
-	text_array_fb=parseText(data)
+	text_array_tw=parseText(data_tw,"twitter")
+	text_array_fb=parseText(data_fb,"facebook")
 	tree_tw=wordTree(text_array=text_array_tw,name="wordtree_twitter",word=word)
-	tree_fb=wordTree(text_array=text_array_tw,name="wordtree_facebook",word=word)
+	tree_fb=wordTree(text_array=text_array_fb,name="wordtree_facebook",word=word)
 
 	if len(text_array_tw)>0:
 		(cloud_tw,cloud_list_tw)=wordCloud(text_array=text_array_tw,name="wordcloud_twitter")
@@ -65,7 +70,7 @@ def dashboard(request,handle):
 		cloud_list_fb=[]
 
 	context = RequestContext(request, {
-	    'dashboard_name': handle+" Dashboard",
+	    'dashboard_name': title+" Dashboard",
 	    'pick_account':pick_div,
 	    'graph_tweets':d3graph_tw,
 	    'graph_facebook':d3graph_fb,
@@ -125,7 +130,7 @@ def victimzn_tree(request):
 		filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
 		data = fileParser(filename)
 		word = request.GET['keyword']
-		text_array=parseText(data)
+		text_array=parseText(data,platform)
 		tree=wordTree(text_array=text_array,name="wordtree_"+platform,word=word,kind="ajax")
 
 	return HttpResponse(tree)
@@ -140,7 +145,7 @@ def word_cloud(request):
 		data = fileParser(filename)
 		
 		word = request.GET['keyword']
-		text_array=parseText(data)
+		text_array=parseText(data,platform)
 		(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_"+platform,keyword=word)
 		response_data={}
 		response_data['cloud']=cloud
