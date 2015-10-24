@@ -111,7 +111,8 @@ function renderGraph(data,div_name){
 
       xScale.domain(d3.extent(data, function(d) { return d.date; })); // extent = highest and lowest points, domain is data, range is bouding box
 
-      yScale.domain([0, 100
+      maxY=findMaxY(categories)
+      yScale.domain([0, maxY
         //d3.max(categories, function(c) { return d3.max(c.values, function(v) { return v.rating; }); })
       ]);
 
@@ -362,6 +363,7 @@ function renderGraph(data,div_name){
               return value.rating; })
           }
         });
+        // console.log(maxYValues)
         return d3.max(maxYValues);
         }
 }
