@@ -6,7 +6,7 @@ $(document).ready(function() {
 		    // var catid;
 		    pf="twitter"
 		    handle = $('#twitter-handle-name').html()
-		    comp_handle = $(this).html();
+		    comp_handle = $(this).find(".comp-fb-handle").text();
 		    $('#graph1-tw-loader').show();
 		    $.get('/main/graph_comp/',{handle_name:handle,comp_handle_name:comp_handle,platform:pf}, function(data){
 		               $('#graph1-twitter').html(data);
@@ -20,7 +20,7 @@ $(document).ready(function() {
 		    // var catid;
 		    pf="facebook"
 		    handle = $('#facebook-handle-name').html()
-		    comp_handle = $(this).html();
+		    comp_handle = $(this).find(".comp-fb-handle").text();
 		    $('#graph1-fb-loader').show();
 		    $.get('/main/graph_comp/',{handle_name:handle,comp_handle_name:comp_handle,platform:pf}, function(data){
 		               $('#graph1-facebook').html(data);

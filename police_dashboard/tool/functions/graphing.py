@@ -43,7 +43,6 @@ def chartD3Line(data,name,handle):
 	return div+script 
 
 def chartD3LineVS(data1,data2,name,handle1,handle2):
-	handle2=handle2[1:]
 
 	fb=['posts','likes','comments']
 	tw=['tweets','retweets','favs']

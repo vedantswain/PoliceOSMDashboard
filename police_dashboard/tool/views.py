@@ -39,9 +39,9 @@ def dashboard(request,handle):
 	comp_div_facebook1=""
 	pick_div=""
 	for key in comp_list_tw.keys():
-		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">'+comp_list_tw[key][0]+'</a></li>'
+		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">'+comp_list_tw[key][0]+'<div class="comp-fb-handle" style="display:none">'+key+'</div></a></li>'
 	for key in comp_list_fb.keys():
-		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">'+comp_list_fb[key][0]+'</a></li>'
+		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">'+comp_list_fb[key][0]+'<div class="comp-fb-handle" style="display:none">'+key+'</div></a></li>'
 		pick_div=pick_div+'<li><a class="pick-account" href="../'+key+'/">'+comp_list_fb[key][0]+'</a></li>'
 
 	word="why"
@@ -106,19 +106,40 @@ def graph_comp(request):
 	platform=request.GET['platform']
 	if request.method == 'GET':
 		handle = request.GET['handle_name']
-		filename1 = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
-		data1 = fileParser(filename1)
-		series1 = parseData(data1,filename1)
-		graph_data1=getGraphData(series1)
-		
 		comp_handle = request.GET['comp_handle_name']
-		filename2 = os.path.join(BASE_DIR, 'tool/data/tweets_'+comp_handle[1:]+'.json')
-		data2 = fileParser(filename2)
-		series2 = parseData(data2,filename2)
-		graph_data2=getGraphData(series2)
+			
+		series1={}
+		series2={}
+
+		if platform=="twitter":
+			(title,tw_handle)=getTitle(handle,"")
+			filename1 = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
+			data1 = fileParser(filename1)
+			series1 = parseData(data1,filename1)
+			
+			(title,tw_comp_handle)=getTitle(comp_handle,"")
+			filename2 = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_comp_handle+'.json')
+			data2 = fileParser(filename2)
+			series2 = parseData(data2,filename2)
+
+			handle=tw_handle
+			comp_handle=tw_comp_handle
+
+			# print handle+" "+comp_handle
+		else:
+			data_fb = getData(handle)
+			series1 = parseFBData(data_fb)
+
+			data_fb_comp = getData(comp_handle)
+			series2 = parseFBData(data_fb_comp)
+
+			# print handle+" "+comp_handle
+
+		graph_data1=getGraphData(series1,platform)
+		graph_data2=getGraphData(series2,platform)
 		
 		d3graph=chartD3LineVS(graph_data1,graph_data2,platform,handle,comp_handle)
-		print d3graph
+		# print d3graph
 	return HttpResponse(d3graph)
 
 def victimzn_tree(request):
@@ -127,8 +148,12 @@ def victimzn_tree(request):
 	if request.method == 'GET':
 		platform=request.GET['platform']
 		handle = request.GET['handle_name']
-		filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
-		data = fileParser(filename)
+		if platform=="twitter":
+			(title,tw_handle)=getTitle(handle,"")
+			filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
+			data = fileParser(filename)
+		else:
+			data = getData(handle)
 		word = request.GET['keyword']
 		text_array=parseText(data,platform)
 		tree=wordTree(text_array=text_array,name="wordtree_"+platform,word=word,kind="ajax")
@@ -141,9 +166,13 @@ def word_cloud(request):
 	if request.method == 'GET':
 		platform=request.GET['platform']
 		handle = request.GET['handle_name']
-		filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+handle+'.json')
-		data = fileParser(filename)
-		
+		if platform=="twitter":
+			(title,tw_handle)=getTitle(handle,"")
+			filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
+			data = fileParser(filename1)
+		else:
+			data = getData(handle)
+
 		word = request.GET['keyword']
 		text_array=parseText(data,platform)
 		(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_"+platform,keyword=word)
