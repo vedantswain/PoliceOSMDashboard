@@ -4,8 +4,6 @@ function renderGraph(data,div_name){
       id_suff="1"
     }
 
-    console.log(data)
-
     var margin = {top: 20, right: 200, bottom: 100, left: 50},
         margin2 = { top: 430, right: 10, bottom: 20, left: 40 },
         width = 960 - margin.left - margin.right,
@@ -246,9 +244,10 @@ function renderGraph(data,div_name){
               .style("stroke-width", 1.5);
           })
           
-      issue.append("text")
+      issue.append("foreignObject")
+          .attr("width", 100)
           .attr("x", width + (margin.right/3)) 
-          .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace); })  // (return (11.25/2 =) 5.625) + i * (5.625) 
+          .attr("y", function (d, i) { return (legendSpace)+i*(legendSpace-4); })  // (return (11.25/2 =) 5.625) + i * (5.625) 
           .text(function(d) { return d.name; }); 
 
       // Hover line 
