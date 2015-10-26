@@ -1,4 +1,4 @@
-import os,json
+import os,json,pymongo
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
@@ -9,7 +9,49 @@ from functions.title import getTitle,getComparisons,getKeywords
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the tool index.")
+	template = loader.get_template('tool/index.html')
+
+	client = pymongo.MongoClient()
+	db = client.FBPoliceData
+
+	html_data=[]
+
+	pages=[]
+
+	for i in db.page_names.find():
+		pages.append(i["page"])
+
+	pages.sort()
+
+	for page in pages:
+		datum={}
+		datum["fb_name"]=page
+		datum["dashlink"]="../main/dashboard/"+page+"/"
+		i = db.page_fields.find_one({"username":page})
+		# print str(type(i))+" "+page
+		if i is None:
+			continue
+
+		if "website" in i.keys():
+			datum["website"]=i["website"]
+		else:
+			datum["website"]=""
+		
+		datum["link"]=i["link"]
+		datum["name"]=i["name"]
+
+		if "cover" in i.keys():
+			datum["cover"]=i["cover"]["source"]
+		else:
+			datum["cover"]=""
+
+		html_data.append(datum)
+
+	context = RequestContext(request, {
+		'police_dept_items':html_data
+		})
+
+	return HttpResponse(template.render(context))
 
 def dashboard(request,handle):
 	template = loader.get_template('tool/basic.html')

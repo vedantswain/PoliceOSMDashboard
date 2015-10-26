@@ -43,7 +43,7 @@ def getComparisons(handle,platform):
 	return output_handles
 
 def getKeywords(keyword):
-	keywords=["worried","why","want","need"]
+	keywords=["worried","why","want","need","how can","where","fear","trouble","notice of","issue"]
 	keywords.remove(keyword)
 	return keywords
 

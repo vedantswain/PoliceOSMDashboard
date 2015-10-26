@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title>Police OSN</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- Bootstrap -->
+   <link href="{% static 'tool/css/bootstrap.min.css' %}" rel="stylesheet">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+   <link rel="stylesheet" type="text/css" href="{% static 'tool/css/basic.css' %}">
+</head>
+<body style="padding-top: 20px;">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">Police OSN</a>
+	      <p class="navbar-text">Analysing social presence of Police departments all over India</p>
+	    </div>
+	</div>
+	</nav>
+	<div class="jumbotron">
+		<div class="container">
+         	<div class="tab-content">
+        		<div id="home" class="tab-pane fade in active">
+        			{% for dept in police_dept_items %}
+		            <div class="col-md-4 col-sm-6 hero-feature">
+		            	<a href={{dept.dashlink}} style="text-decoration:none;">
+		                <div class="thumbnail">
+		                	<div class="image-container" style="height:120px;">
+		                    	<img src={{dept.cover}} style="max-height:128;max-width: 100%;height: auto; position: absolute; clip: rect(0px,340px,126px,0px);" alt="" >
+		                    </div>
+		                    <div class="caption" style="width:90%; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+		                        <h3 style="font-size:18px">{{dept.name}}</h3>
+		                        <ul class="fa-ul">
+		                        	<li>
+		                        		<i class="fa fa-facebook-official"></i>  <a class="fb-name" href={{dept.link}}>{{dept.fb_name}}</a>
+		                        	</li>
+		                  			<li >
+		                  				<i class="fa fa fa-external-link"></i>  <a href={{dept.website}} >{{dept.website}}</a>
+		                  			</li>
+		                         </ul>                          
+		                    </div>
+		                </div>
+		                </a>
+		            </div>
+		            {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="{% static 'tool/js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

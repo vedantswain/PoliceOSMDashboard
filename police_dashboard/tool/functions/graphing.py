@@ -72,9 +72,9 @@ def wordTree(text_array,name,word,kind="norm"):
 
 	extra2=""
 
-	if len(text_array)>700:
+	if len(text_array)>200:
 		random.shuffle(text_array)
-		text_array=text_array[:700]
+		text_array=text_array[:200]
 
 	if kind=='ajax':
 		function_call="drawChart()"
