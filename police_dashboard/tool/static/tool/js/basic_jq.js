@@ -1,5 +1,7 @@
 $(document).ready(function() {
         // JQuery code to be added in here.
+        $(".help-popover").popover();
+
         $('#menu1').addClass('active')
 
         $('.compare-to-graph1-twitter').click(function(){

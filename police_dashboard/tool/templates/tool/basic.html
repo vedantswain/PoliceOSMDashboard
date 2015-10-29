@@ -77,7 +77,36 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_1">
-                       Analytics</a>
+                       Analytics <a href="#" title="Header" data-toggle="modal"  data-target="#fb-analytics-Modal"><i class="fa fa-question-circle " ></i></a> 
+
+                       <div id="fb-analytics-Modal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                          <!-- Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">Analytics</h4>
+                              <h6>An interactive multiseries visualisation that shows the number of posts, likes and comments over time</h6>
+                            </div>
+                            <div class="modal-body">
+                              <p style="font-size=medium;">Analyse the posts on your page by your audience in terms of count, likes and comments. Features of this chart that you may like to be aware of are: </p>
+                              <ul>
+                                <li>Hovering over the graph shows you the date as well as the number of posts, likes and comments for that point. You can see these values near the legend</li>
+                                <li>Selecting the legend tile you can focus attention to a parameter of your choosing</li>
+                                <li>Clicking and dragging the finder below the graph allows you to zoom and pan to specific points in time</li>
+                                <li>Compare your audience traffic with another police dept by clicking "Compare to"</li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                     </a>
                     </h4>
                  </div>
                  <div id="collapse2_1" class="panel-collapse collapse in">
@@ -98,6 +127,7 @@
                           <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" href="#collapse_{{ only.name }}">Only {{only.name}} </a>
+                              <a class="help-popover"href="#" data-toggle="popover"  data-trigger="hover" data-content="Specifically analyse the number of {{ only.name }} over time"><i class="fa fa-question-circle " ></i>
                             </h4>
                           </div>
                           <div id="collapse_{{ only.name }}" class="panel-collapse collapse">
@@ -114,7 +144,32 @@
                 <div class="panel-heading">
                   <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_2">
-                       Victimisation Tree</a>
+                       Accountability Tree<a href="#" title="Header" data-toggle="modal"  data-target="#fb-accountability-Modal"><i class="fa fa-question-circle " ></i></a> 
+
+                       <div id="fb-accountability-Modal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                          <!-- Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">Accountability Tree</h4>
+                              <h6>An interactive word tree to illustrate the use of certian keywords by the audience.</h6>
+                            </div>
+                            <div class="modal-body">
+                              <p style="font-size=medium;">Understand what the trends in the content of your audience's posts. Features of this tree that you may like to be aware of are: </p>
+                              <ul>
+                                <li>Clicking a word would focus the tree further</li>
+                                <li>Change the base word of the tree by clicking on "Change keyword"</li>
+                              </ul>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
                     </h4>
                  </div>
                  <div id="collapse2_2" class="panel-collapse collapse in">
