@@ -1,8 +1,9 @@
 function renderGraph(data,div_name){
-    id_suff="2"
-    if (div_name=="#graph_fb"){
-      id_suff="1"
-    }
+    // id_suff="2"
+    // if (div_name=="#graph_fb"){
+    //   id_suff="1"
+    // }
+    id_suff=div_name.substring(1,div_name.length);
 
     var margin = {top: 20, right: 200, bottom: 100, left: 50},
         margin2 = { top: 430, right: 10, bottom: 20, left: 40 },
@@ -150,6 +151,35 @@ function renderGraph(data,div_name){
         .attr("height", height2) // Make brush rects same height 
           .attr("fill", "#E6E7E8");  
       //end slider part-----------------------------------------------------------------------------------
+
+      //for click drag slider part-----------------------------------------------------------------------------------
+
+      // // Draw transparent rectangle and zoom on mouseup
+      // var brush_new = d3.svg.brush()
+      //   .x(xScale)
+      //   .y(yScale)
+      //   .on("brushend", brushed_new);
+
+      // svg.append("g")
+      //   .attr('class', 'brush_new')
+      //   .call(brush_new)
+      //   .selectAll("rect")
+      //   .style('fill-opacity', 0.5)
+      //   .style('fill', '#E6E7E8');
+
+      // //Reset to original graph from Zoomed view
+
+      // d3.select('#resetbtn').on('click', function(e) {
+
+
+      //   d3.event.preventDefault();
+
+      //   reset();
+      //   clearBrush();
+      // });
+
+      //end click drag slider part-----------------------------------------------------------------------------------
+
 
       // draw line graph
       svg.append("g")
@@ -368,4 +398,50 @@ function renderGraph(data,div_name){
         // console.log(maxYValues)
         return d3.max(maxYValues);
         }
+
+    //for new brusher of the slider bar at the bottom
+    function brushed_new() {
+
+        console.log('brush_new', brush_new.extent());
+        
+        var extent = brush_new.extent();
+
+        yScale.domain([extent[0][1], extent[1][1]]);
+        svg.select(".y.axis") // Redraw yAxis
+          .transition()
+          .call(yAxis);   
+        
+        xScale.domain([extent[0][0], extent[1][0]]);
+        svg.select(".x.axis") // replot xAxis with transition when brush used
+          .transition()
+          .call(xAxis);
+
+        issue.select("path") // Redraw lines based on brush xAxis scale and domain
+        .transition()
+        .attr("d", function(d){
+            return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+        });
+       
+        brush_new.clear();
+        
+        svg.select('.brush_new').call(brush_new);
+      
+    }; 
+
+    function reset() {
+      xScale.domain(xScale2.domain());
+
+      yScale.domain([0, maxY]);
+
+      issue.select("path") // Redraw lines based on brush xAxis scale and domain
+        .transition()
+        .attr("d", function(d){
+            return d.visible ? line(d.values) : null; // If d.visible is true then draw line for this d selection
+        });
+    }
+
+    function clearBrush(g) {
+      d3.selectAll("g.brush").call(this.brush_new.clear());
+    }           
+
 }

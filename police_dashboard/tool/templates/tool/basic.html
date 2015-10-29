@@ -92,6 +92,20 @@
                     <img id="graph1-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                      <div id="graph1-facebook">
                         {% autoescape off %}{{ graph_facebook }}{% endautoescape %}
+                        {% for only in graph_facebook_items %}
+                        <div class="panel-group" style="margin-top:20px">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" href="#collapse_{{ only.name }}">Only {{only.name}} </a>
+                            </h4>
+                          </div>
+                          <div id="collapse_{{ only.name }}" class="panel-collapse collapse">
+                            {% autoescape off %}{{ only.graph }}{% endautoescape %}
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
                      </div>
                   </div>
                   </div>
@@ -171,6 +185,20 @@
                      <img id="graph1-tw-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                      <div id="graph1-twitter">
                         {% autoescape off %}{{ graph_tweets }}{% endautoescape %}
+                        {% for only in graph_twitter_items %}
+                        <div class="panel-group" style="margin-top:20px">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" href="#collapse_{{ only.name }}">Only {{only.name}} </a>
+                            </h4>
+                          </div>
+                          <div id="collapse_{{ only.name }}" class="panel-collapse collapse">
+                            {% autoescape off %}{{ only.graph }}{% endautoescape %}
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
                      </div>
                    </div>
                   </div>

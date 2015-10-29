@@ -21,6 +21,21 @@ def getDashed(content):
 	content=content.replace(replace_str,script_added)
 	return content
 
+def onlySpecificLine(data,name,handle,only):
+	div='<div id="graph'+'_'+name+'_'+only+'"></div>\n'
+	script='<script>\nvar data = [\n'
+
+	for key in data.keys():
+		# print data[key].keys()
+		# break
+		date=tm.strftime('%Y-%m-%d', tm.localtime(key))
+		script+='{date:"'+date+'", "'+only+'": '+str(data[key][only])+'},\n' 
+    
+	script=script[:-2]
+	script+='\n];\nrenderGraph(data,"#graph'+'_'+name+'_'+only+'")\n</script>'
+
+	return div+script
+
 def chartD3Line(data,name,handle):
 	fb=['posts','likes','comments']
 	tw=['tweets','retweets','favs']

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from functions.json_parser import fileParser,getData
-from functions.graphing import parseData,parseFBData,chartD3Line,chartD3LineVS,wordTree,parseText,wordCloud,getGraphData
+from functions.graphing import parseData,parseFBData,chartD3Line,chartD3LineVS,wordTree,parseText,wordCloud,getGraphData,onlySpecificLine
 from functions.title import getTitle,getComparisons,getKeywords
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -68,14 +68,13 @@ def dashboard(request,handle):
 	data_fb = getData(handle)
 	series = parseFBData(data_fb)
 	graph_data_fb=getGraphData(series,"facebook")
-	
-	d3graph_tw=chartD3Line(graph_data_tw,"tw",tw_handle)
-	d3graph_fb=chartD3Line(graph_data_fb,"fb",handle)
 
 	# print "GRAPH HERE"
 	# print d3graph
 
 	### line graphs
+	d3graph_tw=chartD3Line(graph_data_tw,"tw",tw_handle)
+	d3graph_fb=chartD3Line(graph_data_fb,"fb",handle)
 	comp_list_tw=getComparisons(handle=handle,platform="twitter")
 	comp_list_fb=getComparisons(handle=handle,platform="facebook")
 	comp_div_twitter1=""
@@ -86,6 +85,24 @@ def dashboard(request,handle):
 	for key in comp_list_fb.keys():
 		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">'+comp_list_fb[key][0]+'<div class="comp-fb-handle" style="display:none">'+key+'</div></a></li>'
 		pick_div=pick_div+'<li><a class="pick-account" href="../'+key+'/">'+comp_list_fb[key][0]+'</a></li>'
+
+	### singular graphs
+	fb=['posts','likes','comments']
+	tw=['tweets','retweets','favs']
+
+	graph_facebook_items=[]
+	for only in fb:
+		graph_facebook_datum={}
+		graph_facebook_datum["name"]=only
+		graph_facebook_datum["graph"]=onlySpecificLine(graph_data_fb,"fb",handle,only)
+		graph_facebook_items.append(graph_facebook_datum)
+
+	graph_twitter_items=[]
+	for only in tw:
+		graph_twitter_datum={}
+		graph_twitter_datum["name"]=only
+		graph_twitter_datum["graph"]=onlySpecificLine(graph_data_tw,"tw",handle,only)
+		graph_twitter_items.append(graph_twitter_datum)
 
 	### wordtree
 	word="why"
@@ -145,6 +162,8 @@ def dashboard(request,handle):
 		'pick_account':pick_div,
 		'graph_tweets':d3graph_tw,
 		'graph_facebook':d3graph_fb,
+		'graph_facebook_items': graph_facebook_items,
+		'graph_twitter_items': graph_twitter_items,
 		'graph_tree_twitter':tree_tw,
 		'graph_tree_facebook':tree_fb,
 		'twitter_handle':handle,
