@@ -75,7 +75,6 @@ def dashboard(request,handle):
 	# print "GRAPH HERE"
 	# print d3graph
 
-	### line graphs
 	comp_list_tw=getComparisons(handle=handle,platform="twitter")
 	comp_list_fb=getComparisons(handle=handle,platform="facebook")
 	comp_div_twitter1=""
@@ -87,7 +86,6 @@ def dashboard(request,handle):
 		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">'+comp_list_fb[key][0]+'<div class="comp-fb-handle" style="display:none">'+key+'</div></a></li>'
 		pick_div=pick_div+'<li><a class="pick-account" href="../'+key+'/">'+comp_list_fb[key][0]+'</a></li>'
 
-	### wordtree
 	word="why"
 	keyList=getKeywords(keyword=word)
 	key_div_twitter1=""
@@ -101,7 +99,6 @@ def dashboard(request,handle):
 	tree_tw=wordTree(text_array=text_array_tw,name="wordtree_twitter",word=word)
 	tree_fb=wordTree(text_array=text_array_fb,name="wordtree_facebook",word=word)
 
-	### wordcloud
 	if len(text_array_tw)>0:
 		(cloud_tw,cloud_list_tw)=wordCloud(text_array=text_array_tw,name="wordcloud_twitter")
 	else:
@@ -114,57 +111,25 @@ def dashboard(request,handle):
 		cloud_fb=""
 		cloud_list_fb=[]
 
-	### cover images and details
-	client = pymongo.MongoClient()
-	db = client.FBPoliceData
-	page_info=db.page_fields.find_one({"page": handle})
-	if "cover" in page_info.keys():
-		cover_image_src=page_info["cover"]["source"]
-	else:
-		cover_image_src=""
-
-	if "website" in page_info.keys():
-		website=page_info["website"]
-	else:
-		website=""
-	
-	if "phone" in page_info.keys():
-		fb_phone=page_info["phone"]
-	else:
-		fb_phone=""
-
-	fb_link=page_info["link"]
-	fb_name=page_info["page"]
-	fb_likes=str(page_info["likes"])+" likes"
-	fb_checkins=str(page_info["checkins"])+" checkins"
-	
-	
 	context = RequestContext(request, {
-		'cover_image': cover_image_src,
-		'dashboard_name': title,
-		'pick_account':pick_div,
-		'graph_tweets':d3graph_tw,
-		'graph_facebook':d3graph_fb,
-		'graph_tree_twitter':tree_tw,
-		'graph_tree_facebook':tree_fb,
-		'twitter_handle':handle,
-		'facebook_handle':handle,
-		'compare_to_graph1_twitter':comp_div_twitter1,
-		'compare_to_graph1_facebook':comp_div_facebook1,
-		'victimisation_twitter':key_div_twitter1,
-		'victimisation_facebook':key_div_facebook1,
-		'victim_current_key_twitter':word,
-		'victim_current_key_facebook':word,
-		'wordcloud_twitter':cloud_tw,
-		'wordcloud_twitter_list':cloud_list_tw,
-		'wordcloud_facebook':cloud_fb,
-		'wordcloud_facebook_list':cloud_list_fb,
-		'dept_fb_name':fb_name,
-		'dept_link':fb_link,
-		'dept_website':website,
-		'dept_phone':fb_phone,
-		'dept_likes':fb_likes,
-		'dept_checkins':fb_checkins,
+	    'dashboard_name': title+" Dashboard",
+	    'pick_account':pick_div,
+	    'graph_tweets':d3graph_tw,
+	    'graph_facebook':d3graph_fb,
+	    'graph_tree_twitter':tree_tw,
+	    'graph_tree_facebook':tree_fb,
+	    'twitter_handle':handle,
+	    'facebook_handle':handle,
+	    'compare_to_graph1_twitter':comp_div_twitter1,
+	    'compare_to_graph1_facebook':comp_div_facebook1,
+	    'victimisation_twitter':key_div_twitter1,
+	    'victimisation_facebook':key_div_facebook1,
+	    'victim_current_key_twitter':word,
+	    'victim_current_key_facebook':word,
+	    'wordcloud_twitter':cloud_tw,
+	    'wordcloud_twitter_list':cloud_list_tw,
+	    'wordcloud_facebook':cloud_fb,
+	    'wordcloud_facebook_list':cloud_list_fb
 	})
 
 	return HttpResponse(template.render(context))

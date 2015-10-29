@@ -8,7 +8,6 @@
    <link href="{% static 'tool/css/bootstrap.min.css' %}" rel="stylesheet">
    <link rel="stylesheet" type="text/css" href="{% static 'tool/css/basic.css' %}">
    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.css" rel="stylesheet" />
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
    <script src="{% static 'tool/js/d3.min.js' %}"></script>
    <script src="{% static 'tool/js/m_graph.js' %}"></script>
    <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script> -->
@@ -22,51 +21,23 @@
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="../../home/">Police OSN</a>
+        <a class="navbar-brand" href="#">{{ dashboard_name }}</a>
       </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Change Dept <span class="caret"></span></a>
-          <ul class="dropdown-menu scrollable-menu" style="height:400px; overflow:scroll">
-               {% autoescape off %}{{ pick_account }}{% endautoescape %}
-          </ul>
-        </li>
-      </ul>
-    </div>
     </div>
   </nav>
-  <div class="thumbnail clearfix" style="margin-bottom:0px;margin-top:20px; padding-right:15px; padding-left:15px;margin-right: 70px; margin-left: 70px;">
-      <div class="image-container pull-left" style="height:240px;">
-        <img src={{ cover_image }} style="width: 800px;height: auto; position: absolute; clip: rect(0px,800px,240px,0px);" alt="" >
-      </div>
-      <div class="caption pull-right" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
-          <h3 style="font-size:18px">{{dashboard_name}}</h3>
-          <ul class="fa-ul">
-            <li>
-              <i class="fa fa-facebook-official"></i>  <a class="fb-name" href={{dept_link}}>{{dept_fb_name}}</a>
-            </li>
-            <li >
-              <i class="fa fa fa-external-link"></i>  <a href={{dept_website}} >{{dept_website}}</a>
-            </li>
-            <li >
-              <i class="fa fa fa-phone"></i>  {{dept_phone}}
-            </li>
-            <li >
-              <i class="fa fa fa-thumbs-o-up"></i>  {{dept_likes}}
-            </li>
-            <li >
-              <i class="fa fa fa-location-arrow"></i>  {{dept_checkins}}
-            </li>
-           </ul>
-      </div>
-  </div>
    <div class="jumbotron">
      <div class="container">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Change Dept
+             <span class="caret"></span></button>
+             <ul class="dropdown-menu" style="height:400px; overflow:scroll">
+               {% autoescape off %}{{ pick_account }}{% endautoescape %}
+            </ul>
+         </div>
 
          <ul class="nav nav-tabs">
-          <li class="active" style="width:50%"><a class="text-center" data-toggle="pill" href="#home">Facebook</a></li>
-          <li style="width:50%"><a class="text-center" data-toggle="pill" href="#menu1">Twitter</a></li>
+          <li class="active"><a data-toggle="pill" href="#home">Facebook</a></li>
+          <li><a data-toggle="pill" href="#menu1">Twitter</a></li>
          </ul>
 
        <div class="tab-content">

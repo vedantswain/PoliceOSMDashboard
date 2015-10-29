@@ -1,3 +1,17 @@
+body{
+  background-color: #eee;
+}
+
+.jumbotron {
+  padding-top: 20px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
 .dropdown {
     float: right;
 }
