@@ -87,9 +87,17 @@ def wordTree(text_array,name,word,kind="norm"):
 
 	extra2=""
 
-	if len(text_array)>200:
+	new_text_arr=[]
+
+	for text in text_array:
+		if word in text:
+			new_text_arr.append(text)
+
+	text_array=new_text_arr
+
+	if len(text_array)>25:
 		random.shuffle(text_array)
-		text_array=text_array[:200]
+		text_array=text_array[:25]
 
 	if kind=='ajax':
 		function_call="drawChart()"
@@ -182,6 +190,41 @@ def wordCloud(text_array,name,keyword=""):
 
 	return (img_tag,list_html)
 
+def wordTreeActual(all_data,word,platform):
+	inject=""
+
+	extra2=""
+
+	random.shuffle(all_data)
+
+	actual_posts=[]
+	if platform=="twitter":
+		for data in all_data:
+			actual_post={}
+			text=data['text']
+			if 'RT' in text:
+				continue
+			if word in text:
+				actual_post['text']=text
+				# actual_post['from']=data['screen_name']
+				actual_post['link']=data['url']
+				actual_posts.append(actual_post)
+	else:
+		for data in all_data:
+			actual_post={}
+			if 'message' not in data.keys():
+				continue
+			text=data['message']
+			if "connect.facebook.net" in text:
+				# print "skipping\n"+text
+				continue
+			if word in text:
+				actual_post['text']=text
+				# actual_post['from']=data['screen_name']
+				actual_post['link']='https://www.facebook.com/'+data['id']
+				actual_posts.append(actual_post)
+
+	return actual_posts
 
 def parseText(all_data,platform):
 	text_array=[]

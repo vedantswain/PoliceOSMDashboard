@@ -70,6 +70,37 @@ $(document).ready(function() {
 		    return false;
 		});
 
+		// $('.victimzn-key-twitter').click(function(){
+		//     // var catid;
+		//     pf="twitter"
+		//     handle = $('#twitter-handle-name').html()
+		// 	var old_key = $('#victimzn-curr-key-twitter').html()
+		// 	// console.log(old_key)
+		//     var key = $(this).html();
+		//     var mObj = $(this)
+		//     $('#graph2-tw-loader').show();
+		//     $.get('/main/victimisation_tree/',{handle_name:handle,keyword:key,platform:pf}, function(data){
+		//                $('#graph2-twitter').html(data);
+		//                // $('#likes').hide();
+		//                $('#graph2-tw-loader').hide();
+		//                mObj.html(old_key);
+		//     		   $('#victimzn-curr-key-twitter').html(key);
+		//            });
+		//     return false;
+		// });
+		$('#fb-actual-posts-Modal').on('shown.bs.modal', function() {
+		    pf="facebook"
+		    handle = $('#facebook-handle-name').html()
+			var old_key = $('#victimzn-curr-key-facebook').html()
+			var key = old_key
+		    $.get('/main/victimisation_actual/',{handle_name:handle,keyword:key,platform:pf}, function(data){
+		               $('#actual-posts-modal-body').html(data);
+		               // $('#likes').hide();
+		               // $('#graph2-fb-loader').hide();
+		           });
+		    return false;
+		})
+
 		$('.cloud-key-wordcloud_facebook').click(function(){
 		    // var catid;
 		    console.log("clicked")

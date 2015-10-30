@@ -3,7 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from functions.json_parser import fileParser,getData
-from functions.graphing import parseData,parseFBData,chartD3Line,chartD3LineVS,wordTree,parseText,wordCloud,getGraphData,onlySpecificLine
+from functions.graphing import parseData,parseFBData,chartD3Line,chartD3LineVS,wordTree,wordTreeActual
+from functions.graphing import parseText,wordCloud,getGraphData,onlySpecificLine
 from functions.title import getTitle,getComparisons,getKeywords
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -255,6 +256,34 @@ def victimzn_tree(request):
 		tree=wordTree(text_array=text_array,name="wordtree_"+platform,word=word,kind="ajax")
 
 	return HttpResponse(tree)
+
+def victimzn_actual(request):
+	context =RequestContext(request)
+	handle=""
+	if request.method == 'GET':
+		platform=request.GET['platform']
+		handle = request.GET['handle_name']
+		if platform=="twitter":
+			(title,tw_handle)=getTitle(handle,"")
+			filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
+			data = fileParser(filename)
+		else:
+			data = getData(handle)
+		word = request.GET['keyword']
+		# text_array=parseText(data,platform)
+		actuals=wordTreeActual(all_data=data,platform=platform,word=word)
+
+	### build grid
+	entries=""
+	for item in actuals:
+		item["text"]=item["text"].replace(word,"<b>"+word+"</b>")
+		entry='<div class=row style="margin-bottom:10px;padding-bottom:10px;border-bottom:1pt solid #eee !important;">\n'
+		entry+='<div class="col-sm-8" style="height:100px; text-overflow:ellipsis;overflow: hidden;">'+item["text"]+'</div>\n'
+		entry+='<div class="col-sm-4"><a href="'+item["link"]+'">View complete text on '+platform+'</a></div>\n'
+		entry+="</div>\n"
+		entries+=entry
+
+	return HttpResponse(entries)
 
 def word_cloud(request):
 	context =RequestContext(request)

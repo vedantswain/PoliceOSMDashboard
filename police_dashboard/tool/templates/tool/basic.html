@@ -157,6 +157,7 @@
                            {% autoescape off %}{{ victimisation_facebook }}{% endautoescape %}
                         </ul>
                      </div>
+                     <button id="fb-actual-posts-btn" type="button" class="btn btn-default" data-toggle="modal"  data-target="#fb-actual-posts-Modal" style="float:right; margin-right:10px">See actual posts</button>
                      <img id="graph2-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                      <div id="victimzn-curr-key-facebook" style="display:none">{{ victim_current_key_facebook }}</div>
                      <div id="graph2-facebook">
@@ -365,6 +366,25 @@
                 <li>Clicking a word would focus the tree further</li>
                 <li>Change the base word of the tree by clicking on "Change keyword"</li>
               </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+       <div id="fb-actual-posts-Modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Actual Posts</h4>
+            </div>
+            <div class="modal-body" id="actual-posts-modal-body">
+              <img id="actual-posts-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:block">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
