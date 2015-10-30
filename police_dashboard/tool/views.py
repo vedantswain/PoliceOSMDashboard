@@ -29,15 +29,25 @@ def index(request):
 		datum["fb_name"]=page
 		datum["dashlink"]="../main/dashboard/"+page+"/"
 		i = db.page_fields.find_one({"username":page})
+		j = db.page_names.find_one({"page":page})
 		# print str(type(i))+" "+page
 		if i is None:
 			continue
+		
+		# print i
 
 		if "website" in i.keys():
 			datum["website"]=i["website"]
 		else:
 			datum["website"]=""
 		
+		if "handle" in j.keys():
+			datum["twitter"]=j["handle"]
+			datum["tw_link"]="https://twitter.com/"+j["handle"]
+		else:
+			datum["twitter"]=""
+			datum["twlink"]=""
+
 		datum["link"]=i["link"]
 		datum["name"]=i["name"]
 
@@ -151,6 +161,14 @@ def dashboard(request,handle):
 	else:
 		fb_phone=""
 
+	j = db.page_names.find_one({"page":handle})
+	if "handle" in j.keys():
+		tw_name=j["handle"]
+		tw_link="https://twitter.com/"+j["handle"]
+	else:
+		tw_name=""
+		tw_link=""
+
 	fb_link=page_info["link"]
 	fb_name=page_info["page"]
 	fb_likes=str(page_info["likes"])+" likes"
@@ -181,6 +199,8 @@ def dashboard(request,handle):
 		'wordcloud_facebook_list':cloud_list_fb,
 		'dept_fb_name':fb_name,
 		'dept_link':fb_link,
+		'dept_tw_name':tw_name,
+		'dept_tw_link':tw_link,
 		'dept_website':website,
 		'dept_phone':fb_phone,
 		'dept_likes':fb_likes,

@@ -50,6 +50,9 @@
               <i class="fa fa fa-external-link"></i>  <a href={{dept_website}} >{{dept_website}}</a>
             </li>
             <li >
+              <i class="fa fa fa-twitter"></i>  <a href={{dept_tw_link}} >{{dept_tw_name}}</a>
+            </li>
+            <li >
               <i class="fa fa fa-phone"></i>  {{dept_phone}}
             </li>
             <li >
@@ -118,6 +121,7 @@
                            {% autoescape off %}{{ compare_to_graph1_facebook }}{% endautoescape %}
                         </ul>
                      </div>
+                     <span class="label label-info" style="float:right;margin-right:70px">Click legend to add/remove series</span>
                     <img id="graph1-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                      <div id="graph1-facebook">
                         {% autoescape off %}{{ graph_facebook }}{% endautoescape %}
@@ -157,6 +161,7 @@
                            {% autoescape off %}{{ victimisation_facebook }}{% endautoescape %}
                         </ul>
                      </div>
+                     <span class="label label-info" style="">Click a word to analyse specific branch</span>
                      <button id="fb-actual-posts-btn" type="button" class="btn btn-default" data-toggle="modal"  data-target="#fb-actual-posts-Modal" style="float:right; margin-right:10px">See actual posts</button>
                      <img id="graph2-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                      <div id="victimzn-curr-key-facebook" style="display:none">{{ victim_current_key_facebook }}</div>
@@ -180,6 +185,7 @@
                   <div class="panel-body">
                       <div class="container">
                         <div class="row">
+                          <span class="label label-info" style="float: right;margin-right: 20px;">Change focus word on click</span>
                           <img id="graph3-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                             <div class="col-xs-6">
                               <div id="graph3-facebook">
@@ -246,6 +252,7 @@
                            {% autoescape off %}{{ compare_to_graph1_twitter }}{% endautoescape %}
                         </ul>
                      </div>
+                     <span class="label label-info" style="float:right;margin-right:70px">Click legend to add/remove series</span>
                      <img id="graph1-tw-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                      <div id="graph1-twitter">
                         {% autoescape off %}{{ graph_tweets }}{% endautoescape %}
@@ -285,6 +292,7 @@
                            {% autoescape off %}{{ victimisation_twitter }}{% endautoescape %}
                         </ul>
                      </div>
+                     <span class="label label-info" style="">Click a word to analyse specific branch</span>
                      <button id="tw-actual-posts-btn" type="button" class="btn btn-default" data-toggle="modal"  data-target="#tw-actual-posts-Modal" style="float:right; margin-right:10px">See actual tweets</button>
                      <img id="graph2-tw-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                      <div id="victimzn-curr-key-twitter" style="display:none">{{ victim_current_key_twitter }}</div>
@@ -306,6 +314,7 @@
                   <div class="panel-body">
                     <div class="container">
                         <div class="row">
+                        <span class="label label-info" style="float: right;margin-right: 20px;">Change focus word on click</span>
                           <img id="graph3-tw-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                             <div class="col-xs-6">
                               <div id="graph3-twitter">
