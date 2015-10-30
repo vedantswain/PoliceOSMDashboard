@@ -207,7 +207,7 @@ def wordTreeActual(all_data,word,platform):
 			if word in text:
 				actual_post['text']=text
 				# actual_post['from']=data['screen_name']
-				actual_post['link']=data['url']
+				actual_post['link']="https://twitter.com/statuses/"+str(data['id'])
 				actual_posts.append(actual_post)
 	else:
 		for data in all_data:
