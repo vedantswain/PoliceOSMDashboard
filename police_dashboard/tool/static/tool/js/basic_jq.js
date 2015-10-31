@@ -4,6 +4,17 @@ $(document).ready(function() {
 
         $('#menu1').addClass('active')
 
+  //       $('#collapse_posts').on('show.bs.collapse', function () {
+  //      		//call a service here 
+  //      		// console.log("")
+  //      		$("#graph_fb_posts").height(300);
+		// });
+        // $('#collapse_likes').removeClass('in')
+        // $('#collapse_comments').removeClass('in')
+        // $('#collapse_tweets').removeClass('in')
+        // $('#collapse_retweets').removeClass('in')
+        // $('#collapse_favs').removeClass('in')
+
         $('.compare-to-graph1-twitter').click(function(){
 		    // var catid;
 		    pf="twitter"
@@ -80,7 +91,7 @@ $(document).ready(function() {
 		           });
 		    return false;
 		});
-		
+
 		$('#fb-actual-posts-Modal').on('shown.bs.modal', function() {
 		    pf="facebook"
 		    handle = $('#facebook-handle-name').html()

@@ -22,7 +22,7 @@ def getDashed(content):
 	return content
 
 def onlySpecificLine(data,name,handle,only):
-	div='<div id="graph'+'_'+name+'_'+only+'"></div>\n'
+	div='<div id="graph'+'_'+name+'_'+only+'" style="height:300px;width:960px;"></div>\n'
 	script='<script>\nvar data = [\n'
 
 	for key in data.keys():
@@ -32,7 +32,11 @@ def onlySpecificLine(data,name,handle,only):
 		script+='{date:"'+date+'", "'+only+'": '+str(data[key][only])+'},\n' 
     
 	script=script[:-2]
-	script+='\n];\nrenderGraph(data,"#graph'+'_'+name+'_'+only+'")\n</script>'
+	script+='\n];\n'
+	# script+='function callRender'+'_'+name+'_'+only+'(){\n'
+	script+='renderGraph(data,"graph'+'_'+name+'_'+only+'","#collapse_'+only+'")\n'
+	# script+='}\n'
+	script+='</script>'
 
 	return div+script
 
@@ -45,7 +49,7 @@ def chartD3Line(data,name,handle):
 	else:
 		osn=tw
 
-	div='<div id="graph'+'_'+name+'"></div>\n'
+	div='<div id="graph'+'_'+name+'" style="height:500px;width:960px;"></div>\n'
 	script='<script>\nvar data = [\n'
 
 	for key in data.keys():
@@ -53,7 +57,7 @@ def chartD3Line(data,name,handle):
 		script+='{date:"'+date+'", "'+handle+' '+osn[0]+'": '+str(data[key][osn[0]])+', "'+handle+' '+osn[1]+'": '+str(data[key][osn[1]])+', "'+handle+' '+osn[2]+'": '+str(data[key][osn[2]])+'},\n' 
     
 	script=script[:-2]
-	script+='\n];\nrenderGraph(data,"#graph'+'_'+name+'")\n</script>'
+	script+='\n];\nrenderGraph(data,"graph'+'_'+name+'","")\n</script>'
 
 	return div+script 
 
@@ -69,7 +73,7 @@ def chartD3LineVS(data1,data2,name,handle1,handle2):
 
 	data=mergeData(data1,data2,osn) ### merges both dictionaries into a single one to ensure dates are correct
 
-	div='<div id="graph'+'_'+name+'"></div>\n'
+	div='<div id="graph'+'_'+name+'" style="height:500px;width:960px;"></div>\n'
 	script='<script>\nvar data = [\n'
 
 	for key in data.keys():
@@ -78,7 +82,7 @@ def chartD3LineVS(data1,data2,name,handle1,handle2):
 		script+=', "'+handle2+' '+osn[0]+'": '+str(data[key][osn[0]+'_2'])+', "'+handle2+' '+osn[1]+'": '+str(data[key][osn[1]+'_2'])+', "'+handle2+' '+osn[2]+'": '+str(data[key][osn[2]+'_2'])+'},\n' 
     
 	script=script[:-2]
-	script+='\n];\nrenderGraph(data,"#graph'+'_'+name+'")\n</script>'
+	script+='\n];\nrenderGraph(data,"graph'+'_'+name+'","")\n</script>'
 
 	return div+script 
 

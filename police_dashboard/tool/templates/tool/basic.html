@@ -10,9 +10,12 @@
    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.css" rel="stylesheet" />
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
    <script src="{% static 'tool/js/d3.min.js' %}"></script>
-   <script src="{% static 'tool/js/m_graph.js' %}"></script>
+   <script src="{% static 'tool/js/am_graph.js' %}"></script>
    <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script> -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.js"></script>
+   <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="http://www.amcharts.com/lib/3/serial.js"></script>
+  <script src="http://www.amcharts.com/lib/3/themes/light.js"></script>
    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
    <script type="text/javascript">
      google.load("visualization", "1.1", {packages:["wordtree"]});
@@ -75,12 +78,13 @@
        <div class="tab-content">
          <div id="home" class="tab-pane fade in active">
           <div id="facebook-handle-name" style="display:none">{{ facebook_handle }}</div>
-            <div class="panel-group" id="accordion2">
+            <div class="panel-group">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_1">
-                       Analytics <a href="#" title="Header" data-toggle="modal"  data-target="#fb-analytics-Modal"><i class="fa fa-question-circle " ></i></a> 
+                    <!-- <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_1"> -->
+                       Analytics <a href="#" title="Header" data-toggle="modal"  data-target="#fb-analytics-Modal"><i class="fa fa-question-circle " ></i>
+                     <!-- </a>  -->
 
                        <div id="fb-analytics-Modal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
@@ -125,13 +129,16 @@
                     <img id="graph1-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                      <div id="graph1-facebook">
                         {% autoescape off %}{{ graph_facebook }}{% endautoescape %}
-                        {% for only in graph_facebook_items %}
+                     </div>
+                     {% for only in graph_facebook_items %}
                         <div class="panel-group" style="margin-top:20px">
                         <div class="panel panel-default">
                           <div class="panel-heading">
                             <h4 class="panel-title">
-                              <a data-toggle="collapse" href="#collapse_{{ only.name }}">Only {{only.name}} </a>
-                              <a class="help-popover"href="#" data-toggle="popover"  data-trigger="hover" data-content="Specifically analyse the number of {{ only.name }} over time"><i class="fa fa-question-circle " ></i></a>
+                              <a data-toggle="collapse" href="#collapse_{{ only.name }}"> <i class="fa fa-angle-double-down " ></i> Only {{only.name}} </a>
+                              <a class="help-popover"href="#" data-toggle="popover"  data-trigger="hover" data-content="Specifically analyse the number of {{ only.name }} over time">
+                                <i class="fa fa-question-circle " ></i>
+                              </a>
                             </h4>
                           </div>
                           <div id="collapse_{{ only.name }}" class="panel-collapse collapse">
@@ -140,15 +147,15 @@
                         </div>
                       </div>
                       {% endfor %}
-                     </div>
                   </div>
                   </div>
                </div>
                <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_2">
-                       Accountability Tree <a href="#" title="Header" data-toggle="modal"  data-target="#fb-accountability-Modal"><i class="fa fa-question-circle " ></i></a> 
+                    <!-- <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_2"> -->
+                       Accountability Tree <a href="#" title="Header" data-toggle="modal"  data-target="#fb-accountability-Modal"><i class="fa fa-question-circle " ></i>
+                     <!-- </a>  -->
                     </a>
                     </h4>
                  </div>
@@ -174,8 +181,9 @@
                <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_3">
-                       Word Cloud <a href="#" title="Header" data-toggle="modal"  data-target="#fb-cloud-Modal"><i class="fa fa-question-circle " ></i></a> 
+                    <!-- <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_3"> -->
+                       Word Cloud <a href="#" title="Header" data-toggle="modal"  data-target="#fb-cloud-Modal"><i class="fa fa-question-circle " ></i>
+                     <!-- </a>  -->
 
                       
                     </a>
@@ -206,12 +214,13 @@
          </div>
          <div id="menu1" class="tab-pane fade">
             <div id="twitter-handle-name" style="display:none">{{ twitter_handle }}</div>
-            <div class="panel-group" id="accordion">
+            <div class="panel-group">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                       Analytics <a href="#" title="Header" data-toggle="modal"  data-target="#tw-analytics-Modal"><i class="fa fa-question-circle " ></i></a> 
+                    <!-- <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"> -->
+                       Analytics <a href="#" title="Header" data-toggle="modal"  data-target="#tw-analytics-Modal"><i class="fa fa-question-circle " ></i>
+                     <!-- </a>  -->
 
                        <div id="tw-analytics-Modal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
@@ -261,8 +270,11 @@
                         <div class="panel panel-default">
                           <div class="panel-heading">
                             <h4 class="panel-title">
-                              <a data-toggle="collapse" href="#collapse_{{ only.name }}">Only {{only.name}} </a>
-                              <a class="help-popover"href="#" data-toggle="popover"  data-trigger="hover" data-content="Specifically analyse the number of {{ only.name }} over time"><i class="fa fa-question-circle " ></i></a>
+                              <a data-toggle="collapse" href="#collapse_{{ only.name }}"><i class="fa fa-angle-double-down " ></i>
+                              Only {{only.name}} </a>
+                              <a class="help-popover"href="#" data-toggle="popover"  data-trigger="hover" data-content="Specifically analyse the number of {{ only.name }} over time">
+                              <i class="fa fa-question-circle " ></i>
+                              </a>
                             </h4>
                           </div>
                           <div id="collapse_{{ only.name }}" class="panel-collapse collapse">
@@ -278,8 +290,9 @@
                <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                       Accountability Tree <a href="#" title="Header" data-toggle="modal"  data-target="#fb-accountability-Modal"><i class="fa fa-question-circle " ></i></a> 
+                    <!-- <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"> -->
+                       Accountability Tree <a href="#" title="Header" data-toggle="modal"  data-target="#fb-accountability-Modal"><i class="fa fa-question-circle " ></i>
+                     <!-- </a>  -->
                      </a>
                     </h4>
                  </div>
@@ -305,8 +318,9 @@
                <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                       Word Cloud <a href="#" title="Header" data-toggle="modal"  data-target="#fb-cloud-Modal"><i class="fa fa-question-circle " ></i></a> 
+                    <!-- <a data-toggle="collapse" data-parent="#accordion" href="#collapse3"> -->
+                       Word Cloud <a href="#" title="Header" data-toggle="modal"  data-target="#fb-cloud-Modal"><i class="fa fa-question-circle " ></i>
+                     <!-- </a>  -->
                     </a>
                     </h4>
                  </div>
