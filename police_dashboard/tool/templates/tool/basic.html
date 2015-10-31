@@ -197,13 +197,13 @@
                         <div class="row">
                           <span class="label label-info" style="float: right;margin-right: 20px;">Change focus word on click</span>
                           <img id="graph3-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
-                            <div class="col-xs-6">
-                              <div id="graph3-facebook">
+                            <div class="col-xs-10">
+                              <div id="graph3-facebook" style>
                                 <div id="wordcloud_facebook"></div>
                                 {% autoescape off %}{{ wordcloud_facebook }}{% endautoescape %}
                               </div>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-2">
                                 <ul id="cloud-word-facebook" class="list-group" style="width:200px; height:400px; float:right; overflow:hidden; overflow-y:scroll;">
                                   {% autoescape off %}{{ wordcloud_facebook_list }}{% endautoescape %}
                                 </ul>
@@ -333,13 +333,13 @@
                         <div class="row">
                         <span class="label label-info" style="float: right;margin-right: 20px;">Change focus word on click</span>
                           <img id="graph3-tw-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
-                            <div class="col-xs-6">
+                            <div class="col-xs-10">
                               <div id="graph3-twitter">
                                 <div id="wordcloud_twitter"></div>
                                 {% autoescape off %}{{ wordcloud_twitter }}{% endautoescape %}
                               </div>
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-2">
                                 <ul id="cloud-word-twitter" class="list-group" style="width:200px; height:400px; float:right; overflow:hidden; overflow-y:scroll;">
                                   {% autoescape off %}{{ wordcloud_twitter_list }}{% endautoescape %}
                                 </ul>

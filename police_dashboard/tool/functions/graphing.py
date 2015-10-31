@@ -199,7 +199,7 @@ def wordCloud(text_array,name,keyword=""):
 def wordCloudN(text_array,name,keyword=""):
 	new_text_arr=[]
 	if keyword is not "":
-		keyword=keyword.split(" ")[1]
+		keyword=keyword.split(" ")[0]
 	for text in text_array:
 		if keyword in text:
 			new_text_arr.append(text)
@@ -218,7 +218,7 @@ def wordCloudN(text_array,name,keyword=""):
 	# image_mask = os.path.join(BASE_DIR, 'static/tool/img/nebula.png')
 	# coloring = imread(image_mask)
 	
-	wordcloud = WordCloud(stopwords=STOPWORDS,background_color="white",ranks_only=True,max_words=50).generate(cloud_text)
+	wordcloud = WordCloud(stopwords=STOPWORDS,background_color="white",ranks_only=True,max_words=100).generate(cloud_text)
 	# filename=os.path.join(BASE_DIR, 'static/tool/img/'+name+'.png')
 
 	# image_colors = ImageColorGenerator(coloring)

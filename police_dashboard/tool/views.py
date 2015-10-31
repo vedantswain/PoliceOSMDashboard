@@ -317,7 +317,7 @@ def word_cloud(request):
 		if platform=="twitter":
 			(title,tw_handle)=getTitle(handle,"")
 			filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
-			data = fileParser(filename1)
+			data = fileParser(filename)
 		else:
 			data = getData(handle)
 
