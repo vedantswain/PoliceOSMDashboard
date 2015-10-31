@@ -57,7 +57,7 @@ def chartD3Line(data,name,handle):
 		script+='{date:"'+date+'", "'+handle+' '+osn[0]+'": '+str(data[key][osn[0]])+', "'+handle+' '+osn[1]+'": '+str(data[key][osn[1]])+', "'+handle+' '+osn[2]+'": '+str(data[key][osn[2]])+'},\n' 
     
 	script=script[:-2]
-	script+='\n];\nrenderGraph(data,"graph'+'_'+name+'","")\n</script>'
+	script+='\n];\nrenderGraph(data,"graph'+'_'+name+'","'+name+'")\n</script>'
 
 	return div+script 
 
@@ -135,68 +135,6 @@ def wordTree(text_array,name,word,kind="norm"):
 	return inject
 
 def wordCloud(text_array,name,keyword=""):
-	return wordCloudN(text_array,name,keyword)
-	new_text_arr=[]
-	if keyword is not "":
-		keyword=keyword.split(" ")[1]
-	for text in text_array:
-		if keyword in text:
-			new_text_arr.append(text)
-
-	text_array=new_text_arr
-
-	cloud_text=""
-	for text in text_array:
-		cloud_text+=text+" "
-
-	m_stopwords=['police','traffic','sir']
-
-	for word in m_stopwords:
-		STOPWORDS.add(word)
-
-	image_mask = os.path.join(BASE_DIR, 'static/tool/img/nebula.png')
-	coloring = imread(image_mask)
-	
-	wordcloud = WordCloud(stopwords=STOPWORDS,background_color="white",mask=coloring,ranks_only=True,max_words=50).generate(cloud_text)
-	filename=os.path.join(BASE_DIR, 'static/tool/img/'+name+'.png')
-
-	image_colors = ImageColorGenerator(coloring)
-	wordcloud.recolor(color_func=image_colors)
-	wordcloud.to_file(filename)
-	data_uri = open(filename, 'rb').read().encode('base64').replace('\n', '')
-
-	img_tag = '<img src="data:image/png;base64,{0}" style="height:400px;">'.format(data_uri)
-	
-	layout=wordcloud.layout_
-	words_colours={}
-	count=1
-	for lo in layout:
-		entry={}
-		entry['word']=lo[0][0]
-		color=lo[len(lo)-1]
-		color=color[4:]
-		color=color[:-1]
-		color_split=color.split(',')
-		color_num=[int(x) for x in color_split]
-		color_hex='#%02x%02x%02x' % tuple(color_num)
-		# print color_num
-		entry['color']=color_hex
-		words_colours[count]=entry
-		count+=1
-
-	# print words_colours
-	list_html=""
-	cap=51
-	if cap>len(words_colours):
-		cap=len(words_colours)
-
-	for i in range(1,cap):
-		list_html+='<li class="list-group-item" ><a class="cloud-key-'+name+'" href="#" style="color:'+words_colours[i]['color']+'">'
-		list_html+="#"+str(i)+" "+words_colours[i]['word']+'</a></li>'
-
-	return (img_tag,list_html)
-
-def wordCloudN(text_array,name,keyword=""):
 	new_text_arr=[]
 	if keyword is not "":
 		keyword=keyword.split(" ")[0]
