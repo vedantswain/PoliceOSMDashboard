@@ -135,6 +135,7 @@ def wordTree(text_array,name,word,kind="norm"):
 	return inject
 
 def wordCloud(text_array,name,keyword=""):
+	return wordCloudN(text_array,name,keyword)
 	new_text_arr=[]
 	if keyword is not "":
 		keyword=keyword.split(" ")[1]
@@ -167,7 +168,6 @@ def wordCloud(text_array,name,keyword=""):
 	img_tag = '<img src="data:image/png;base64,{0}" style="height:400px;">'.format(data_uri)
 	
 	layout=wordcloud.layout_
-	print layout
 	words_colours={}
 	count=1
 	for lo in layout:
@@ -195,6 +195,64 @@ def wordCloud(text_array,name,keyword=""):
 		list_html+="#"+str(i)+" "+words_colours[i]['word']+'</a></li>'
 
 	return (img_tag,list_html)
+
+def wordCloudN(text_array,name,keyword=""):
+	new_text_arr=[]
+	if keyword is not "":
+		keyword=keyword.split(" ")[1]
+	for text in text_array:
+		if keyword in text:
+			new_text_arr.append(text)
+
+	text_array=new_text_arr
+
+	cloud_text=""
+	for text in text_array:
+		cloud_text+=text+" "
+
+	m_stopwords=['police','traffic','sir']
+
+	for word in m_stopwords:
+		STOPWORDS.add(word)
+
+	# image_mask = os.path.join(BASE_DIR, 'static/tool/img/nebula.png')
+	# coloring = imread(image_mask)
+	
+	wordcloud = WordCloud(stopwords=STOPWORDS,background_color="white",ranks_only=True,max_words=50).generate(cloud_text)
+	# filename=os.path.join(BASE_DIR, 'static/tool/img/'+name+'.png')
+
+	# image_colors = ImageColorGenerator(coloring)
+	# wordcloud.recolor(color_func=image_colors)
+	# wordcloud.to_file(filename)
+	# data_uri = open(filename, 'rb').read().encode('base64').replace('\n', '')
+
+	# img_tag = '<img src="data:image/png;base64,{0}" style="height:400px;">'.format(data_uri)
+	
+	layout=wordcloud.layout_
+	words_freqs=[]
+	count=1
+	for lo in layout:
+		entry={}
+		entry['word']=lo[0][0].encode('utf8')
+		entry['size']=lo[1]
+		words_freqs.append(entry)
+
+	inject=''
+	inject+='<script type="text/javascript">\n'
+	inject+='var freq_list='+str(words_freqs)+';\n'
+	inject+='renderCloud(freq_list,"#'+name+'");\n'
+	inject+='</script>'
+	# print words_colours
+	list_html=""
+	cap=51
+	if cap>len(words_freqs):
+		cap=len(words_freqs)
+
+	for i in range(1,cap):
+		list_html+='<li class="list-group-item" ><a class="cloud-key-'+name+'" href="#" >'
+		list_html+="#"+str(i)+" "+words_freqs[i]['word']+'</a></li>'
+
+	return (inject,list_html)
 
 def wordTreeActual(all_data,word,platform):
 	inject=""

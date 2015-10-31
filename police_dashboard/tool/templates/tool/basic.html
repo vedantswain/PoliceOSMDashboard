@@ -11,7 +11,9 @@
    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.css" rel="stylesheet" />
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
    <script src="{% static 'tool/js/d3.min.js' %}"></script>
+   <script type="text/javascript" src="{% static 'tool/js/d3.layout.cloud.js' %}"></script>
    <script src="{% static 'tool/js/am_graph.js' %}"></script>
+   <script src="{% static 'tool/js/m_cloud.js' %}"></script>
    <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script> -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.js"></script>
    <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
@@ -197,6 +199,7 @@
                           <img id="graph3-fb-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                             <div class="col-xs-6">
                               <div id="graph3-facebook">
+                                <div id="wordcloud_facebook"></div>
                                 {% autoescape off %}{{ wordcloud_facebook }}{% endautoescape %}
                               </div>
                             </div>
@@ -332,6 +335,7 @@
                           <img id="graph3-tw-loader" src="{% static 'tool/img/ajax-loader.gif' %}" style="display:none">
                             <div class="col-xs-6">
                               <div id="graph3-twitter">
+                                <div id="wordcloud_twitter"></div>
                                 {% autoescape off %}{{ wordcloud_twitter }}{% endautoescape %}
                               </div>
                             </div>
