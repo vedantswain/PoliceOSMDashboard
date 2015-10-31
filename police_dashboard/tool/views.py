@@ -94,11 +94,11 @@ def dashboard(request,handle):
 	comp_div_twitter1=""
 	comp_div_facebook1=""
 	pick_div=""
-	for key in comp_list_tw.keys():
-		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">'+comp_list_tw[key][0]+'<div class="comp-fb-handle" style="display:none">'+key+'</div></a></li>'
-	for key in comp_list_fb.keys():
-		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">'+comp_list_fb[key][0]+'<div class="comp-fb-handle" style="display:none">'+key+'</div></a></li>'
-		pick_div=pick_div+'<li><a class="pick-account" href="../'+key+'/">'+comp_list_fb[key][0]+'</a></li>'
+	for key in comp_list_tw:
+		comp_div_twitter1=comp_div_twitter1+'<li><a class="compare-to-graph1-twitter" href="#">'+key["name"]+'<div class="comp-fb-handle" style="display:none">'+key["key"]+'</div></a></li>'
+	for key in comp_list_fb:
+		comp_div_facebook1=comp_div_facebook1+'<li><a class="compare-to-graph1-facebook" href="#">'+key["name"]+'<div class="comp-fb-handle" style="display:none">'+key["key"]+'</div></a></li>'
+		pick_div=pick_div+'<li><a class="pick-account" href="../'+key["key"]+'/">'+key["name"]+'</a></li>'
 
 	### singular graphs
 	fb=['posts','likes','comments']

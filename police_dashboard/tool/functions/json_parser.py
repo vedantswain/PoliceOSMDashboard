@@ -4,9 +4,12 @@ from title import getId
 
 def fileParser(file_name):
 	data = []
-	with open(file_name) as f:
-	    for line in f:
-	        data.append(json.loads(line))
+	try:
+		with open(file_name) as f:
+		    for line in f:
+		        data.append(json.loads(line))
+	except IOError:
+		print "Twitter file: "+file_name+" doesn't exist"
 	return data
 
 def fileParser_json(file_name):

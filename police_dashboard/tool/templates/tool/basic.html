@@ -31,7 +31,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Change Dept <span class="caret"></span></a>
-          <ul class="dropdown-menu scrollable-menu" style="height:400px; overflow:scroll">
+          <ul class="dropdown-menu scrollable-menu" style="overflow:scroll">
                {% autoescape off %}{{ pick_account }}{% endautoescape %}
           </ul>
         </li>
@@ -47,13 +47,13 @@
           <h3 style="font-size:18px">{{dashboard_name}}</h3>
           <ul class="fa-ul">
             <li>
-              <i class="fa fa-facebook-official"></i>  <a class="fb-name" href={{dept_link}}>{{dept_fb_name}}</a>
+              <i class="fa fa-facebook-official"></i>  <a class="fb-name" href={{dept_link}} target="_blank">{{dept_fb_name}}</a>
             </li>
             <li >
-              <i class="fa fa fa-external-link"></i>  <a href={{dept_website}} >{{dept_website}}</a>
+              <i class="fa fa fa-external-link"></i>  <a href={{dept_website}} target="_blank">{{dept_website}}</a>
             </li>
             <li >
-              <i class="fa fa fa-twitter"></i>  <a href={{dept_tw_link}} >{{dept_tw_name}}</a>
+              <i class="fa fa fa-twitter"></i>  <a href={{dept_tw_link}} target="_blank">{{dept_tw_name}}</a>
             </li>
             <li >
               <i class="fa fa fa-phone"></i>  {{dept_phone}}
