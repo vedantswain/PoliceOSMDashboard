@@ -23,6 +23,7 @@ def index(request):
 		pages.append(i["page"])
 
 	pages.sort()
+	# print pages
 
 	for page in pages:
 		datum={}
@@ -58,8 +59,10 @@ def index(request):
 
 		html_data.append(datum)
 
+	html_data_sorted = sorted(html_data, key=lambda k: k['name']) 
+
 	context = RequestContext(request, {
-		'police_dept_items':html_data
+		'police_dept_items':html_data_sorted
 		})
 
 	return HttpResponse(template.render(context))
