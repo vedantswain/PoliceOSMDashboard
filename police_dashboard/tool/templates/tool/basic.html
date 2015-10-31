@@ -5,6 +5,7 @@
    <title>{{ dashboard_name }} | Police OSN</title>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!-- Bootstrap -->
+   <script src="https://code.jquery.com/jquery.js"></script>
    <link href="{% static 'tool/css/bootstrap.min.css' %}" rel="stylesheet">
    <link rel="stylesheet" type="text/css" href="{% static 'tool/css/basic.css' %}">
    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.css" rel="stylesheet" />
@@ -20,6 +21,8 @@
    <script type="text/javascript">
      google.load("visualization", "1.1", {packages:["wordtree"]});
    </script>
+   <script src="{% static 'tool/js/m_tree.js' %}"></script>
+   
 </head>
 <body style="padding-top: 20px;">
   <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -70,9 +73,9 @@
    <div class="jumbotron">
      <div class="container">
 
-         <ul class="nav nav-tabs">
+         <ul class="nav nav-tabs" id="myNavTabs">
           <li class="active" style="width:50%"><a class="text-center" data-toggle="pill" href="#home">Facebook</a></li>
-          <li style="width:50%"><a class="text-center" data-toggle="pill" href="#menu1">Twitter</a></li>
+          <li style="width:50%" id="menu1_li"><a class="text-center" data-toggle="pill" href="#menu1">Twitter</a></li>
          </ul>
 
        <div class="tab-content">

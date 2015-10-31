@@ -2,7 +2,21 @@ $(document).ready(function() {
         // JQuery code to be added in here.
         $(".help-popover").popover();
 
-        $('#menu1').addClass('active')
+        // $('#menu1').addClass('active');
+
+        $('a[href=#menu1]').on('shown.bs.tab', function(){
+        	// console.log("tab shown")
+        	pf="twitter"
+		    handle = $('#twitter-handle-name').html()
+        	$('#graph2-tw-loader').show();
+        	var key = "why";
+		    $.get('/main/victimisation_tree/',{handle_name:handle,keyword:key,platform:pf}, function(data){
+		               $('#graph2-twitter').html(data);
+		               // $('#likes').hide();
+		               $('#graph2-tw-loader').hide();
+		           });
+		    return false;
+        });
 
         $('.compare-to-graph1-twitter').click(function(){
 		    // var catid;

@@ -104,32 +104,33 @@ def wordTree(text_array,name,word,kind="norm"):
 		text_array=text_array[:25]
 
 	if kind=='ajax':
-		function_call="drawChart()"
+		function_call="drawChart(data,'"+name+"','"+word+"')"
 	else:
-		function_call="google.setOnLoadCallback(drawChart)"
+		function_call="google.setOnLoadCallback(drawChart(data,'"+name+"','"+word+"'))"
 		if "twitter" in name:
 			extra2="var container = document.getElementById('menu1');"
 			extra2+="google.visualization.events.addListener(chart, 'ready', function () {"
 			extra2+="container.className = container.className.replace( /(?:^|\s)active(?!\S)/g , '' );});"
+			function_call=""
 
 	inject+='<div id="'+name+'" style="width: 800px; height: 300px;"></div>'
-	inject+='<script type="text/javascript">'+function_call+';'
-	inject+='function drawChart() {var data = google.visualization.arrayToDataTable(['
-	inject+="['Phrases'],"
+	inject+='<script type="text/javascript">\n'
+
+	data='data=[\n'
+	data+="['Phrases'],\n"
 	
 	for text in text_array:
 		if "connect.facebook.net" in text:
 			# print "skipping\n"+text
 			continue
-		inject+='["'+text+'"],'
+		data+='["'+text+'"],\n'
 
-	inject+="]);var options = {wordtree: {format: 'implicit',"
-	inject+="word: '"+word+"'}"
-	inject+="};"
-	inject+='console.log("loading graph");'
-	inject+="var chart = new google.visualization.WordTree(document.getElementById('"+name+"'));"
-	inject+=extra2
-	inject+="chart.draw(data, options);}</script>"
+	data+="];\n"
+	
+	inject+=data
+	inject+=function_call+';\n'
+
+	inject+="</script>"
 
 	return inject
 
@@ -166,6 +167,7 @@ def wordCloud(text_array,name,keyword=""):
 	img_tag = '<img src="data:image/png;base64,{0}" style="height:400px;">'.format(data_uri)
 	
 	layout=wordcloud.layout_
+	print layout
 	words_colours={}
 	count=1
 	for lo in layout:
