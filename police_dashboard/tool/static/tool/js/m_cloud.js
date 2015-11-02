@@ -13,6 +13,7 @@ function renderCloud(frequency_list,div_id){
             .start();
 
     function draw(words) {
+        
         // console.log("drawing")
         d3.select(div_id).append("svg")
                 .attr("width", 1050)

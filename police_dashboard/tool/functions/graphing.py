@@ -1,14 +1,16 @@
 import os,re,random
+from nltk.corpus import stopwords
 from json_parser import fileParser
 from dateutil import parser
 from datetime import datetime, timedelta
+from collections import Counter
 import collections
 import matplotlib.pyplot as plt
 from scipy.misc import imread
 import numpy as np
 from nvd3 import lineChart
 import time as tm
-from wordcloud import WordCloud,STOPWORDS,ImageColorGenerator
+# from wordcloud import WordCloud,STOPWORDS,ImageColorGenerator
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -135,12 +137,41 @@ def wordTree(text_array,name,word,kind="norm"):
 	return inject
 
 def wordCloud(text_array,name,keyword=""):
+	# print "entered cloud function"
 	new_text_arr=[]
+	word_list=[]
 	if keyword is not "":
 		keyword=keyword.split(" ")[0]
 	for text in text_array:
 		if keyword in text:
 			new_text_arr.append(text)
+			word_list+=text.lower().split(" ")
+			# print "\n"
+
+	random.shuffle(word_list)
+	filtered_words=[]
+
+	if(len(word_list)>10000):
+		max_cap=10000
+	else:
+		max_cap=len(word_list)
+
+	stops=set(stopwords.words('english'))
+
+	m_stopwords=['police','traffic','sir']
+
+	# print len(word_list[:max_cap])
+	for word in word_list:
+		if word in stops:
+			continue
+		if word == '':
+			continue
+		if len(word) == 1:
+			continue
+		filtered_words.append(word)
+
+	most_com=Counter(filtered_words)
+	top100=most_com.most_common(100)
 
 	text_array=new_text_arr
 
@@ -148,32 +179,44 @@ def wordCloud(text_array,name,keyword=""):
 	for text in text_array:
 		cloud_text+=text+" "
 
-	m_stopwords=['police','traffic','sir']
+	# print cloud_text
 
-	for word in m_stopwords:
-		STOPWORDS.add(word)
+	# for word in m_stopwords:
+	# 	STOPWORDS.add(word)
 
-	# image_mask = os.path.join(BASE_DIR, 'static/tool/img/nebula.png')
-	# coloring = imread(image_mask)
+	# wordcloud = WordCloud(stopwords=STOPWORDS,background_color="white",ranks_only=True,max_words=100).generate(cloud_text)
 	
-	wordcloud = WordCloud(stopwords=STOPWORDS,background_color="white",ranks_only=True,max_words=100).generate(cloud_text)
-	# filename=os.path.join(BASE_DIR, 'static/tool/img/'+name+'.png')
+	# layout=wordcloud.layout_
+	# words_freqs=[]
+	# count=1
+	# for lo in layout:
+	# 	entry={}
+	# 	# print(lo[0][0]+" "+str(len(word)))
+	# 	entry['word']=lo[0][0].encode('utf8')
+	# 	if lo[1]>11:
+	# 		entry['size']=lo[1]
+	# 	else:
+	# 		entry['size']=12
+		
+	# 	words_freqs.append(entry)
 
-	# image_colors = ImageColorGenerator(coloring)
-	# wordcloud.recolor(color_func=image_colors)
-	# wordcloud.to_file(filename)
-	# data_uri = open(filename, 'rb').read().encode('base64').replace('\n', '')
-
-	# img_tag = '<img src="data:image/png;base64,{0}" style="height:400px;">'.format(data_uri)
-	
-	layout=wordcloud.layout_
 	words_freqs=[]
 	count=1
-	for lo in layout:
+
+	onlySizes=[d[1] for d in top100]
+	oldMax=max(onlySizes)
+	oldMin=min(onlySizes)
+
+	for lo in top100:
 		entry={}
-		entry['word']=lo[0][0].encode('utf8')
-		entry['size']=lo[1]
+		# print(lo[0][0]+" "+str(len(word)))
+		entry['word']=lo[0].encode('utf8')
+		entry['size']=getNormalisedSize(lo[1],oldMax,oldMin)
+		
 		words_freqs.append(entry)
+
+
+	# print words_freqs
 
 	inject=''
 	inject+='<script type="text/javascript">\n'
@@ -186,11 +229,26 @@ def wordCloud(text_array,name,keyword=""):
 	if cap>len(words_freqs):
 		cap=len(words_freqs)
 
-	for i in range(1,cap):
-		list_html+='<li class="list-group-item" ><a class="cloud-key-'+name+'" href="#" >'
-		list_html+="#"+str(i)+" "+words_freqs[i]['word']+'</a></li>'
+	# for i in range(1,cap):
+	# 	list_html+='<li class="list-group-item" ><a class="cloud-key-'+name+'" href="#" >'
+	# 	list_html+="#"+str(i)+" "+words_freqs[i]['word']+'</a></li>'
 
 	return (inject,list_html)
+
+def getNormalisedSize(OldValue,OldMax,OldMin):
+	###font size within which we want to restrict words
+	NewMin=12
+	NewMax=85 
+
+	OldRange = (OldMax - OldMin)
+	if OldRange == 0:
+	    NewValue = NewMin
+	else:
+	    NewRange = (NewMax - NewMin)  
+	    NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin
+
+	return NewValue
+
 
 def wordTreeActual(all_data,word,platform):
 	inject=""
