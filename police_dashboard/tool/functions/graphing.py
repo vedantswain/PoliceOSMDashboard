@@ -1,4 +1,4 @@
-import os,re,random
+import os,re,random,string
 from nltk.corpus import stopwords
 from json_parser import fileParser
 from dateutil import parser
@@ -8,7 +8,6 @@ import collections
 import matplotlib.pyplot as plt
 from scipy.misc import imread
 import numpy as np
-from nvd3 import lineChart
 import time as tm
 # from wordcloud import WordCloud,STOPWORDS,ImageColorGenerator
 
@@ -136,29 +135,24 @@ def wordTree(text_array,name,word,kind="norm"):
 
 	return inject
 
-def wordCloud(text_array,name,keyword=""):
+def wordCloud(text_array,name,title,keyword=""):
 	# print "entered cloud function"
-	new_text_arr=[]
 	word_list=[]
 	if keyword is not "":
 		keyword=keyword.split(" ")[0]
 	for text in text_array:
 		if keyword in text:
-			new_text_arr.append(text)
 			word_list+=text.lower().split(" ")
 			# print "\n"
 
 	random.shuffle(word_list)
 	filtered_words=[]
 
-	if(len(word_list)>10000):
-		max_cap=10000
-	else:
-		max_cap=len(word_list)
-
 	stops=set(stopwords.words('english'))
 
-	m_stopwords=['police','traffic','sir']
+	m_stopwords=title.lower().split(" ")
+	print m_stopwords
+	stops |= set(m_stopwords)
 
 	# print len(word_list[:max_cap])
 	for word in word_list:
@@ -168,44 +162,29 @@ def wordCloud(text_array,name,keyword=""):
 			continue
 		if len(word) == 1:
 			continue
-		filtered_words.append(word)
+		if not isEnglish(word.encode('utf8')):
+			continue
+		if word.isdigit():
+			continue
+		# print word+" "+str(isEnglish(word.encode('utf8')))
+		filtered_words.append(word.strip(string.punctuation))
 
 	most_com=Counter(filtered_words)
-	top100=most_com.most_common(100)
 
-	text_array=new_text_arr
+	if(len(filtered_words)>100):
+		max_cap=100
+	else:
+		max_cap=len(filtered_words)
 
-	cloud_text=""
-	for text in text_array:
-		cloud_text+=text+" "
-
-	# print cloud_text
-
-	# for word in m_stopwords:
-	# 	STOPWORDS.add(word)
-
-	# wordcloud = WordCloud(stopwords=STOPWORDS,background_color="white",ranks_only=True,max_words=100).generate(cloud_text)
-	
-	# layout=wordcloud.layout_
-	# words_freqs=[]
-	# count=1
-	# for lo in layout:
-	# 	entry={}
-	# 	# print(lo[0][0]+" "+str(len(word)))
-	# 	entry['word']=lo[0][0].encode('utf8')
-	# 	if lo[1]>11:
-	# 		entry['size']=lo[1]
-	# 	else:
-	# 		entry['size']=12
-		
-	# 	words_freqs.append(entry)
+	top100=most_com.most_common(max_cap)
 
 	words_freqs=[]
 	count=1
 
 	onlySizes=[d[1] for d in top100]
-	oldMax=max(onlySizes)
-	oldMin=min(onlySizes)
+	if len(onlySizes)>0:
+		oldMax=max(onlySizes)
+		oldMin=min(onlySizes)
 
 	for lo in top100:
 		entry={}
@@ -234,6 +213,14 @@ def wordCloud(text_array,name,keyword=""):
 	# 	list_html+="#"+str(i)+" "+words_freqs[i]['word']+'</a></li>'
 
 	return (inject,list_html)
+
+def isEnglish(word):
+	try:
+	    word.decode('ascii')
+	except UnicodeDecodeError:
+	    return False
+	else:
+	    return True
 
 def getNormalisedSize(OldValue,OldMax,OldMin):
 	###font size within which we want to restrict words

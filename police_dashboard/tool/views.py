@@ -134,13 +134,13 @@ def dashboard(request,handle):
 
 	### wordcloud
 	if len(text_array_tw)>0:
-		(cloud_tw,cloud_list_tw)=wordCloud(text_array=text_array_tw,name="wordcloud_twitter")
+		(cloud_tw,cloud_list_tw)=wordCloud(text_array=text_array_tw,name="wordcloud_twitter",title=title)
 	else:
 		cloud_tw=""
 		cloud_list_tw=[]
 
 	if len(text_array_fb)>0:
-		(cloud_fb,cloud_list_fb)=wordCloud(text_array=text_array_fb,name="wordcloud_facebook")
+		(cloud_fb,cloud_list_fb)=wordCloud(text_array=text_array_fb,name="wordcloud_facebook",title=title)
 	else:
 		cloud_fb=""
 		cloud_list_fb=[]
@@ -311,6 +311,7 @@ def victimzn_actual(request):
 def word_cloud(request):
 	context =RequestContext(request)
 	handle=""
+	(title,tw_handle)=getTitle(handle,"")
 	if request.method == 'GET':
 		platform=request.GET['platform']
 		handle = request.GET['handle_name']
@@ -323,7 +324,7 @@ def word_cloud(request):
 
 		word = request.GET['keyword']
 		text_array=parseText(data,platform)
-		(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_"+platform,keyword=word)
+		(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_"+platform,title=title,keyword=word)
 		response_data={}
 		response_data['cloud']=cloud
 		response_data['cloud_list']=cloud_list
