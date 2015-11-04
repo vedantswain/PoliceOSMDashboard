@@ -311,10 +311,12 @@ def victimzn_actual(request):
 def word_cloud(request):
 	context =RequestContext(request)
 	handle=""
-	(title,tw_handle)=getTitle(handle,"")
 	if request.method == 'GET':
 		platform=request.GET['platform']
 		handle = request.GET['handle_name']
+
+		(title,tw_handle)=getTitle(handle,"")
+
 		if platform=="twitter":
 			(title,tw_handle)=getTitle(handle,"")
 			filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
