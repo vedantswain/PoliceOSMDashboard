@@ -141,7 +141,7 @@ def wordCloud(text_array,name,title,keyword=""):
 	if keyword is not "":
 		keyword=keyword.split(" ")[0]
 	for text in text_array:
-		if keyword in text:
+		if keyword in text.lower():
 			word_list+=text.lower().split(" ")
 			# print "\n"
 

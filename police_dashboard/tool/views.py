@@ -177,6 +177,21 @@ def dashboard(request,handle):
 	fb_likes=str(page_info["likes"])+" likes"
 	fb_checkins=str(page_info["checkins"])+" checkins"
 	
+	if len(data_fb)==0:
+		# print d3graph_fb+"\n"
+		d3graph_fb="<b><i>No Facebook data for this handle</i></b>"
+		# print tree_fb+"\n"
+		tree_fb="<b><i>No Facebook data for this handle</i></b>"
+		# print cloud_fb+"\n"
+		cloud_fb="<b><i>No Facebook data for this handle</i></b>"
+
+	if len(data_tw)==0:
+		# print d3graph_tw+"\n"
+		d3graph_tw="<b><i>No Twitter data for this handle</i></b>"
+		# print tree_tw+"\n"
+		tree_tw="<b><i>No Twitter data for this handle</i></b>"
+		# print cloud_tw+"\n"
+		cloud_tw="<b><i>No Twitter data for this handle</i></b>"
 	
 	context = RequestContext(request, {
 		'cover_image': cover_image_src,
