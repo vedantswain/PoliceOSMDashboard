@@ -22,7 +22,8 @@ def fileParser_json(file_name):
 def getData(handle):
 	data = []
 	handle_id=getId(handle)
-	for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew where pageid='"+handle+"' && fromid!='"+handle_id+"'"):
+	# for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew where pageid='"+handle+"' && fromid!='"+handle_id+"'"):
+	for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew where pageid='"+handle+"'"):
 		# print p.__dict__
 		# print type(p)
 		data.append(p.__dict__)

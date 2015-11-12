@@ -24,7 +24,28 @@
    
 </head>
 <body style="padding-top: 20px;">
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="underlinemenu" style="padding-left: 60px; padding-right:60px;">
+      <ul>
+        <li><a href="../../../home/" target="_self">Portal</a></li>
+        <li><a href="../../../index.html" target="_self">Home</a></li>
+        <li><a href="../../../research.html" target="_self">Research</a></li>
+        <li><a href="../../../people.html" target="_self">People</a></li>
+        <li><a href="../../../publications.html" target="_self">Publications</a></li>
+        <li><a href="../../../resources.html" target="_self">Resources</a></li>
+        <li><a href="../../../teaching.html" target="_self">Teaching</a></li>
+        <li><a href="../../../events.html" target="_self">Events</a></li>
+        <li><a href="../../../news.html" target="_self">News</a></li>
+        <li><a href="../../../blog" target="_self">Blog</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Change Dept <span class="caret"></span></a>
+          <ul class="dropdown-menu scrollable-menu pull-right" style="overflow:scroll">
+               {% autoescape off %}{{ pick_account }}{% endautoescape %}
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+  <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="../../../home/">Police OSN</a>
@@ -40,7 +61,7 @@
       </ul>
     </div>
     </div>
-  </nav>
+  </nav> -->
   <div class="thumbnail clearfix" style="margin-bottom:0px;margin-top:20px; padding-right:15px; padding-left:15px;margin-right: 70px; margin-left: 70px;">
       <div class="image-container pull-left" style="height:240px;">
         <img src={{ cover_image }} style="width: 800px;height: auto; position: absolute; clip: rect(0px,800px,240px,0px);" alt="" >

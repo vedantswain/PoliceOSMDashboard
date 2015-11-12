@@ -23,5 +23,5 @@ class NPostsdatanew(models.Model):
     id_public = models.CharField(max_length=100, blank=True)
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'N_Postsdatanew'
