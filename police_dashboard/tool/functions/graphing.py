@@ -4,10 +4,7 @@ from json_parser import fileParser
 from dateutil import parser
 from datetime import datetime, timedelta
 from collections import Counter
-import collections
-import matplotlib.pyplot as plt
-from scipy.misc import imread
-import numpy as np
+import collections, pymongo
 import time as tm
 # from wordcloud import WordCloud,STOPWORDS,ImageColorGenerator
 
@@ -100,6 +97,9 @@ def wordTree(text_array,name,word,kind="norm"):
 
 	text_array=new_text_arr
 
+	if len(text_array)==0:
+		return '<i>No posts containing keyword "<b>'+word+'</b>". Try changing to some other.</i>'
+
 	if len(text_array)>25:
 		random.shuffle(text_array)
 		text_array=text_array[:25]
@@ -150,12 +150,19 @@ def wordCloud(text_array,name,title,keyword=""):
 
 	stops=set(stopwords.words('english'))
 
-	m_stopwords=title.lower().split(" ")
+	client = pymongo.MongoClient()
+	db = client.FBPoliceData
+	page_info=db.page_fields.find_one({"page": title})
+
+	m_stopwords=page_info["name"].lower().split(" ")
 	print m_stopwords
 	stops |= set(m_stopwords)
 
 	# print len(word_list[:max_cap])
 	for word in word_list:
+		if word in m_stopwords:
+			# print word
+			continue
 		if word in stops:
 			continue
 		if word == '':

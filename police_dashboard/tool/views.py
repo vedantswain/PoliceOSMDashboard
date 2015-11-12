@@ -207,6 +207,7 @@ def dashboard(request,handle):
 		tw_name=""
 		tw_link=""
 
+	title=page_info["name"]
 	fb_link=page_info["link"]
 	fb_name=page_info["page"]
 	fb_likes=str(page_info["likes"])+" likes"

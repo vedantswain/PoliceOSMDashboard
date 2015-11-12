@@ -2,6 +2,30 @@ body{
   background-color: #eee;
 }
 
+.underlinemenu ul{
+  padding: 6px 0 7px 0;
+  margin: 0;
+  text-align: center;
+}
+
+.underlinemenu ul li{
+  display: inline;
+}
+
+.underlinemenu ul li a{
+  color: gray;
+  padding: 6px 3px 3px 3px; /*top padding is 6px, bottom padding is 4px*/
+  margin-right: 10px; /*spacing between each menu link*/
+  font: 15px "Trebuchet MS", sans-serif;
+  text-decoration:none;
+  border-bottom: 3px solid gray; /*bottom border is 3px*/
+}
+
+.underlinemenu ul li a:hover, .underlinemenu ul li a.selected{
+  border-bottom-color: #00F;
+  color:#000;
+}
+
 .jumbotron {
   padding-top: 20px;
 }

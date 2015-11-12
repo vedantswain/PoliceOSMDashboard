@@ -24,6 +24,7 @@ $(document).ready(function() {
 		    handle = $('#twitter-handle-name').html()
 		    comp_handle = $(this).find(".comp-fb-handle").text();
 		    $('#graph1-tw-loader').show();
+		    $('#compare-to-1-twitter').dropdown("toggle");
 		    $.get('/main/graph_comp/',{handle_name:handle,comp_handle_name:comp_handle,platform:pf}, function(data){
 		               $('#graph1-twitter').html(data);
 		               // $('#likes').hide();
@@ -38,6 +39,7 @@ $(document).ready(function() {
 		    handle = $('#facebook-handle-name').html()
 		    comp_handle = $(this).find(".comp-fb-handle").text();
 		    $('#graph1-fb-loader').show();
+		    $('#compare-to-1-facebook').dropdown("toggle");
 		    $.get('/main/graph_comp/',{handle_name:handle,comp_handle_name:comp_handle,platform:pf}, function(data){
 		               $('#graph1-facebook').html(data);
 		               // $('#likes').hide();
@@ -55,6 +57,7 @@ $(document).ready(function() {
 		    var key = $(this).html();
 		    var mObj = $(this)
 		    $('#graph2-tw-loader').show();
+		    $('#victimzn-twitter').dropdown("toggle");
 		    $.get('/main/victimisation_tree/',{handle_name:handle,keyword:key,platform:pf}, function(data){
 		               $('#graph2-twitter').html(data);
 		               // $('#likes').hide();
@@ -74,6 +77,7 @@ $(document).ready(function() {
 		    var key = $(this).html();
 		    var mObj = $(this)
 		    $('#graph2-fb-loader').show();
+		    $('#victimzn-facebook').dropdown("toggle");
 		    $.get('/main/victimisation_tree/',{handle_name:handle,keyword:key,platform:pf}, function(data){
 		               $('#graph2-facebook').html(data);
 		               // $('#likes').hide();
