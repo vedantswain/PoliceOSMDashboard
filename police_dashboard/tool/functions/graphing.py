@@ -153,9 +153,9 @@ def wordCloud(text_array,name,title,keyword=""):
 	client = pymongo.MongoClient()
 	db = client.FBPoliceData
 	page_info=db.page_fields.find_one({"page": title})
-
+	# print title
 	m_stopwords=page_info["name"].lower().split(" ")
-	print m_stopwords
+	# print m_stopwords
 	stops |= set(m_stopwords)
 
 	# print len(word_list[:max_cap])

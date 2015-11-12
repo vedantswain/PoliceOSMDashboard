@@ -134,13 +134,13 @@ def dashboard(request,handle):
 
 	### wordcloud
 	if len(text_array_tw)>0:
-		(cloud_tw,cloud_list_tw)=wordCloud(text_array=text_array_tw,name="wordcloud_twitter",title=title)
+		(cloud_tw,cloud_list_tw)=wordCloud(text_array=text_array_tw,name="wordcloud_twitter",title=handle)
 	else:
 		cloud_tw=""
 		cloud_list_tw=[]
 
 	if len(text_array_fb)>0:
-		(cloud_fb,cloud_list_fb)=wordCloud(text_array=text_array_fb,name="wordcloud_facebook",title=title)
+		(cloud_fb,cloud_list_fb)=wordCloud(text_array=text_array_fb,name="wordcloud_facebook",title=handle)
 	else:
 		cloud_fb=""
 		cloud_list_fb=[]
