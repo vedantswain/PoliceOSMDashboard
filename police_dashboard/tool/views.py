@@ -378,7 +378,7 @@ def word_cloud(request):
 
 		word = request.GET['keyword']
 		text_array=parseText(data,platform)
-		(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_"+platform,title=title,keyword=word)
+		(cloud,cloud_list)=wordCloud(text_array=text_array,name="wordcloud_"+platform,title=handle,keyword=word)
 		response_data={}
 		response_data['cloud']=cloud
 		response_data['cloud_list']=cloud_list
