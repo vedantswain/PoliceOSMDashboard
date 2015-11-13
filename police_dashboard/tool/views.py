@@ -49,6 +49,11 @@ def index(request):
 			datum["twitter"]=""
 			datum["twlink"]=""
 
+		if "state" in j.keys():
+			datum["state"]=j["state"]
+		else:
+			datum["state"]=""
+		
 		datum["link"]=i["link"]
 		datum["name"]=i["name"]
 

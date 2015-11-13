@@ -7,6 +7,7 @@
    <link href="{% static 'tool/css/bootstrap.min.css' %}" rel="stylesheet">
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
    <link rel="stylesheet" type="text/css" href="{% static 'tool/css/basic.css' %}">
+   <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['geochart']}]}"></script>
 </head>
 <body style="padding-top: 20px;">
 	<div class="underlinemenu">
@@ -31,11 +32,14 @@
 	</div>
 	</nav> -->
 	<div class="jumbotron" style="margin-top:20px">
+		<div class="container" style="margin-bottom:20px;">
+			<div id="regions_div" style="height:400px;"></div>
+		</div>
 		<div class="container">
          	<div class="tab-content">
         		<div id="home" class="tab-pane fade in active">
         			{% for dept in police_dept_items %}
-		            <div class="col-md-4 col-sm-6 hero-feature">
+		            <div class="col-md-4 col-sm-6 hero-feature" data-state="{{dept.state}}">
 		            	<a href={{dept.dashlink}} style="text-decoration:none;" data-toggle="tooltip" data-placement="left" title="Analyse">
 		                <div class="thumbnail">
 		                	<div class="image-container" style="height:120px;">
@@ -62,11 +66,12 @@
 				</div>
 			</div>
 		</div>
+		<button id="refresh-btn" type="button" class="btn btn-default btn-circle btn-lg" style="display:block;margin-left:auto;margin-right:auto"><i class="fa fa-refresh"></i></button>
 	</div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.js"></script>
 <script src="{% static 'tool/js/bootstrap.min.js' %}"></script>
-
+<script src="{% static 'tool/js/m_map.js' %}"></script>
 </body>
 </html>
