@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^victimisation_tree/$', views.victimzn_tree, name='victimisation'),
     url(r'^victimisation_actual/$', views.victimzn_actual, name='victimisation actual'),
     url(r'^word_cloud/$', views.word_cloud, name='word cloud'),
+    url(r'^sentiment_ajax/$', views.sentiment_ajax, name='sentiment count'),
 ]

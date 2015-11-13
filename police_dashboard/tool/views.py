@@ -2,11 +2,11 @@ import os,json,pymongo
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
-from functions.json_parser import fileParser,getData
+from functions.json_parser import fileParser,getData,getSentimentCount,getSentimentData,getDataAll,getUniqueDataSentiment
 from functions.graphing import parseData,parseFBData,chartD3Line,chartD3LineVS,wordTree,wordTreeActual
 from functions.graphing import parseText,wordCloud,getGraphData,onlySpecificLine
 from functions.title import getTitle,getComparisons,getKeywords
-
+from functions.sentiment import getSentiment
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 def index(request):
@@ -34,14 +34,14 @@ def index(request):
 		# print str(type(i))+" "+page
 		if i is None:
 			continue
-		
+
 		# print i
 
 		if "website" in i.keys():
 			datum["website"]=i["website"]
 		else:
 			datum["website"]=""
-		
+
 		if "handle" in j.keys():
 			datum["twitter"]=j["handle"]
 			datum["tw_link"]="https://twitter.com/"+j["handle"]
@@ -59,7 +59,7 @@ def index(request):
 
 		html_data.append(datum)
 
-	html_data_sorted = sorted(html_data, key=lambda k: k['name']) 
+	html_data_sorted = sorted(html_data, key=lambda k: k['name'])
 
 	context = RequestContext(request, {
 		'police_dept_items':html_data_sorted
@@ -145,6 +145,41 @@ def dashboard(request,handle):
 		cloud_fb=""
 		cloud_list_fb=[]
 
+	### sentiment140
+
+	##for initially prefetching the sentiments
+
+	fb_data_sentiment_all = getDataAll()
+
+	if len(fb_data_sentiment_all)>0:
+		getSentiment(posts=fb_data_sentiment_all)
+
+	fb_data_sentiment = getUniqueDataSentiment(handle)
+
+	if len(fb_data_sentiment)>0:
+		getSentiment(posts=fb_data_sentiment)
+
+	# if len(text_array_tw)>0:
+	# 	getSentiment(posts=data_tw)
+
+
+	sentiment_count = []
+
+	sentiment_count = getSentimentCount(handle=handle)
+
+	inject=''
+	inject+='<script type="text/javascript">\n'
+	inject+='plotSentiment('+str(sentiment_count)+');\n'
+	inject+='</script>'
+
+
+	# print words_colours
+		## fetching count
+
+
+
+
+
 	### cover images and details
 	client = pymongo.MongoClient()
 	db = client.FBPoliceData
@@ -158,7 +193,7 @@ def dashboard(request,handle):
 		website=page_info["website"]
 	else:
 		website=""
-	
+
 	if "phone" in page_info.keys():
 		fb_phone=page_info["phone"]
 	else:
@@ -176,7 +211,7 @@ def dashboard(request,handle):
 	fb_name=page_info["page"]
 	fb_likes=str(page_info["likes"])+" likes"
 	fb_checkins=str(page_info["checkins"])+" checkins"
-	
+
 	if len(data_fb)==0:
 		# print d3graph_fb+"\n"
 		d3graph_fb="<b><i>No Facebook data for this handle</i></b>"
@@ -192,7 +227,7 @@ def dashboard(request,handle):
 		tree_tw="<b><i>No Twitter data for this handle</i></b>"
 		# print cloud_tw+"\n"
 		cloud_tw="<b><i>No Twitter data for this handle</i></b>"
-	
+
 	context = RequestContext(request, {
 		'cover_image': cover_image_src,
 		'dashboard_name': title,
@@ -223,6 +258,7 @@ def dashboard(request,handle):
 		'dept_phone':fb_phone,
 		'dept_likes':fb_likes,
 		'dept_checkins':fb_checkins,
+		'sentiment_count': inject
 	})
 
 	return HttpResponse(template.render(context))
@@ -242,7 +278,7 @@ def graph_comp(request):
 	if request.method == 'GET':
 		handle = request.GET['handle_name']
 		comp_handle = request.GET['comp_handle_name']
-			
+
 		series1={}
 		series2={}
 
@@ -251,7 +287,7 @@ def graph_comp(request):
 			filename1 = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
 			data1 = fileParser(filename1)
 			series1 = parseData(data1,filename1)
-			
+
 			(title,tw_comp_handle)=getTitle(comp_handle,"")
 			filename2 = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_comp_handle+'.json')
 			data2 = fileParser(filename2)
@@ -272,7 +308,7 @@ def graph_comp(request):
 
 		graph_data1=getGraphData(series1,platform)
 		graph_data2=getGraphData(series2,platform)
-		
+
 		d3graph=chartD3LineVS(graph_data1,graph_data2,platform,handle,comp_handle)
 		# print d3graph
 	return HttpResponse(d3graph)
@@ -347,3 +383,58 @@ def word_cloud(request):
 		response_data['cloud_list']=cloud_list
 
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def sentiment_ajax(request):
+	context =RequestContext(request)
+	handle=""
+	if request.method == 'GET':
+		platform=request.GET['platform']
+		handle = request.GET['handle_name']
+		sentiment_label = request.GET['sentiment']
+		if platform=="twitter":
+			(title,tw_handle)=getTitle(handle,"")
+			filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
+			data = fileParser(filename)
+			# change for twitter
+		else:
+			data = getSentimentData(handle,sentiment_label)
+
+		# text_array=parseText(data,platform)
+
+	### build grid
+	entries=""
+	for item in data:
+		entry='<div class=row style="margin-bottom:10px;padding-bottom:10px;border-bottom:1pt solid #eee !important;">\n'
+		entry+='<div class="col-sm-8" style="height:100px; text-overflow:ellipsis;overflow: hidden;">'+item["message"]+'</div>\n'
+		entry+="</div>\n"
+		entries+=entry
+
+	return HttpResponse(entries)
+
+def sentiment_140_request(request):
+	context =RequestContext(request)
+	handle=""
+	if request.method == 'GET':
+		platform=request.GET['platform']
+		handle = request.GET['handle_name']
+		sentiment_label = request.GET['sentiment']
+		if platform=="twitter":
+			(title,tw_handle)=getTitle(handle,"")
+			filename = os.path.join(BASE_DIR, 'tool/data/tweets_'+tw_handle+'.json')
+			data = fileParser(filename)
+			# change for twitter
+		else:
+			data = getSentimentData(handle,sentiment_label)
+
+		# text_array=parseText(data,platform)
+
+	### build grid
+	entries=""
+	for item in data:
+		entry='<div class=row style="margin-bottom:10px;padding-bottom:10px;border-bottom:1pt solid #eee !important;">\n'
+		entry+='<div class="col-sm-8" style="height:100px; text-overflow:ellipsis;overflow: hidden;">'+item["message"]+'</div>\n'
+		entry+="</div>\n"
+		entries+=entry
+
+	return HttpResponse(entries)

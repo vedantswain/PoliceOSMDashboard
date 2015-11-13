@@ -14,6 +14,10 @@
    <script type="text/javascript" src="{% static 'tool/js/d3.layout.cloud.js' %}"></script>
    <script src="{% static 'tool/js/am_graph.js' %}"></script>
    <script src="{% static 'tool/js/m_cloud.js' %}"></script>
+   <script src="{% static 'tool/js/morris.min.js' %}"></script>
+   <script src="{% static 'tool/js/sentiment_chart.js' %}"></script>
+   <script src="{% static 'tool/js/raphael.min.js' %}"></script>
+
    <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script> -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.7.0/nv.d3.min.js"></script>
    <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
@@ -21,7 +25,7 @@
   <script src="http://www.amcharts.com/lib/3/themes/light.js"></script>
    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['wordtree']}]}"></script>
    <script src="{% static 'tool/js/m_tree.js' %}"></script>
-   
+
 </head>
 <body style="padding-top: 20px;">
   <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -187,7 +191,7 @@
                        Word Cloud <a href="#" title="Header" data-toggle="modal"  data-target="#fb-cloud-Modal"><i class="fa fa-question-circle " ></i>
                      <!-- </a>  -->
 
-                      
+
                     </a>
                     </h4>
                  </div>
@@ -213,6 +217,32 @@
                   </div>
                   </div>
                </div>
+               <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <!-- <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2_3"> -->
+                       Sentiment Analysis <a href="#" title="Header" data-toggle="modal"  data-target="#fb-cloud-Modal"><i class="fa fa-question-circle " ></i>
+                     <!-- </a>  -->
+
+
+                    </a>
+                    </h4>
+                 </div>
+	               <div id="collapse2_4" class="panel-collapse collapse in">
+	                  <div class="panel-body">
+	                      <div class="container">
+	                        <div class="row">
+	                          <!-- <span class="label label-info" style="float: right;margin-right: 20px;">Change focus word on click</span> -->
+	                            <div id="senitment-analysis" style>
+	                              <div id="sentiment_facebook"></div>
+																	<div id="sentiment-container" class="visualization-container morris-chart"></div>
+	                                  {% autoescape off %}{{ sentiment_count }}{% endautoescape %}
+	                            </div>
+	                        </div>
+	                    </div>
+	                  </div>
+	                </div>
+	              </div>
             </div>
          </div>
          <div id="menu1" class="tab-pane fade">
@@ -440,7 +470,27 @@
 
         </div>
       </div>
+      <div id="sentiment-Modal" class="modal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Actual Posts</h4>
+            </div>
+            <div class="modal-body" id="sentiment-modal-body">
+              <img src="{% static 'tool/img/ajax-loader.gif' %}" style="display:block">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
    </div>
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.js"></script>

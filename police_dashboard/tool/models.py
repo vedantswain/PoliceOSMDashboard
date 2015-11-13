@@ -21,7 +21,9 @@ class NPostsdatanew(models.Model):
     totalcommentscount = models.CharField(max_length=200, blank=True)
     pageid = models.CharField(max_length=1000, blank=True)
     id_public = models.CharField(max_length=100, blank=True)
+    sentiment = models.IntegerField(max_length=1,default=-1)
 
     class Meta:
-        managed = False
+        # managed = False
         db_table = 'N_Postsdatanew'
+
