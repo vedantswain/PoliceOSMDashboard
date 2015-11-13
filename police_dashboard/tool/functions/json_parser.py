@@ -1,6 +1,7 @@
 import json
 from tool.models import NPostsdatanew
 from title import getId
+from django.db import connection
 
 def fileParser(file_name):
 	data = []
@@ -56,10 +57,14 @@ def getUniqueDataSentiment(handle):
 def updateBulkSentimentRecord(results):
 
 	for data in results['data']:
-		NPostsdatanew_edit = NPostsdatanew.objects.get(localid=data['localid']) # object to update
-		NPostsdatanew_edit.sentiment = data['polarity']
-		NPostsdatanew_edit.save()
-
+		try:
+			NPostsdatanew_edit = NPostsdatanew.objects.get(localid=data['localid']) # object to update
+			NPostsdatanew_edit.sentiment = data['polarity']
+			NPostsdatanew_edit.save()
+		except:
+			connection.connection.close()
+			connection.connection = None
+		
 def getSentimentCount(handle):
 		data = []
 		data_dict = {}
