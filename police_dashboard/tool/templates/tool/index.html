@@ -41,7 +41,7 @@
         			{% for dept in police_dept_items %}
 		            <div class="col-md-4 col-sm-6 hero-feature" data-state="{{dept.state}}">
 		            	<a href={{dept.dashlink}} style="text-decoration:none;" data-toggle="tooltip" data-placement="left" title="Analyse">
-		                <div class="thumbnail">
+		                <div class="thumbnail" style="height:260px;">
 		                	<div class="image-container" style="height:120px;">
 		                    	<img src="{{dept.cover}}" style="max-width: 100%;height: auto; position: absolute; clip: rect(0px,340px,126px,0px);" alt="" >
 		                    </div>
@@ -52,10 +52,14 @@
 		                        		<i class="fa fa-facebook-official"></i>  <a class="fb-name" href={{dept.link}} target="_blank">{{dept.fb_name}}</a>
 		                        	</li>
 		                  			<li >
+		                  				{% if dept.website != "" %}
 		                  				<i class="fa fa fa-external-link"></i>  <a href={{dept.website}} target="_blank">{{dept.website}}</a>
+		                  				{% endif %}
 		                  			</li>
 		                  			<li >
+		                  				{% if dept.twitter != "" %}
 		                  				<i class="fa fa fa-twitter"></i>  <a href={{dept.tw_link}} target="_blank">{{dept.twitter}}</a>
+		                  				{% endif %}
 		                  			</li>
 		                         </ul>                          
 		                    </div>

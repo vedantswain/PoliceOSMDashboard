@@ -78,19 +78,29 @@
               <i class="fa fa-facebook-official"></i>  <a class="fb-name" href={{dept_link}} target="_blank">{{dept_fb_name}}</a>
             </li>
             <li >
+              {% if dept_website != "" %}
               <i class="fa fa fa-external-link"></i>  <a href={{dept_website}} target="_blank">{{dept_website}}</a>
+              {% endif %}
             </li>
             <li >
+              {% if dept_tw_link != "" %}
               <i class="fa fa fa-twitter"></i>  <a href={{dept_tw_link}} target="_blank">{{dept_tw_name}}</a>
+              {% endif %}
             </li>
             <li >
+              {% if dept_phone != "" %}
               <i class="fa fa fa-phone"></i>  {{dept_phone}}
+              {% endif %}
             </li>
             <li >
+              {% if dept_likes != "" %}
               <i class="fa fa fa-thumbs-o-up"></i>  {{dept_likes}}
+              {% endif %}
             </li>
             <li >
+              {% if dept_checkins != "" %}
               <i class="fa fa fa-location-arrow"></i>  {{dept_checkins}}
+              {% endif %}
             </li>
            </ul>
       </div>
