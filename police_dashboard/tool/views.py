@@ -154,10 +154,10 @@ def dashboard(request,handle):
 
 	##for initially prefetching the sentiments
 
-	fb_data_sentiment_all = getDataAll()
+	# fb_data_sentiment_all = getDataAll()
 
-	if len(fb_data_sentiment_all)>0:
-		getSentiment(posts=fb_data_sentiment_all)
+	# if len(fb_data_sentiment_all)>0:
+	# 	getSentiment(posts=fb_data_sentiment_all)
 
 	fb_data_sentiment = getUniqueDataSentiment(handle)
 
@@ -171,6 +171,8 @@ def dashboard(request,handle):
 	sentiment_count = []
 
 	sentiment_count = getSentimentCount(handle=handle)
+
+	print sentiment_count
 
 	inject=''
 	inject+='<script type="text/javascript">\n'
@@ -413,6 +415,7 @@ def sentiment_ajax(request):
 	for item in data:
 		entry='<div class=row style="margin-bottom:10px;padding-bottom:10px;border-bottom:1pt solid #eee !important;">\n'
 		entry+='<div class="col-sm-8" style="height:100px; text-overflow:ellipsis;overflow: hidden;">'+item["message"]+'</div>\n'
+		entry+='<div class="col-sm-4"><a href="https://www.facebook.com/'+item["id"]+'">View complete text on '+platform+'</a></div>\n'
 		entry+="</div>\n"
 		entries+=entry
 

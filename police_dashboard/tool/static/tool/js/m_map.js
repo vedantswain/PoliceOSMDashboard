@@ -27,6 +27,9 @@ function updateIndexPage(state) {
         if (state===block_state){
             block.style.display = 'block';
         }
+        else if (state==="Andhra Pradesh" && block_state==="Telangana"){
+            block.style.display = 'block';
+        }
         else {
             // console.log(block_state);
             block.style.display = 'none';

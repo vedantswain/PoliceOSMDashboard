@@ -7,7 +7,7 @@ from json_parser import updateBulkSentimentRecord
 def getSentiment(posts):
 
 	print 'datadsfasfafsdfas'
-	api_url = 'http://www.sentiment140.com/api/bulkClassifyJson?'+urlencode({'appid': 'yatharth.sharma@gmail.com'})
+	api_url = 'http://www.sentiment140.com/api/bulkClassifyJson?'+urlencode({'appid': 'vedant12118@iiitd.ac.in'})
 
 	payload  = {'data': []}
 	for data in posts:

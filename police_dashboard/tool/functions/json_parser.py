@@ -31,6 +31,7 @@ def getData(handle):
 
 def getDataAll():
 	data = []
+	# for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew"):
 	for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew where sentiment=-1"):
 		# print p.__dict__
 		# print type(p)
@@ -41,9 +42,14 @@ def getDataAll():
 def getUniqueDataSentiment(handle):
 	data = []
 	handle_id=getId(handle)
+	# for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew where pageid='"+handle+"'"):
 	for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew where pageid='"+handle+"' && sentiment=-1"):
 		# print p.__dict__
 		# print type(p)
+		if "message" not in p.__dict__.keys():
+				continue
+		if p.__dict__["message"]=="not found":
+			continue
 		data.append(p.__dict__)
 	return data
 
@@ -84,6 +90,10 @@ def getSentimentData(handle,sent):
 	# print sent_val
 	try:
 		for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew where pageid='"+handle+"' and sentiment="+str(sent_val)): # object to update
+			if "message" not in p.__dict__.keys():
+				continue
+			if p.__dict__["message"]=="not found":
+				continue
 			data.append(p.__dict__)
 	except Exception,e:
 		print e
