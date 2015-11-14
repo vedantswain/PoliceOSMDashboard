@@ -51,67 +51,32 @@ function updateIndexPage(state) {
 	// console.log(state);
 }
 
-
-google.setOnLoadCallback(drawRegionsMap);
-  dataArray = [['State'],
-      ['Andaman and Nicobar Islands'],
-        ['Andhra Pradesh'],
-        ['Arunachal Pradesh'],
-        ['Assam'],
-        ['Bihar'],
-        ['Chandigarh'],
-        ['Chhattisgarh'],
-        ['Dadra and Nagar Haveli'],
-        ['Daman and Diu'],
-        ['Delhi'],
-        ['Goa'],
-        ['Gujarat'],
-        ['Haryana'],
-        ['Himachal Pradesh'],
-        ['Jammu and Kashmir'],
-        ['Jharkhand'],
-        ['Karnataka'],
-        ['Kerala'],
-        ['Lakshadweep'],
-        ['Madhya Pradesh'],
-        ['Maharashtra'],
-        ['Manipur'],
-        ['Meghalaya'],
-        ['Mizoram'],
-        ['Nagaland'],
-        ['Orissa'],
-        ['Puducherry'],
-        ['Punjab'],
-        ['Rajasthan'],
-        ['Sikkim'],
-        ['Tamil Nadu'],
-        ['Telangana'],
-        ['Tripura'],
-        ['Uttar Pradesh'],
-        ['Uttarakhand'],
-        ['West Bengal']
-              ];
+function makeMap(dataArr){
+  google.setOnLoadCallback(drawRegionsMap);
+  dataArray = dataArr
   function drawRegionsMap() {
     var data = google.visualization.arrayToDataTable(dataArray);
 
     var options = {
         region: 'IN',
-    	displayMode: 'regions',
+        displayMode: 'regions',
         resolution: 'provinces',
         defaultColor: '#145571',
+        colorAxis: {colors: ['#bbdae7', '#145571']},
         domain: 'IN',
         backgroundColor: '#eee',
+        legend: 'none',
         enableRegionInteractivity: true
-   	};
+    };
 
       function clickHandler() {
                   var selection = chart.getSelection();
     var state = '';
     for (var i = 0; i < selection.length; i++) {
         var item = selection[i];
-		var stateIndex = item.row;
+        var stateIndex = item.row;
         if(stateIndex != null) {
-        	state = dataArray[stateIndex + 1][0];
+            state = dataArray[stateIndex + 1][0];
             updateIndexPage(state);
         }
         
@@ -123,4 +88,5 @@ google.setOnLoadCallback(drawRegionsMap);
       
       
     chart.draw(data, options);
+    }
 }

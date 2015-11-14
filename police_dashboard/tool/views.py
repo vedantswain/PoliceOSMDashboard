@@ -5,7 +5,7 @@ from django.template import RequestContext, loader
 from functions.json_parser import fileParser,getData,getSentimentCount,getSentimentData,getDataAll,getUniqueDataSentiment
 from functions.graphing import parseData,parseFBData,chartD3Line,chartD3LineVS,wordTree,wordTreeActual
 from functions.graphing import parseText,wordCloud,getGraphData,onlySpecificLine
-from functions.title import getTitle,getComparisons,getKeywords
+from functions.title import getTitle,getComparisons,getKeywords,getStateCount
 from functions.sentiment import getSentiment
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -66,8 +66,13 @@ def index(request):
 
 	html_data_sorted = sorted(html_data, key=lambda k: k['name'])
 
+	stateDataArray=getStateCount(html_data)
+
+	# print stateDataArray
+
 	context = RequestContext(request, {
-		'police_dept_items':html_data_sorted
+		'police_dept_items':html_data_sorted,
+		'stateDataArray':stateDataArray
 		})
 
 	return HttpResponse(template.render(context))
