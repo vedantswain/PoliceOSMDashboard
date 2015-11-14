@@ -8,7 +8,7 @@ document.getElementById("refresh-btn").addEventListener("click", function(){
 
 function refreshIndexPage(){
     var police_blocks = document.getElementsByClassName("col-md-4 col-sm-6 hero-feature");
-    
+
     for(var i = 0; i < police_blocks.length; i++)
     {
        var block=police_blocks.item(i);
@@ -54,6 +54,7 @@ function updateIndexPage(state) {
 function makeMap(dataArr){
   google.setOnLoadCallback(drawRegionsMap);
   dataArray = dataArr
+
   function drawRegionsMap() {
     var data = google.visualization.arrayToDataTable(dataArray);
 
@@ -79,14 +80,14 @@ function makeMap(dataArr){
             state = dataArray[stateIndex + 1][0];
             updateIndexPage(state);
         }
-        
+
       }
    }
-      
+
     var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
     google.visualization.events.addListener(chart, 'select', clickHandler);
-      
-      
+
+
     chart.draw(data, options);
     }
 }
