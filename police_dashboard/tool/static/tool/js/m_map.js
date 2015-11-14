@@ -8,7 +8,7 @@ document.getElementById("refresh-btn").addEventListener("click", function(){
 
 function refreshIndexPage(){
     var police_blocks = document.getElementsByClassName("col-md-4 col-sm-6 hero-feature");
-    
+
     for(var i = 0; i < police_blocks.length; i++)
     {
        var block=police_blocks.item(i);
@@ -51,46 +51,16 @@ function updateIndexPage(state) {
 	// console.log(state);
 }
 
+function computeStatesWithData() {
+    var stateNames = ['State'];
+    $.each($('#home').children(), function(index, value){ stateNames.push($(value).attr('data-state')) });
+    $.unique(stateNames);
+    stateNames = $.map(stateNames, function(n){return [[n]]});
+    return stateNames
+}
 
 google.setOnLoadCallback(drawRegionsMap);
-  dataArray = [['State'],
-      ['Andaman and Nicobar Islands'],
-        ['Andhra Pradesh'],
-        ['Arunachal Pradesh'],
-        ['Assam'],
-        ['Bihar'],
-        ['Chandigarh'],
-        ['Chhattisgarh'],
-        ['Dadra and Nagar Haveli'],
-        ['Daman and Diu'],
-        ['Delhi'],
-        ['Goa'],
-        ['Gujarat'],
-        ['Haryana'],
-        ['Himachal Pradesh'],
-        ['Jammu and Kashmir'],
-        ['Jharkhand'],
-        ['Karnataka'],
-        ['Kerala'],
-        ['Lakshadweep'],
-        ['Madhya Pradesh'],
-        ['Maharashtra'],
-        ['Manipur'],
-        ['Meghalaya'],
-        ['Mizoram'],
-        ['Nagaland'],
-        ['Orissa'],
-        ['Puducherry'],
-        ['Punjab'],
-        ['Rajasthan'],
-        ['Sikkim'],
-        ['Tamil Nadu'],
-        ['Telangana'],
-        ['Tripura'],
-        ['Uttar Pradesh'],
-        ['Uttarakhand'],
-        ['West Bengal']
-              ];
+  dataArray = computeStatesWithData();
   function drawRegionsMap() {
     var data = google.visualization.arrayToDataTable(dataArray);
 
@@ -114,13 +84,13 @@ google.setOnLoadCallback(drawRegionsMap);
         	state = dataArray[stateIndex + 1][0];
             updateIndexPage(state);
         }
-        
+
       }
    }
-      
+
     var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
     google.visualization.events.addListener(chart, 'select', clickHandler);
-      
-      
+
+
     chart.draw(data, options);
 }
