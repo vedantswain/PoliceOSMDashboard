@@ -1,6 +1,6 @@
 document.getElementById("refresh-btn").addEventListener("click", function(){
     refreshIndexPage();
-
+    $('#no-block-msg').hide();
     $('html,body').animate({
         scrollTop: 0},
         'slow');
@@ -18,7 +18,7 @@ function refreshIndexPage(){
 
 function updateIndexPage(state) {
     var police_blocks = document.getElementsByClassName("col-md-4 col-sm-6 hero-feature");
-    
+    var hidden_count = 0
     for(var i = 0; i < police_blocks.length; i++)
     {
        var block=police_blocks.item(i);
@@ -33,9 +33,18 @@ function updateIndexPage(state) {
         else {
             // console.log(block_state);
             block.style.display = 'none';
+            hidden_count+=1;
         }
     }
 
+    if (hidden_count == police_blocks.length){
+        // console.log("equal");
+        $('#no-block-msg').show();
+    }
+    else{
+        // console.log("unequal");
+        $('#no-block-msg').hide();
+    }
     $('html,body').animate({
         scrollTop: $("#home").offset().top},
         'slow');
