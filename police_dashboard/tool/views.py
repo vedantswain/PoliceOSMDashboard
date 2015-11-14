@@ -66,7 +66,8 @@ def index(request):
 
 	html_data_sorted = sorted(html_data, key=lambda k: k['name'])
 
-	stateDataArray=getStateCount(html_data)
+	stateDataArray=[]
+	# stateDataArray=getStateCount(html_data)
 
 	# print stateDataArray
 
@@ -111,8 +112,8 @@ def dashboard(request,handle):
 		pick_div=pick_div+'<li><a class="pick-account" href="../'+key["key"]+'/">'+key["name"]+'</a></li>'
 
 	### singular graphs
-	fb=['posts','likes','comments']
-	tw=['tweets','retweets','favs']
+	fb=['Posts','Likes','Comments']
+	tw=['Tweets','Retweets','Favs']
 
 	graph_facebook_items=[]
 	for only in fb:
@@ -366,7 +367,7 @@ def victimzn_actual(request):
 		item["text"]=item["text"].replace(word,"<b>"+word+"</b>")
 		entry='<div class=row style="margin-bottom:10px;padding-bottom:10px;border-bottom:1pt solid #eee !important;">\n'
 		entry+='<div class="col-sm-8" style="height:100px; text-overflow:ellipsis;overflow: hidden;">'+item["text"]+'</div>\n'
-		entry+='<div class="col-sm-4"><a href="'+item["link"]+'">View complete text on '+platform+'</a></div>\n'
+		entry+='<div class="col-sm-4"><a href="'+item["link"]+'" target="_blank">View complete text on '+platform+'</a></div>\n'
 		entry+="</div>\n"
 		entries+=entry
 
@@ -420,7 +421,7 @@ def sentiment_ajax(request):
 	for item in data:
 		entry='<div class=row style="margin-bottom:10px;padding-bottom:10px;border-bottom:1pt solid #eee !important;">\n'
 		entry+='<div class="col-sm-8" style="height:100px; text-overflow:ellipsis;overflow: hidden;">'+item["message"]+'</div>\n'
-		entry+='<div class="col-sm-4"><a href="https://www.facebook.com/'+item["id"]+'">View complete text on '+platform+'</a></div>\n'
+		entry+='<div class="col-sm-4"><a href="https://www.facebook.com/'+item["id"]+' target="_blank"">View complete text on '+platform+'</a></div>\n'
 		entry+="</div>\n"
 		entries+=entry
 

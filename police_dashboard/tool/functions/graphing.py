@@ -39,8 +39,8 @@ def onlySpecificLine(data,name,handle,only):
 	return div+script
 
 def chartD3Line(data,name,handle):
-	fb=['posts','likes','comments']
-	tw=['tweets','retweets','favs']
+	fb=['Posts','Likes','Comments']
+	tw=['Tweets','Retweets','Favs']
 
 	if name =='fb':
 		osn=fb ### for now
@@ -61,8 +61,8 @@ def chartD3Line(data,name,handle):
 
 def chartD3LineVS(data1,data2,name,handle1,handle2):
 
-	fb=['posts','likes','comments']
-	tw=['tweets','retweets','favs']
+	fb=['Posts','Likes','Comments']
+	tw=['Tweets','Retweets','Favs']
 
 	if name =='facebook':
 		osn=fb ### for now
@@ -153,7 +153,6 @@ def wordCloud(text_array,name,title,keyword=""):
 	client = pymongo.MongoClient()
 	db = client.FBPoliceData
 	page_info=db.page_fields.find_one({"page": title})
-
 	# print title
 	m_stopwords=page_info["name"].lower().split(" ")
 	# print m_stopwords
@@ -273,7 +272,7 @@ def wordTreeActual(all_data,word,platform):
 			if "connect.facebook.net" in text:
 				# print "skipping\n"+text
 				continue
-			if word in text:
+			if word in text.split():
 				actual_post['text']=text
 				# actual_post['from']=data['screen_name']
 				actual_post['link']='https://www.facebook.com/'+data['id']
@@ -349,15 +348,15 @@ def parseFBData(all_data):
 	series={}
 	post_time=collections.OrderedDict(sorted(post_time.items()))
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in post_time.keys()]
-	series['posts']=[post_time.values(),xtick_labels]
+	series['Posts']=[post_time.values(),xtick_labels]
 
 	like_time=collections.OrderedDict(sorted(like_time.items()))
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in like_time.keys()]
-	series['likes']=[like_time.values(),xtick_labels]
+	series['Likes']=[like_time.values(),xtick_labels]
 
 	com_time=collections.OrderedDict(sorted(com_time.items()))
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in com_time.keys()]
-	series['comments']=[com_time.values(),xtick_labels]
+	series['Comments']=[com_time.values(),xtick_labels]
 	
 	# html_data=chart_line(series,"graph_1")
 
@@ -399,15 +398,15 @@ def parseData(all_data,filename):
 	series={}
 	tweet_time=collections.OrderedDict(sorted(tweet_time.items()))
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in tweet_time.keys()]
-	series['tweets']=[tweet_time.values(),xtick_labels]
+	series['Tweets']=[tweet_time.values(),xtick_labels]
 
 	retweet_time=collections.OrderedDict(sorted(retweet_time.items()))
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in retweet_time.keys()]
-	series['retweets']=[retweet_time.values(),xtick_labels]
+	series['Retweets']=[retweet_time.values(),xtick_labels]
 
 	fav_time=collections.OrderedDict(sorted(fav_time.items()))
 	xtick_labels=[tm.mktime(datetime.strptime(time, "%Y-%m-%d %H").timetuple())*1000 for time in fav_time.keys()]
-	series['favs']=[fav_time.values(),xtick_labels]
+	series['Favs']=[fav_time.values(),xtick_labels]
 	
 	# html_data=chart_line(series,"graph_1")
 
@@ -416,8 +415,8 @@ def parseData(all_data,filename):
 def getGraphData(series,name):
 	data={}
 
-	fb=['posts','likes','comments']
-	tw=['tweets','retweets','favs']
+	fb=['Posts','Likes','Comments']
+	tw=['Tweets','Retweets','Favs']
 
 	if name =='facebook':
 		osn=fb ### for now

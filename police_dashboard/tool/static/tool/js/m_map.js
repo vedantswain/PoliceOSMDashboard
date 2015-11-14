@@ -51,9 +51,19 @@ function updateIndexPage(state) {
 	// console.log(state);
 }
 
+function computeStatesWithData() {
+    var stateNames = ['State'];
+    $.each($('#home').children(), function(index, value){ stateNames.push($(value).attr('data-state')) });
+    $.unique(stateNames);
+    stateNames = $.map(stateNames, function(n){return [[n]]});
+    return stateNames
+}
+
 function makeMap(dataArr){
   google.setOnLoadCallback(drawRegionsMap);
-  dataArray = dataArr
+  console.log("changed")
+  // dataArray = dataArr;
+  dataArray = computeStatesWithData();
 
   function drawRegionsMap() {
     var data = google.visualization.arrayToDataTable(dataArray);
@@ -63,7 +73,7 @@ function makeMap(dataArr){
         displayMode: 'regions',
         resolution: 'provinces',
         defaultColor: '#145571',
-        colorAxis: {colors: ['#bbdae7', '#145571']},
+        // colorAxis: {colors: ['#bbdae7', '#145571']},
         domain: 'IN',
         backgroundColor: '#eee',
         legend: 'none',

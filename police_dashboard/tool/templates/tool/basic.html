@@ -42,7 +42,7 @@
         <li><a href="../../../../blog" target="_self">Blog</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Change Dept <span class="caret"></span></a>
-          <ul class="dropdown-menu scrollable-menu pull-right" style="overflow:scroll">
+          <ul class="dropdown-menu scrollable-menu pull-right" style="overflow-y: scroll !important;">
                {% autoescape off %}{{ pick_account }}{% endautoescape %}
           </ul>
         </li>
@@ -478,6 +478,7 @@
               <ul>
                 <li>Clicking a word would focus the tree further into a specific branch</li>
                 <li>Change the base word of the tree by clicking on "Change keyword"</li>
+                <li>For more details, please look at our <a href="http://precog.iiitd.edu.in/Publications_files/Sachdeva_Social_DGO.pdf" target="_blank">research paper</a>.</li>
               </ul>
             </div>
             <div class="modal-footer">

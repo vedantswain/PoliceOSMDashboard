@@ -44,6 +44,16 @@ body{
   border-bottom: 3px solid gray; /*bottom border is 3px*/
 }
 
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
 .underlinemenu ul li a:hover, .underlinemenu ul li a.selected{
   border-bottom-color: #00F;
   color:#000;
@@ -56,7 +66,7 @@ body{
 .scrollable-menu {
     height: auto;
     max-height: 500px;
-    overflow-x: hidden;
+    overflow-x: hidden; 
 }
 
 .dropdown {
