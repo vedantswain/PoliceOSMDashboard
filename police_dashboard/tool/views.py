@@ -38,7 +38,7 @@ def index(request):
 		# print i
 
 		if "website" in i.keys():
-			datum["website"]=i["website"]
+			datum["website"]=i["website"].split()[0]
 		else:
 			datum["website"]=""
 
@@ -60,7 +60,7 @@ def index(request):
 		if "cover" in i.keys():
 			datum["cover"]=i["cover"]["source"]
 		else:
-			datum["cover"]=""
+			datum["cover"]="http://i.imgur.com/NQtvKMW.png"
 
 		html_data.append(datum)
 
@@ -200,10 +200,10 @@ def dashboard(request,handle):
 	if "cover" in page_info.keys():
 		cover_image_src=page_info["cover"]["source"]
 	else:
-		cover_image_src=""
+		cover_image_src="http://i.imgur.com/NQtvKMW.png"
 
 	if "website" in page_info.keys():
-		website=page_info["website"]
+		website=page_info["website"].split()[0]
 	else:
 		website=""
 
