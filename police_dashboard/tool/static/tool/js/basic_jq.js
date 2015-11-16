@@ -1,3 +1,7 @@
+function listener(){
+	console.log("Subtree moded");
+}
+
 $(document).ready(function() {
         // JQuery code to be added in here.
         $(".help-popover").popover();

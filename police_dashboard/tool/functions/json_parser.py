@@ -28,6 +28,11 @@ def getData(handle):
 		# print p.__dict__
 		# print type(p)
 		data.append(p.__dict__)
+
+	if len(data)==0:
+		for p in NPostsdatanew.objects.raw("select * from N_Postsdatanew where pageid='"+handle_id+"'"):
+			data.append(p.__dict__)
+
 	return data
 
 def getDataAll():
