@@ -35,7 +35,7 @@ def index(request):
 		if i is None:
 			continue
 
-		print page
+		##print page
 
 		if "website" in i.keys():
 			datum["website"]=i["website"].split()[0]
