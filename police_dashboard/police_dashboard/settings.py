@@ -63,7 +63,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'police_osn',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'inSequel',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '',
     }
