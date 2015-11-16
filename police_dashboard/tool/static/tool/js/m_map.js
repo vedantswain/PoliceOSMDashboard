@@ -77,10 +77,13 @@ function makeMap(dataArr){
         domain: 'IN',
         backgroundColor: '#eee',
         legend: 'none',
-        enableRegionInteractivity: true
+        enableRegionInteractivity: true,
+        keepAspectRatio: true,
+
     };
 
       function clickHandler() {
+
                   var selection = chart.getSelection();
     var state = '';
     for (var i = 0; i < selection.length; i++) {
@@ -96,7 +99,14 @@ function makeMap(dataArr){
 
     var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
     google.visualization.events.addListener(chart, 'select', clickHandler);
+    google.visualization.events.addListener(chart, 'ready', function() { $("#regions_div").css("zoom",1.4);
 
+    $("#parent_div").css("width","400px");
+    $("#parent_div").css("margin-left","100px");
+        $('div[dir="ltr"]').css("top","-45px")
+         $('div[dir="ltr"]').css("left","-120px")
+
+                  });
 
     chart.draw(data, options);
     }

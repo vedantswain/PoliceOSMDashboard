@@ -34,46 +34,103 @@
 	</nav> -->
 	<div class="jumbotron" style="margin-top:20px">
 		<div class="container" style="margin-bottom:20px;">
-			<div id="regions_div" style="height:400px;"></div>
+			<div class="row" style="margin-right:2px;">
+				<div id="content_div" class="col-sm-6" style="height:400px;">
+					<div class="container">
+						Continuing our efforts in helping policing in the country with usage of online social media, we have built this portal. The Portal helps analyse the presence of different police Facebook pages and Twitter handles, it also helps in comparing these accounts. This first version presents four different analyses described below. Currently, the portal has data for the last 5 years of these pages &
+						accounts.
+						<br />
+						<br />
+						<b>a) Total posts / Likes / Comments:</b> This shows the engagement of the police department on social media on a given time frame. This presents the total number of posts, total number Likes, and total number of Comments on the respective Facebook pages. This also presents the total number of Retweets, Tweets, and Favorites of the Twitter handle.
+						<br />
+						<br />
+						<b>b) Accountability Tree:</b> We capture this through different words such as "how can", "why" and "issues". These words populated in the list "Change Keyword". For example, you can view the tree with "why" as the keyword to understand the questions posed in the status updates / posts with "why", one can modify the keyword to "need" to understand the needs of citizens mentioned in the posts. We believe, this can be very useful for police organizations to understand the actionable information from the posts.
+						 <a href="#" id="see_more">See More --> </a>
+					</div>
+				</div>
+
+				<div class="container col-sm-6" id="parent_div" style="height:420px;overflow:hidden" >
+						<div id="regions_div"  style="height:400px"></div>
+				</div>
+			</div>
 		</div>
-		<div class="container">
-         	<div class="tab-content">
-        		<div id="home" class="tab-pane fade in active">
-        			{% for dept in police_dept_items %}
-		            <div class="col-md-4 col-sm-6 hero-feature" data-state="{{dept.state}}">
-		            	<a href={{dept.dashlink}} style="text-decoration:none;" data-toggle="tooltip" data-placement="left" title="Analyse">
-		                <div class="thumbnail" style="height:260px;">
-		                	<div class="image-container" style="height:120px;">
-		                    	<img src="{{dept.cover}}" style="max-width: 100%;height: auto; position: absolute; clip: rect(0px,340px,126px,0px);" alt="" >
-		                    </div>
-		                    <div class="caption" style="width:90%; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
-		                        <h3 style="font-size:18px">{{dept.name}}</h3>
-		                        <ul class="fa-ul">
-		                        	<li>
-		                        		<i class="fa fa-facebook-official"></i>  <a class="fb-name" href={{dept.link}} target="_blank">{{dept.fb_name}}</a>
-		                        	</li>
-		                  			<li >
-		                  				{% if dept.website != "" %}
-		                  				<i class="fa fa fa-external-link"></i>  <a href={{dept.website}} target="_blank">{{dept.website}}</a>
-		                  				{% endif %}
-		                  			</li>
-		                  			<li >
-		                  				{% if dept.twitter != "" %}
-		                  				<i class="fa fa fa-twitter"></i>  <a href={{dept.tw_link}} target="_blank">{{dept.twitter}}</a>
-		                  				{% endif %}
-		                  			</li>
-		                         </ul>                          
-		                    </div>
-		                </div>
-		                </a>
-		            </div>
-		            {% endfor %}
+		<br />
+		<div class ="row" style="margin-right:2px;">
+			<div class="container">
+	         	<div class="tab-content">
+	        		<div id="home" class="tab-pane fade in active">
+	        			{% for dept in police_dept_items %}
+			            <div class="col-md-4 col-sm-6 hero-feature" data-state="{{dept.state}}">
+			            	<a href={{dept.dashlink}} style="text-decoration:none;" data-toggle="tooltip" data-placement="left" title="Analyse">
+			                <div class="thumbnail" style="height:260px;">
+			                	<div class="image-container" style="height:120px;">
+			                    	<img src="{{dept.cover}}" style="max-width: 100%;height: auto; position: absolute; clip: rect(0px,340px,126px,0px);" alt="" >
+			                    </div>
+			                    <div class="caption" style="width:90%; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+			                        <h3 style="font-size:18px">{{dept.name}}</h3>
+			                        <ul class="fa-ul">
+			                        	<li>
+			                        		<i class="fa fa-facebook-official"></i>  <a class="fb-name" href={{dept.link}} target="_blank">{{dept.fb_name}}</a>
+			                        	</li>
+			                  			<li >
+			                  				{% if dept.website != "" %}
+			                  				<i class="fa fa fa-external-link"></i>  <a href={{dept.website}} target="_blank">{{dept.website}}</a>
+			                  				{% endif %}
+			                  			</li>
+			                  			<li >
+			                  				{% if dept.twitter != "" %}
+			                  				<i class="fa fa fa-twitter"></i>  <a href={{dept.tw_link}} target="_blank">{{dept.twitter}}</a>
+			                  				{% endif %}
+			                  			</li>
+			                         </ul>
+			                    </div>
+			                </div>
+			                </a>
+			            </div>
+			            {% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>
 		<p id="no-block-msg" style="width:50%;margin: 0 auto;font-size: large; display: none"><i>Currently we have don't have data for this state. Refresh or select another</i></p>
 		<button id="refresh-btn" type="button" class="btn btn-default btn-circle btn-lg" style="display:block;margin-left:auto;margin-right:auto"><i class="fa fa-refresh"></i></button>
 	</div>
+
+	<div id="see-more-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">About the page</h4>
+            </div>
+            <div class="modal-body">
+				Continuing our efforts in helping policing in the country with usage of online social media, we have built this portal. The Portal helps analyse the presence of different police Facebook pages and Twitter handles, it also helps in comparing these accounts. This first version presents four different analyses described below. Currently, the portal has data for the last 5 years of these pages &
+				accounts.
+				<br />
+				<br />
+				a) <b>Total posts / Likes / Comments: </b>This shows the engagement of the police department on social media on a given time frame. This presents the total number of posts, total number Likes, and total number of Comments on the respective Facebook pages. This also presents the total number of Retweets, Tweets, and Favorites of the Twitter handle.
+				<br />
+				<br />
+				b) <b>Accountability Tree: </b>We capture this through different words such as "how can", "why" and "issues". These words populated in the list "Change Keyword". For example, you can view the tree with "why" as the keyword to understand the questions posed in the status updates / posts with "why", one can modify the keyword to "need" to understand the needs of citizens mentioned in the posts. We believe, this can be very useful for police organizations to understand the actionable information from the posts.
+				<br />
+				<br />
+				c) <b>Word Cloud: </b>This provides the most frequently occurring words on a Facebook and Twitter page. This helps understand the most prominent concerns mentioned on social media. Larger the size, more prominent the word is discussed. One can drill down into a topic by clicking on the word; this will enable to generate a word cloud only with the clicked word.
+				<br />
+				<br />
+				d) <b>Sentiment Analysis: </b>This shows the prominent sentiment present on social media and is currently available only for Facebook.
+				<br />
+				<br />
+				Please feel free to write to <a href="mailto:pk@iiitd.ac.in">pk@iiitd.ac.in</a> for any feedback / suggestions / question
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery.js"></script>
@@ -89,6 +146,16 @@
   ga('create', 'UA-70120763-1', 'auto');
   ga('send', 'pageview');
 
+</script>
+<script>
+$(document).ready(function() {
+$("#regions_div").css("zoom",1);
+
+	$("#see_more").click(function(){
+		console.log('sdfasdf')
+		$('#see-more-modal').modal('show');
+	});
+});
 </script>
 </body>
 </html>
